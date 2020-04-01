@@ -1,0 +1,74 @@
+package ${package.Entity};
+
+#foreach($pkg in ${table.importPackages})
+import ${pkg};
+#end
+#if(${entityLombokModel})
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.FieldFill;
+import com.baomidou.mybatisplus.enums.IdType;
+import com.baomidou.mybatisplus.annotations.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import lombok.Data;
+import com.wqy.modules.common.entity.BaseEntity;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+#end
+/**
+* @author ${author}
+* @since ${date}
+*/
+@ApiModel(value ="$!{table.comment}")
+#if(${entityLombokModel})
+@Data
+    #if(${superEntityClass})
+@EqualsAndHashCode(callSuper = true)
+    #else
+@EqualsAndHashCode(callSuper = false)
+    #end
+@Accessors(chain = true)
+#end
+#if(${table.convert})
+@TableName("${table.name}")
+#end
+public class ${entity}  extends BaseEntity implements Serializable {
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+    #if("$!field.comment" != "")
+    /**
+    * ${field.comment}
+    */
+    #end
+    #if(${field.keyFlag})
+        #set($keyPropertyName=${field.propertyName})
+    #end
+    #if("$!field.comment" != "")
+        @ApiModelProperty(value = "${field.comment}")
+    #end
+    #if(${field.keyFlag})
+        ## 主键
+        @ApiModelProperty("主键")
+        #if(${field.keyIdentityFlag})
+        @TableId(value = "${field.name}", type = IdType.AUTO)
+        #elseif(!$null.isNull(${idType}) && "$!idType" != "")
+        @TableId(value = "${field.name}", type = IdType.${idType})
+        #elseif(${field.convert})
+        @TableId("${field.name}")
+        #end
+    ## 普通字段
+    #else
+        @ApiModelProperty("${field.comment}")
+        @TableField(value = "${field.name}", fill = FieldFill.INSERT_UPDATE)
+    #end
+private ${field.propertyType} ${field.propertyName};
+#end
+## ----------  END 字段循环遍历  ----------
+@Override
+protected Serializable pkVal() {
+        return this.id;
+        }
+}
