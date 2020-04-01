@@ -8,10 +8,10 @@
         <relativePath/> <!-- lookup parent from repository -->
         <version>2.1.8.RELEASE</version>
     </parent>
-    <groupId>com.zhengqing</groupId>
-    <artifactId>code-api</artifactId>
+    <groupId>com.wqy</groupId>
+    <artifactId>wei-shopping-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>code-api</name>
+    <name>wei-shopping-service</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -178,41 +178,6 @@
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
-            </plugin>
-            <!-- 通过docker构建部署到服务器 -->
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-                    <!-- 生成的docker镜像名称  -->
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
-            <!-- 复制jar包到指定目录 -->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <copy todir="src/main/docker" file="target/${project.artifactId}-${project.version}.${project.packaging}"></copy>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

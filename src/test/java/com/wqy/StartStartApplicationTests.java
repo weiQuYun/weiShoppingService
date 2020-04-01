@@ -1,9 +1,9 @@
-package com.zhengqing;
+package com.wqy;
 
-import com.zhengqing.config.Constants;
-import com.zhengqing.modules.system.entity.User;
-import com.zhengqing.modules.system.mapper.UserMapper;
-import com.zhengqing.utils.PasswordUtils;
+import com.wqy.config.Constants;
+import com.wqy.modules.system.entity.User;
+import com.wqy.modules.system.mapper.UserMapper;
+import com.wqy.utils.PasswordUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ApplicationTests {
+public class StartStartApplicationTests {
 
     @Autowired
     UserMapper userMapper;

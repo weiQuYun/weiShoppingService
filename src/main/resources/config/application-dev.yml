@@ -7,12 +7,12 @@ server:
 
 spring:
   application:
-    name: demo
+    name: wei-shopping-service
   profiles:
     active: dev
   # 配置数据源
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/weishopping?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&useSSL=false # MySQL在高版本需要指明是否进行SSL连接 解决则加上 &useSSL=false
+    url: jdbc:mysql://192.168.101.106:3306/weishopping?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&useSSL=false # MySQL在高版本需要指明是否进行SSL连接 解决则加上 &useSSL=false
     name: weishopping
     username: root
     password: 1234
@@ -60,7 +60,7 @@ mybatis-plus:
     #logic-delete-value: 0 # 逻辑已删除值(默认为 1)
     #logic-not-delete-value: 1 # 逻辑未删除值(默认为 0)
     #自定义填充策略接口实现
-    #    meta-object-handler: com.zhengqing.config.MyMetaObjectHandler
+    #    meta-object-handler: com.wqy.config.MyMetaObjectHandler
     #自定义SQL注入器
     #sql-injector: com.baomidou.springboot.xxx
   configuration:
@@ -74,7 +74,7 @@ mybatis-plus:
     # 解决oracle更新数据为null时无法转换报错，mysql不会出现此情况
     jdbc-type-for-null: 'null'
 
-zhengqing:
+wqy:
   swagger:
     title: 测试项目demo接口文档
     description: 测试项目demo接口文档

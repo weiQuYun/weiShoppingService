@@ -16,7 +16,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.zhengqing" level="#logback.loglevel#"/>
+    <logger name="com.wqy" level="#logback.loglevel#"/>
 
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>
