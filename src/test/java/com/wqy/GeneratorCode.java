@@ -20,7 +20,7 @@ import java.nio.file.Paths;
  **/
 public class GeneratorCode {
     private static String packageName = "com.wqy.plus2";
-    private static String outDir = "E:\\workspace\\weiShoppingService\\src\\main\\java";
+    private static String outDir = "E:\\workspace\\jj";
     private static String entity = "entity";
     private static String mapper = "mapper";
     private static String service = "service";
@@ -44,7 +44,7 @@ public class GeneratorCode {
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = true;
         generateByTables(serviceNameStartWithI, packageName,
-                "sh_type");
+                "sh_user","sh_type","sh_share","sh_role","sh_order_goods","sh_order","sh_member","sh_goods_attr","sh_goods","sh_category","sh_cart","sh_auth","sh_attribute");
     }
 
 
