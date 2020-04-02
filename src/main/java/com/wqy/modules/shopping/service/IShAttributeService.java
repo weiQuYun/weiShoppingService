@@ -1,11 +1,11 @@
 package com.wqy.modules.shopping.service;
 
-import com.wqy.modules.shopping.entity.ShAttribute;
 import com.baomidou.mybatisplus.service.IService;
+import com.wqy.modules.shopping.entity.ShAttribute;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author licm

@@ -1,6 +1,7 @@
 package com.wqy.modules.common.pojo;
 
 import java.util.List;
+
 public class PageResult<T> {
 
     private Long total;//总记录数

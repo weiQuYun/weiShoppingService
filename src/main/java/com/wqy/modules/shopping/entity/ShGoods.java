@@ -1,29 +1,18 @@
 package com.wqy.modules.shopping.entity;
 
-import java.math.BigDecimal;
-
 import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
-
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.FieldFill;
-import com.baomidou.mybatisplus.enums.IdType;
-import com.baomidou.mybatisplus.annotations.TableName;
+import com.wqy.modules.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.io.Serializable;
-
 import lombok.Data;
-import com.wqy.modules.common.entity.BaseEntity;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Id;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author licm
