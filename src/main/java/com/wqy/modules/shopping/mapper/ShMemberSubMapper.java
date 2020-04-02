@@ -6,6 +6,7 @@ import com.wqy.modules.shopping.entity.ShMemberSub;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
 
@@ -17,12 +18,12 @@ public interface ShMemberSubMapper extends BaseMapper<ShMemberSub> {
      * @param member
      * @return
      */
-    @Select("select * from sh_member_sub where user_sub=#{id}")
-    @Results({
+    @Select("select user_id,user_sub,is_agent from sh_member_sub where user_sub=#{id}")
+    /*@Results({
             @Result(property = "shUser", column = "user_id"),
             @Result(property = "shUserSub",column = "user_sub"),
-            @Result(property = "is_agent",column = "isAgent")
-    })
+            @Result(property = "isAgent",column = "is_agent")
+    })*/
     public ShMemberSub getSupMember(ShMember member);
 
 
@@ -33,11 +34,11 @@ public interface ShMemberSubMapper extends BaseMapper<ShMemberSub> {
      */
 
     @Select("select * from sh_member_sub where user_sub IN  (SELECT user_id from sh_member_sub where user_sub= #{id} )")
-    @Results({
+    /*@Results({
             @Result(property = "shUser", column = "user_id"),
             @Result(property = "shUserSub",column = "user_sub"),
             @Result(property = "is_agent",column = "isAgent")
-    })
+    })*/
     public ShMemberSub getUpUpMember(ShMember member);
 
 

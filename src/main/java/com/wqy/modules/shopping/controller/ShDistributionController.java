@@ -24,7 +24,7 @@ public class ShDistributionController {
 
      @GetMapping(value = "/push/person")
     public Result pushPerson(String pushId,String pushedId){
-         shDistributionService.getPushPrice(shMemberServiceImpl.selectById(pushedId),shMemberServiceImpl.selectById(pushedId),new BigDecimal("586"),30);
+         shDistributionService.getPushPrice(shMemberServiceImpl.selectById(pushId),shMemberServiceImpl.selectById(pushedId),new BigDecimal("586"),30);
          return new Result(true,200,"success");
     }
 
