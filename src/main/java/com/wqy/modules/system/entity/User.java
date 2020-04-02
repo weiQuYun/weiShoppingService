@@ -8,10 +8,12 @@ import com.wqy.modules.common.entity.BaseEntity;
 import com.wqy.modules.common.validator.Create;
 import com.wqy.modules.common.validator.FieldRepeatValidator;
 import com.wqy.modules.common.validator.Update;
+import com.wqy.modules.shopping.service.IShRoleService;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -34,6 +36,7 @@ import java.io.Serializable;
 public class User extends BaseEntity<User> {
 
     private static final long serialVersionUID = 1L;
+
 
     /**
      * 主键ID  groups:标识在更新的时候才能验证非空
