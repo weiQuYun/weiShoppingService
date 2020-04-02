@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public interface ShDistributionMapper {
   //直推方法 ,返回高级会员注册金额30%
 
-     void getPushPrice(ShMember shMember,BigDecimal inputPrice,int rate);
+     void getPushPrice(ShMember shMember,ShMember shMember2,BigDecimal inputPrice,int rate);
 
      //购买产品， 其上级以及上上级均可获得分红 ,自己会获得积分
     void byGoods(ShMember shMember,BigDecimal price);

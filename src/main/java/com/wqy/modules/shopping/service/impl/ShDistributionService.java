@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Service("shDistributionService")
@@ -26,12 +27,24 @@ public class ShDistributionService implements ShDistributionMapper {
 
 
 
-       //直推 , 返直推人员百分比注册金额
+       //直推 , 返直推人员百分比注册金额  被推人会成为 该人的下级
     @Override
-    public void getPushPrice(ShMember shMember,BigDecimal inputPrice,int rate) {
-         BigDecimal returnPrice= inputPrice.multiply(new BigDecimal(rate)).divide(new BigDecimal(100));
-         // 对人员返现具体操作，需微信接口，暂留
+    public void getPushPrice(ShMember shMember1,ShMember shMember2,BigDecimal inputPrice,int rate) {
+            //判断 ，被推人是否已经是 会员
 
+           ShMember shMember= shMemberService.selectById(shMember2.getId());
+            if(shMember!=null){ //非会员，直推效果
+                ShMemberSub shMemberSub=new ShMemberSub();
+                shMemberSub.setShUser(shMember1);
+                shMemberSub.setShUserSub(shMember2);
+                shMemberSub.setIsAgent(false);
+                BigDecimal returnPrice= inputPrice.multiply(new BigDecimal(rate)).divide(new BigDecimal(100));
+                // 对人员返现具体操作，需微信接口，暂留
+
+
+
+
+            }
 
 
 
