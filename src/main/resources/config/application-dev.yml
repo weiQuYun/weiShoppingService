@@ -1,9 +1,4 @@
-# 配置端口
-server:
-  port: 8080
-  servlet:
-    #    context-path: /api
-    application-display-name: demo
+
 
 spring:
   application:
@@ -12,7 +7,7 @@ spring:
     active: dev
   # 配置数据源
   datasource:
-    url: jdbc:mysql://192.168.101.106:3306/weishopping?useUnicode=true&amp;characterEncoding=utf-8 # MySQL在高版本需要指明是否进行SSL连接 解决则加上 &useSSL=false
+    url: jdbc:mysql://192.168.101.106:3306/weishopping?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&useSSL=false # MySQL在高版本需要指明是否进行SSL连接 解决则加上 &useSSL=false
     name: weishopping
     username: root
     password: 1234
@@ -33,10 +28,7 @@ spring:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
 
-# 关闭安全验证
-management:
-  security:
-    enabled: false
+
 
 # mybatis-plus相关配置
 mybatis-plus:
@@ -50,8 +42,6 @@ mybatis-plus:
     field-strategy: 2
     #驼峰下划线转换
     db-column-underline: true
-    db-config:
-      db-type: mysql
     #刷新mapper 调试神器
     refresh-mapper: false
     #数据库大写下划线转换
@@ -76,41 +66,4 @@ mybatis-plus:
     # 解决oracle更新数据为null时无法转换报错，mysql不会出现此情况
     jdbc-type-for-null: 'null'
 
-wqy:
-  swagger:
-    title: 测试项目demo接口文档
-    description: 测试项目demo接口文档
-    version: 1.0.0
-    termsOfServiceUrl:
-    contactName:
-    contactUrl:
-    contactEmail:
-    license:
-    licenseUrl:
-  #安全认证
-  auth:
-    # token过期时间（分钟）
-    tokenExpireTime: 60
-    # 用户选择保存登录状态对应token过期时间（天）
-    saveLoginTime: 7
-    # 限制用户登陆错误次数（次）
-    loginTimeLimit: 10
-    # 错误超过次数后多少分钟后才能继续登录（分钟）
-    loginAfterTime: 10
-    ignoreUrls:
-      - /login
-      - /api/system/user/getCurrentUserInfo
-      - /index
-      - /logout
-      - /swagger-ui.html
-      #      - /swagger-resources/**
-      - /swagger-resources/configuration/ui
-      - /swagger-resources
-      - /v2/api-docs
-      - /swagger-resources/configuration/security
-      #      - /swagger/**
-      #      - /**/v2/api-docs
-      - /**/*.js
-      - /**/*.css
-      - /**/*.png
-      - /**/*.ico
+

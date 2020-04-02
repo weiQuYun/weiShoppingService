@@ -33,8 +33,8 @@ public class GeneratorCode {
     private static boolean isOverServiceImpl = false;
     private static boolean isOverMapper = false;
     private static boolean isOverXml = false;
-    private static String entityVM = "/entity.java.vm";
-    private static String controllerVM = "/controller.java.vm";
+    private static String entityVM = "/src/test/resources/entity.java.vm";
+    private static String controllerVM = "/src/test/resources/controller.java.vm";
     private static String serviceVM = "";
     private static String serviceImplVM = "";
     private static String mapperVM = "";
