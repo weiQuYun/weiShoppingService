@@ -21,6 +21,8 @@ public class StartStartApplicationTests {
     UserMapper userMapper;
     @Autowired
     IShUserService iShUserService;
+    @Autowired
+    private BaseTest baseTest;
 
     @Test
     public void contextLoads() {
@@ -33,8 +35,7 @@ public class StartStartApplicationTests {
      * @return: void
      */
     @Test
-    public void test() throws Exception{
-       iShUserService.addUser();
+    public void test() throws Throwable {
     }
 
 }

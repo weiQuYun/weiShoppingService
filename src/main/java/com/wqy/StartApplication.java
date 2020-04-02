@@ -12,7 +12,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableConfigurationProperties({MyProperties.class})
 @EnableTransactionManagement
 @SpringBootApplication
-@MapperScan("com.wqy.modules.shopping.mapper")
+@MapperScan(basePackages = {"com.wqy.modules.shopping.mapper"})
 public class StartApplication {
 
     public static void main(String[] args) {

@@ -1,29 +1,26 @@
 package com.wqy.modules.shopping.entity;
 
+
 import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.FieldFill;
-import com.wqy.modules.common.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Id;
-import java.io.Serializable;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 
 /**
  * @author licm
  * @since 2020-04-01
  */
-@ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sh_goods")
-public class ShGoods extends BaseEntity implements Serializable {
+@Table(name = "sh_goods")
+public class ShGoods {
 
     @ApiModelProperty("主键")
     @Id
@@ -34,7 +31,7 @@ public class ShGoods extends BaseEntity implements Serializable {
     @ApiModelProperty("")
     @TableField(value = "goods_sn", fill = FieldFill.INSERT_UPDATE)
     private String goodsSn;
-    @TableField(value = "goods_price", fill = FieldFill.INSERT_UPDATE)
+    // @TableField(value = "goods_price", fill = FieldFill.INSERT_UPDATE)
     private BigDecimal goodsPrice;
     @ApiModelProperty("")
     @TableField(value = "goods_number", fill = FieldFill.INSERT_UPDATE)
@@ -78,9 +75,4 @@ public class ShGoods extends BaseEntity implements Serializable {
     @ApiModelProperty("")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Integer updateTime;
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 }

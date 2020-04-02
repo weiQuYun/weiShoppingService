@@ -19,7 +19,7 @@ public class UserTest extends BaseTest {
         userQueryPara.setPage(1);
         Response response = given().body(userQueryPara).
                 when().
-                post("/api/system/user/listPage");
+                post("/login/shGoods/search");
         response.prettyPrint();
         response.then().body("code", equalTo(200)).body("data", notNullValue());
     }

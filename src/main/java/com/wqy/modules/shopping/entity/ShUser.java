@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -21,7 +22,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sh_user")
+@Table(name = "sh_user")
 public class ShUser extends BaseEntity implements Serializable {
 
     @ApiModelProperty("主键")

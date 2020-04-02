@@ -2,6 +2,8 @@ package com.wqy.modules.shopping.service.impl;
 
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.wqy.modules.common.pojo.Page;
 import com.wqy.modules.common.pojo.Result;
 import com.wqy.modules.common.pojo.StatusCode;
 import com.wqy.modules.shopping.entity.ShRole;
@@ -26,60 +28,36 @@ import java.util.List;
  * @since 2020-04-01
  */
 @Service
-public class ShUserServiceImpl extends ServiceImpl<ShUserMapper, ShUser> implements IShUserService {
+public class ShUserServiceImpl implements IShUserService {
 
     @Autowired
     private ShUserMapper shUserMapper;
-    @Autowired
-    private ShShareMapper shShareMapper;
+
     @Override
-    /**
-     * 添加user
-     * **/
-    public Result addUser(List<ShUser> list) {
-        ShUser shUser1 = shUserMapper.selectOne(list.get(0));//首位新用户
-        if (shUser1.getId().isEmpty()){
-            return new Result(false,StatusCode.ERROR,"已存在");
-        }
-        //1.判断是否为推荐
-        if(list.size()>1){
-            //推荐
-            //获取推荐人信息判断推荐人是否存在
-            ShUser shareShUser = shUserMapper.selectOne(list.get(1));
-            if (shareShUser.getId().isEmpty()){
-                return new Result(false,StatusCode.ERROR,"推荐人不存在");
-            }
-            //存在推荐添加新建用户
-            ShUser shUser = list.get(0);
-            String charAndNumr = UUIDUtils.getCharAndNumr(32);
-            shUser.setId(charAndNumr);
-            shUser.setCreateTime(new Date().getTime());
-            shUser.setIsActive(1);
-            //添加推荐表
-            ShShare shShare = new ShShare();
-            shShare.setOldId(shareShUser.getId());
-            shShare.setNewId(charAndNumr);
-            shShareMapper.insert(shShare);
-            //
-            shUser.setRoleId("roleID");//4444444444444444444444444
-            //新建用户
-            shUserMapper.insert(shUser);
-            return new Result(true,StatusCode.OK,"成功");
-        }else {
-            //自注册
-            //2不存在新建用户
-            ShUser shUser = list.get(0);
-            String charAndNumr = UUIDUtils.getCharAndNumr(32);
-            shUser.setId(charAndNumr);
-            shUser.setCreateTime(new Date().getTime());
-            shUser.setIsActive(1);
-            shUser.setRoleId("roleID");//4444444444444444444444444
-            //3.新建用户
-            shUserMapper.insert(shUser);
-            return new Result(true,StatusCode.OK,"成功");
-        }
+    public List<ShUser> searchAll() {
+        return shUserMapper.selectAll();
     }
-    /**
-     * 修改User
-     * **/
+
+    @Override
+    public Page<ShUser> getUserPage(int page, int size) {
+        PageHelper.startPage(page, size);
+        return (Page<ShUser>) shUserMapper.selectAll();
+    }
+
+    @Override
+    public void addShUser(ShUser shUser) {
+        shUserMapper.insert(shUser);
+    }
+
+    @Override
+    public void updateShUser(ShUser shUser) {
+        shUserMapper.updateByPrimaryKey(shUser);
+    }
+
+    @Override
+    public void deleteShUser(String id) {
+        ShUser shUser = new ShUser();
+        shUser.setId(id);
+        shUserMapper.delete(shUser);
+    }
 }
