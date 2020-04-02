@@ -1,11 +1,11 @@
 package com.wqy.modules.shopping.mapper;
 
-import com.wqy.modules.shopping.entity.ShGoodsAttr;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.wqy.modules.shopping.entity.ShGoodsAttr;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author licm

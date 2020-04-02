@@ -6,12 +6,14 @@ import com.wqy.utils.JacksonAnnotationIntrospectorEx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -31,11 +33,8 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @EnableSwagger2
 @Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
-
     private final Logger LOG = LoggerFactory.getLogger(SwaggerConfiguration.class);
 
-    public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
-//    public static final String DEFAULT_INCLUDE_PATTERN = "/.*";
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -79,7 +78,8 @@ public class SwaggerConfiguration {
                 .forCodeGeneration(true)
                 .genericModelSubstitutes(ResponseEntity.class)
                 .select()
-                .paths(regex(DEFAULT_INCLUDE_PATTERN))
+//                .paths(regex(DEFAULT_INCLUDE_PATTERN))
+                .apis(RequestHandlerSelectors.basePackage("com.wqy"))
                 .build();
 
         watch.stop();
