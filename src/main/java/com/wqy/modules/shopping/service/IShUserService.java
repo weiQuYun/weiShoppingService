@@ -25,4 +25,6 @@ public interface IShUserService {
     void updateShUser(ShUser shUser);
 
     void deleteShUser(String id);
+
+    ShUser login(String userName,String pwd);
 }
