@@ -20,7 +20,7 @@ import java.nio.file.Paths;
  **/
 public class GeneratorCode {
     private static String packageName = "com.wqy.plus2";
-    private static String outDir = "E:\\workspace\\jj";
+    private static String outDir = "D:\\CompanyCode";
     private static String entity = "entity";
     private static String mapper = "mapper";
     private static String service = "service";
@@ -44,14 +44,14 @@ public class GeneratorCode {
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = true;
         generateByTables(serviceNameStartWithI, packageName,
-                "sh_user","sh_type","sh_share","sh_role","sh_order_goods","sh_order","sh_member","sh_goods_attr","sh_goods","sh_category","sh_cart","sh_auth","sh_attribute");
+                "sh_attribute");
     }
 
 
 
     private static void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://192.168.101.106:3306/weishopping?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC";
+        String dbUrl = "jdbc:mysql://192.168.101.106:3306/weishopping?useUnicode=true&amp;characterEncoding=utf-8";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)

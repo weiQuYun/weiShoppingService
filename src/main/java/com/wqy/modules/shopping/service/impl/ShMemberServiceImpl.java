@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @author licm
  * @since 2020-04-01
  */
-@Service
+@Service("shMemberServiceImpl")
 public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> implements IShMemberService {
 
 }

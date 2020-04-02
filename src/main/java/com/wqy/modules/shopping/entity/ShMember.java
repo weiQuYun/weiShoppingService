@@ -8,10 +8,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author licm
@@ -48,6 +51,22 @@ public class ShMember extends BaseEntity implements Serializable {
     @ApiModelProperty("")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Integer updateTime;
+
+    //积分
+    @TableField(value = "integral")
+    private Double integral;
+
+    //积分兑换次数
+    @TableField(value = "integral_change_count")
+    private int integralChangeCount;
+
+    //积分兑换率
+    @TableField(value = "integral_change_rate")
+    private int integralChangeRate;
+
+    //总分红
+    @TableField(value = "count_receive")
+   private BigDecimal countReceive;
 
     @Override
     protected Serializable pkVal() {

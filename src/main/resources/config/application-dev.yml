@@ -1,6 +1,6 @@
 # 配置端口
 server:
-  port: 8089
+  port: 8080
   servlet:
     #    context-path: /api
     application-display-name: demo
@@ -12,7 +12,7 @@ spring:
     active: dev
   # 配置数据源
   datasource:
-    url: jdbc:mysql://192.168.101.106:3306/weishopping?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&useSSL=false # MySQL在高版本需要指明是否进行SSL连接 解决则加上 &useSSL=false
+    url: jdbc:mysql://192.168.101.106:3306/weishopping?useUnicode=true&amp;characterEncoding=utf-8 # MySQL在高版本需要指明是否进行SSL连接 解决则加上 &useSSL=false
     name: weishopping
     username: root
     password: 1234
@@ -50,6 +50,8 @@ mybatis-plus:
     field-strategy: 2
     #驼峰下划线转换
     db-column-underline: true
+    db-config:
+      db-type: mysql
     #刷新mapper 调试神器
     refresh-mapper: false
     #数据库大写下划线转换
@@ -112,4 +114,3 @@ wqy:
       - /**/*.css
       - /**/*.png
       - /**/*.ico
-      - /**/**
