@@ -1,5 +1,8 @@
 package com.wqy.modules.shopping.controller;
 
+import com.wqy.modules.shopping.service.IShUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,4 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/shUser")
     public class ShUserController {
+
+    @Autowired
+    private IShUserService iShUserService;
+
+//    @GetMapping("/add")
+  //  public
 }
