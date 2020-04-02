@@ -1,6 +1,7 @@
 package com.wqy;
 
 import com.wqy.config.Constants;
+import com.wqy.modules.shopping.service.IShUserService;
 import com.wqy.modules.system.entity.User;
 import com.wqy.modules.system.mapper.UserMapper;
 import com.wqy.utils.PasswordUtils;
@@ -18,6 +19,8 @@ public class StartStartApplicationTests {
 
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    IShUserService iShUserService;
 
     @Test
     public void contextLoads() {
@@ -31,12 +34,7 @@ public class StartStartApplicationTests {
      */
     @Test
     public void test() throws Exception{
-        List<User> users = userMapper.selectList(null);
-        users.forEach( e -> {
-            e.setPassword(PasswordUtils.encodePassword(e.getPassword(), Constants.SALT));
-            e.setSalt(Constants.SALT);
-            userMapper.updateById(e);
-        });
+       iShUserService.addUser();
     }
 
 }
