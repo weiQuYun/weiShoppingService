@@ -1,6 +1,6 @@
 # 配置端口
 server:
-  port: 9101
+  port: 8089
   servlet:
     #    context-path: /api
     application-display-name: demo
@@ -112,3 +112,4 @@ wqy:
       - /**/*.css
       - /**/*.png
       - /**/*.ico
+      - /**/**
