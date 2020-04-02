@@ -1,18 +1,11 @@
 package com.wqy.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.wqy.utils.JacksonAnnotationIntrospectorEx;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.StopWatch;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -20,70 +13,39 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import static springfox.documentation.builders.PathSelectors.regex;
-
-/**
- * Springfox Swagger configuration.
- * <p>
- * Warning! When having a lot of REST endpoints, Springfox can become a performance issue. In that
- * case, you can use a specific Spring profile for this class, so that only front-end developers
- * have access to the Swagger view.
- */
 @Configuration
 @EnableSwagger2
-@Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class)
+
+//开启访问接口文档的权限
+@ConditionalOnExpression("${swagger.enable}")
 public class SwaggerConfiguration {
-    private final Logger LOG = LoggerFactory.getLogger(SwaggerConfiguration.class);
-
-
-    @Autowired
-    private ApplicationContext applicationContext;
-
+    @Value("${swagger.basePackage}")
+    private String basePackage;
+    @Value("${swagger.groupName}")
+    private String groupName;
+    @Value("${swagger.version}")
+    private String version;
     @Bean
-    public ObjectMapper setObjectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        objectMapper.registerModule(module);
-        objectMapper.setAnnotationIntrospector(new JacksonAnnotationIntrospectorEx());
-        return objectMapper;
+    public Docket userRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                //模块名称
+                .groupName(groupName)
+                .apiInfo(apiInfo())
+                .select()
+                //扫描的控制器路径
+                .apis(RequestHandlerSelectors.basePackage(basePackage))
+                .paths(PathSelectors.any())
+                .build();
     }
 
-    /**
-     * Swagger Springfox configuration.
-     *
-     * @param properties the properties of the application
-     * @return the Swagger Springfox configuration
-     */
-    @Bean
-    public Docket swaggerSpringfoxDocket(MyProperties properties) {
-        LOG.debug("Starting Swagger");
-        StopWatch watch = new StopWatch();
-        watch.start();
-        Contact contact = new Contact(
-                properties.getSwagger().getContactName(),
-                properties.getSwagger().getContactUrl(),
-                properties.getSwagger().getContactEmail());
-
-        ApiInfo apiInfo = new ApiInfo(
-                properties.getSwagger().getTitle(),
-                properties.getSwagger().getDescription(),
-                properties.getSwagger().getVersion(),
-                properties.getSwagger().getTermsOfServiceUrl(),
-                contact,
-                properties.getSwagger().getLicense(),
-                properties.getSwagger().getLicenseUrl());
-
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo)
-                .forCodeGeneration(true)
-                .genericModelSubstitutes(ResponseEntity.class)
-                .select()
-//                .paths(regex(DEFAULT_INCLUDE_PATTERN))
-                .apis(RequestHandlerSelectors.basePackage("com.wqy"))
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("服务:发布为 " + groupName + " 后台 APIs")
+                .description("服务:发布为 " + groupName + " 后台 APIs")
+                .termsOfServiceUrl("http://localhost:60010/swagger-ui.html")
+                //作者  邮箱等
+                .contact(new Contact("后端服务", "http://qingxuan.com", "2940517905@qq.com"))
+                .version(version)
                 .build();
-
-        watch.stop();
-        LOG.debug("Started Swagger in {} ms", watch.getTotalTimeMillis());
-        return docket;
     }
 }

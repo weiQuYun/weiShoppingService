@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(description = "首页-接口")
 public class IndexController extends BaseController {
 
-    @GetMapping(value = "/login", produces = "application/json;charset=utf-8")
-    @ApiOperation(value = "登录系统", httpMethod = "GET", response = ApiResult.class)
-    public ApiResult login() {
-        return ApiResult.ok("登录系统成功", null);
-    }
+//    @GetMapping(value = "/login", produces = "application/json;charset=utf-8")
+//    @ApiOperation(value = "登录系统", httpMethod = "GET", response = ApiResult.class)
+//    public ApiResult login() {
+//        return ApiResult.ok("登录系统成功", null);
+//    }
 
 }
