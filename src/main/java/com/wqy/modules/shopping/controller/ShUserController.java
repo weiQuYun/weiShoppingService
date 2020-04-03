@@ -55,7 +55,7 @@ import java.util.Map;
      * 修改
      * **/
     @PutMapping(value = "/update/{id}")
-    public Result updataShUser(@RequestBody ShUser shUser,@PathVariable String id){
+    public Result updateShUser(@RequestBody ShUser shUser,@PathVariable String id){
         shUser.setId(id);
         iShUserService.updateShUser(shUser);
         return new Result(true,StatusCode.OK,"成功");
