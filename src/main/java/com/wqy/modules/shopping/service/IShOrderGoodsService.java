@@ -12,5 +12,6 @@ import com.wqy.modules.shopping.entity.ShOrderGoods;
  * @since 2020-04-01
  */
 public interface IShOrderGoodsService extends IService<ShOrderGoods> {
+    ShOrderGoods getOrderGoods(ShOrderGoods shOrderGoods);
 
 }

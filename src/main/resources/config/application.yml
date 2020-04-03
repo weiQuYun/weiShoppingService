@@ -1,6 +1,6 @@
 # 配置端口
 server:
-  port: 9101
+  port: 9108
   servlet:
     #    context-path: /api
     application-display-name: demo

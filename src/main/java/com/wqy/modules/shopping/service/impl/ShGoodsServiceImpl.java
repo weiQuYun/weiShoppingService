@@ -5,6 +5,7 @@ import com.wqy.modules.common.pojo.Page;
 import com.wqy.modules.shopping.entity.ShGoods;
 import com.wqy.modules.shopping.mapper.ShGoodsMapper;
 import com.wqy.modules.shopping.service.IShGoodsService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +27,15 @@ public class ShGoodsServiceImpl implements IShGoodsService {
     @Override
     public Page<ShGoods> getGoodsPage(int page,int size) {
         PageHelper.startPage(page, size);
-        return (Page<ShGoods>) shGoodsMapper.selectAll();
+        List<ShGoods> shGoods = shGoodsMapper.selectPage(new RowBounds(page, size), null);
+        System.out.println(shGoods.size());
+        return new Page<>();
+                //(Page<ShGoods>) shGoodsMapper.selectPage(new RowBounds(page,size),null);
     }
 
     @Override
     public List<ShGoods> searchAll() {
-        return shGoodsMapper.selectAll();
+        return shGoodsMapper.selectList(null);
     }
 
     @Override
@@ -41,13 +45,13 @@ public class ShGoodsServiceImpl implements IShGoodsService {
 
     @Override
     public void updateShGoods(ShGoods shGoods) {
-        shGoodsMapper.updateByPrimaryKey(shGoods);
+        shGoodsMapper.updateById(shGoods);
     }
 
     @Override
     public void deleteShGoods(String id) {
         ShGoods shGoods = new ShGoods();
         shGoods.setId(id);
-        shGoodsMapper.delete(shGoods);
+        shGoodsMapper.deleteById(id);
     }
 }

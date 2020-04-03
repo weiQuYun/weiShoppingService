@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Api(tags = {""})
 @RestController
-@RequestMapping("/login/shGoods")
+@RequestMapping("/shGoods")
 public class ShGoodsController {
     @Autowired
     private IShGoodsService iShGoodsService;
