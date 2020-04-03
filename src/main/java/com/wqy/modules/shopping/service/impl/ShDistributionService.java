@@ -31,15 +31,31 @@ public class ShDistributionService implements ShDistributionMapper {
     @Override
     public void getPushPrice(ShMember shMember1,ShMember shMember2,BigDecimal inputPrice,int rate) {
             //判断 ，被推人是否已经是 会员
+        ShMember shMember=null;
+           if(shMember2!=null){
+               shMember= shMemberService.selectById(shMember2.getId());
+           }
 
-           ShMember shMember= shMemberService.selectById(shMember2.getId());
-            if(shMember!=null){ //非会员，直推效果
+
+
+            if(shMember==null){
+                //非会员，直推效果
+                //1.将被推人新增为会员
+                shMemberService.insert(shMember2);
+                //2.添加关联关系表
                 ShMemberSub shMemberSub=new ShMemberSub();
                 shMemberSub.setShUser(shMember1);
                 shMemberSub.setShUserSub(shMember2);
                 shMemberSub.setIsAgent(false);
+
+
+
                 BigDecimal returnPrice= inputPrice.multiply(new BigDecimal(rate)).divide(new BigDecimal(100));
                 // 对人员返现具体操作，需微信接口，暂留
+
+
+
+
 
 
 
