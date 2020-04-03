@@ -11,3 +11,20 @@ Application Name: ${spring.application.name}
 Application Profile: ${spring.profiles.active}
 Server Port: ${server.port}
 Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
+   ┏┓　　　┏┓
+   ┏┛┻━━━┛┻┓
+   ┃　　　　　　　┃
+   ┃　　　━　　　┃
+   ┃　┳┛　┗┳　┃
+   ┃　　　　　　　┃
+   ┃　　　┻　　　┃
+   ┃　　　　　　　┃
+   ┗━┓　　　┏━┛
+   　　┃　　　┃神兽保佑
+   　　┃　　　┃代码无BUG！
+   　　┃　　　┗━━━┓
+   　　┃　　　　　　　┣┓
+   　　┃　　　　　　　┏┛
+   　　┗┓┓┏━┳┓┏┛
+   　　　┃┫┫　┃┫┫
+   　　　┗┻┛　┗┻┛

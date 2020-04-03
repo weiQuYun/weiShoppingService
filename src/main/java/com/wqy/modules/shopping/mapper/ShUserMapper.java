@@ -12,7 +12,7 @@ import tk.mybatis.mapper.common.Mapper;
  * @author licm
  * @since 2020-04-01
  */
-public interface ShUserMapper extends Mapper<ShUser> {
+public interface ShUserMapper extends BaseMapper<ShUser> {
 
 
 }

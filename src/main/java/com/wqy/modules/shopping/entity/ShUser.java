@@ -1,5 +1,6 @@
 package com.wqy.modules.shopping.entity;
 
+import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.FieldFill;
@@ -23,7 +24,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Table(name = "sh_user")
-public class ShUser extends BaseEntity implements Serializable {
+public class ShUser extends Model<ShUser> implements Serializable {
 
     @ApiModelProperty("主键")
     @Id
