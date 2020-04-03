@@ -16,9 +16,10 @@ import java.util.List;
  */
 public interface IShUserService {
 
-    List<ShUser> searchAll();
+    List<ShUser> selectAllBySearch(String search);
 
-    Page<ShUser> getUserPage(int page, int size);
+    List<ShUser> getUserPage(int page, int size,String search);
+
 
     void addShUser(ShUser shUser);
 

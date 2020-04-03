@@ -13,4 +13,5 @@ import com.wqy.modules.shopping.entity.ShCart;
  */
 public interface ShCartMapper extends BaseMapper<ShCart> {
 
+
 }

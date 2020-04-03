@@ -5,11 +5,12 @@ package com.wqy.modules.common.pojo;
  */
 public class Result<T> {
 
-    private boolean flag;//是否成功
-    private Integer code;//返回码
-    private String message;//返回消息
+    protected boolean flag;//是否成功
+    protected Integer code;//返回码
+    protected String message;//返回消息
 
-    private T data;//返回数据
+
+    protected T data;//返回数据
 
     public Result(boolean flag, Integer code, String message, Object data) {
         this.flag = flag;

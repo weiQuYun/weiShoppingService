@@ -8,10 +8,9 @@ import com.wqy.modules.shopping.service.IShUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * <p> 首页 </p>
@@ -22,16 +21,24 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(description = "登陆-接口")
-@RequestMapping(Constant.API)
+@RequestMapping(Constant.BACK)
 public class LoginController extends BaseController {
     @Autowired
     private IShUserService shUserService;
-    @GetMapping(value = "/back/login")
-    @ApiOperation(value = "后端登陆")
-    public ApiResult backLogin(@RequestParam("userName") String userName,@RequestParam("pwd")  String pwd) {
-        ShUser shUser = shUserService.login(userName,pwd);
-        return ApiResult.ok("登录系统成功", shUser);
+
+
+
+    @PostMapping(value = "/login")
+    public ApiResult backLogin(@RequestBody ShUser user) {
+
+        ShUser shUser = shUserService.login(user.getUsername(),user.getPassword());
+       if(shUser!=null){
+           return ApiResult.ok(400,"登录失败",null);
+       }
+
+        return ApiResult.ok(200,"登录成功", user);
     }
+
     @GetMapping(value = "/wx/login")
     @ApiOperation(value = "微信登陆")
     public ApiResult wxLogin() {

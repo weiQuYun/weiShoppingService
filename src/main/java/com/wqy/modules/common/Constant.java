@@ -4,5 +4,5 @@ public class Constant {
     /**
      * api
      */
-    public  static final String API = "/api";
+    public  static final String BACK = "/back";
 }

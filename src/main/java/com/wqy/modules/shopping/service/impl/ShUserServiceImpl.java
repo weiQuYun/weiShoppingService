@@ -15,9 +15,11 @@ import com.wqy.modules.shopping.mapper.ShShareMapper;
 import com.wqy.modules.shopping.mapper.ShUserMapper;
 import com.wqy.modules.shopping.service.IShUserService;
 import com.wqy.utils.UUIDUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 
@@ -39,16 +41,25 @@ public class ShUserServiceImpl implements IShUserService {
     private ShUserMapper shUserMapper;
 
     @Override
-    public List<ShUser> searchAll() {
-//        return shUserMapper.();
-        return  null;
+    public List<ShUser> selectAllBySearch(String search) {
+        if(search==null|| StringUtils.isEmpty(search)){
+            return  shUserMapper.selectList(null);
+        }
+        EntityWrapper wrapper=new EntityWrapper();
+        wrapper.like("username",search);
+        return  shUserMapper.selectList(wrapper);
     }
 
     @Override
-    public Page<ShUser> getUserPage(int page, int size) {
-        PageHelper.startPage(page, size);
-//        return (Page<ShUser>) shUserMapper.selectAll();
-        return  null;
+    public List<ShUser> getUserPage(int page, int size,String search) {
+      if(search==null|| StringUtils.isEmpty(search)){
+          return  shUserMapper.selectPage(new RowBounds(page,size),null);
+      }
+
+        EntityWrapper wrapper=new EntityWrapper();
+        wrapper.like("username",search);
+        return  shUserMapper.selectPage(new RowBounds(page,size),wrapper);
+
     }
 
     @Override
@@ -81,4 +92,8 @@ public class ShUserServiceImpl implements IShUserService {
         }
         return null;
     }
+
+
+
+
 }
