@@ -2,6 +2,7 @@ package ${package.Controller};
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import io.swagger.annotations.Api;
+import com.wqy.wx.back.common.Constant;
 #if(${restControllerStyle})
 import org.springframework.web.bind.annotation.RestController;
 #else
@@ -14,13 +15,13 @@ import ${superControllerClassPackage};
 * @author ${author}
 * @since ${date}
 */
-@Api(tags = {"$!{table.comment}"})
+@Api(tags = "$!{table.comment}接口管理")
 #if(${restControllerStyle})
 @RestController
 #else
 @Controller
 #end
-@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+@RequestMapping(Constant.MAPPING+"#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
 #if(${kotlin})
 class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
 #else

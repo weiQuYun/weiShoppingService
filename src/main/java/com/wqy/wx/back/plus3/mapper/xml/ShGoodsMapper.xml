@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqy.wx.back.plus3.mapper.ShGoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wqy.wx.back.plus3.entity.ShGoods">
+        <id column="id" property="id"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_sn" property="goodsSn"/>
+        <result column="goods_price" property="goodsPrice"/>
+        <result column="goods_number" property="goodsNumber"/>
+        <result column="type_id" property="typeId"/>
+        <result column="cat_id" property="catId"/>
+        <result column="goods_img" property="goodsImg"/>
+        <result column="goods_thumb" property="goodsThumb"/>
+        <result column="is_sale" property="isSale"/>
+        <result column="is_new" property="isNew"/>
+        <result column="is_best" property="isBest"/>
+        <result column="is_hot" property="isHot"/>
+        <result column="goods_desc" property="goodsDesc"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,
+        goods_name,
+        goods_sn,
+        goods_price,
+        goods_number,
+        type_id,
+        cat_id,
+        goods_img,
+        goods_thumb,
+        is_sale,
+        is_new,
+        is_best,
+        is_hot,
+        goods_desc,
+        create_time,
+        update_time
+    </sql>
+
+</mapper>

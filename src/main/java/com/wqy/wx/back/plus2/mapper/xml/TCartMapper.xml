@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqy.wx.com.wqy.wx.back.plus2.mapper.TCartMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wqy.wx.com.wqy.wx.back.plus2.entity.TCart">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="hotel_id" property="hotelId"/>
+        <result column="menber_id" property="menberId"/>
+        <result column="procute_id" property="procuteId"/>
+        <result column="procute_number" property="procuteNumber"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,
+        create_time,
+        hotel_id,
+        menber_id,
+        procute_id,
+        procute_number
+    </sql>
+
+</mapper>

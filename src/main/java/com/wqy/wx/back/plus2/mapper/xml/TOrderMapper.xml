@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqy.wx.com.wqy.wx.back.plus2.mapper.TOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wqy.wx.com.wqy.wx.back.plus2.entity.TOrder">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="receiver" property="receiver"/>
+        <result column="phone" property="phone"/>
+        <result column="zcode" property="zcode"/>
+        <result column="menber_id" property="menberId"/>
+        <result column="pay_status" property="payStatus"/>
+        <result column="send_status" property="sendStatus"/>
+        <result column="ali_order_id" property="aliOrderId"/>
+        <result column="company" property="company"/>
+        <result column="number" property="number"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,
+        create_time,
+        order_number,
+        receiver,
+        phone,
+        zcode,
+        menber_id,
+        pay_status,
+        send_status,
+        ali_order_id,
+        company,
+        number
+    </sql>
+
+</mapper>

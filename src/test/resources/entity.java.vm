@@ -4,16 +4,11 @@ package ${package.Entity};
 import ${pkg};
 #end
 #if(${entityLombokModel})
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.enums.FieldFill;
-import com.baomidou.mybatisplus.enums.IdType;
-import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
 import lombok.Data;
-import com.wqy.modules.common.entity.BaseEntity;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 #end
@@ -34,7 +29,7 @@ import lombok.experimental.Accessors;
 #if(${table.convert})
 @TableName("${table.name}")
 #end
-public class ${entity}  extends BaseEntity implements Serializable {
+public class ${entity}  extends BaseEntity<${entity}> implements Serializable {
 
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($field in ${table.fields})
@@ -50,25 +45,36 @@ public class ${entity}  extends BaseEntity implements Serializable {
         @ApiModelProperty(value = "${field.comment}")
     #end
     #if(${field.keyFlag})
-        ## 主键
-        @ApiModelProperty("主键")
-        #if(${field.keyIdentityFlag})
-        @TableId(value = "${field.name}", type = IdType.AUTO)
-        #elseif(!$null.isNull(${idType}) && "$!idType" != "")
-        @TableId(value = "${field.name}", type = IdType.${idType})
-        #elseif(${field.convert})
-        @TableId("${field.name}")
-        #end
-    ## 普通字段
-    #else
-        @ApiModelProperty("${field.comment}")
-        @TableField(value = "${field.name}", fill = FieldFill.INSERT_UPDATE)
+    ## 主键
+    #if(${field.keyIdentityFlag})
+    @TableId(value = "${field.name}", type = IdType.AUTO)
+    #elseif(!$null.isNull(${idType}) && "$!idType" != "")
+    @TableId(value = "${field.name}", type = IdType.${idType})
+    #elseif(${field.convert})
+    @TableId("${field.name}")
     #end
+    ## 普通字段
+    #elseif(${field.fill})
+    ## -----   存在字段填充设置   -----
+        #if(${field.convert})
+        @TableField(value = "${field.name}", fill = FieldFill.${field.fill})
+        #else
+        @TableField(fill = FieldFill.${field.fill})
+        #end
+    #elseif(${field.convert})
+        @TableField("${field.name}")
+    #end
+## 乐观锁注解
+    #if(${versionFieldName}==${field.name})
+    @Version
+    #end
+## 逻辑删除注解
+    #if(${logicDeleteFieldName}==${field.name})
+    @TableLogic
+    #end
+@TableField(value = "${field.name}", fill = FieldFill.INSERT_UPDATE)
 private ${field.propertyType} ${field.propertyName};
 #end
 ## ----------  END 字段循环遍历  ----------
-@Override
-protected Serializable pkVal() {
-        return this.id;
-        }
+
 }

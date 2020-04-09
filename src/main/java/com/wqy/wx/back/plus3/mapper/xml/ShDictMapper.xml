@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqy.wx.back.plus3.mapper.ShDictMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wqy.wx.back.plus3.entity.ShDict">
+        <id column="key_id" property="keyId"/>
+        <result column="pid" property="pid"/>
+        <result column="dict_type_name" property="dictTypeName"/>
+        <result column="dict_type_code" property="dictTypeCode"/>
+        <result column="dict_id" property="dictId"/>
+        <result column="dict_name" property="dictName"/>
+        <result column="sort_no" property="sortNo"/>
+        <result column="level" property="level"/>
+        <result column="memo" property="memo"/>
+        <result column="add_time" property="addTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        key_id
+        ,
+        pid,
+        dict_type_name,
+        dict_type_code,
+        dict_id,
+        dict_name,
+        sort_no,
+        level,
+        memo,
+        add_time,
+        modify_time
+    </sql>
+
+</mapper>
