@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author licm
@@ -28,24 +29,27 @@ public class ShGoodsAttr extends BaseEntity implements Serializable {
     @ApiModelProperty("主键")
     @Id
     private String id;
-    @ApiModelProperty("")
+    @ApiModelProperty("商品主键")
+    //商品主键
     @TableField(value = "goods_id", fill = FieldFill.INSERT_UPDATE)
     private String goodsId;
-    @ApiModelProperty("")
+    @ApiModelProperty("属性主键")
     @TableField(value = "attr_id", fill = FieldFill.INSERT_UPDATE)
+    //属性主键
     private String attrId;
-    @ApiModelProperty("")
+    @ApiModelProperty("属性详情")
     @TableField(value = "attr_value", fill = FieldFill.INSERT_UPDATE)
+    //属性详情
     private String attrValue;
-    @ApiModelProperty("")
+    @ApiModelProperty("价格")
     @TableField(value = "attr_price", fill = FieldFill.INSERT_UPDATE)
     private BigDecimal attrPrice;
-    @ApiModelProperty("")
+    @ApiModelProperty("创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
-    private Integer createTime;
-    @ApiModelProperty("")
+    private Date createTime;
+    @ApiModelProperty("更新时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Integer updateTime;
+    private Date updateTime;
 
     @Override
     protected Serializable pkVal() {

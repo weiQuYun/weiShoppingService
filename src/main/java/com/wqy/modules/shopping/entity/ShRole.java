@@ -29,16 +29,16 @@ public class ShRole extends BaseEntity implements Serializable {
     @Id
     @TableId("id")
     private String id;
-    @ApiModelProperty("")
+    @ApiModelProperty("角色名称")
     @TableField(value = "role_name", fill = FieldFill.INSERT_UPDATE)
     private String roleName;
-    @ApiModelProperty("")
+    @ApiModelProperty("角色所拥有的权限id")
     @TableField(value = "auth_id_list", fill = FieldFill.INSERT_UPDATE)
     private String authIdList;
-    @ApiModelProperty("")
+    @ApiModelProperty("创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
     private Integer createTime;
-    @ApiModelProperty("")
+    @ApiModelProperty("更新时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Integer updateTime;
 

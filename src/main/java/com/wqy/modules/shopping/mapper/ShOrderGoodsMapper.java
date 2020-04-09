@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.wqy.modules.shopping.entity.ShOrderGoods;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * <p>
  * Mapper 接口
@@ -15,5 +17,6 @@ import org.apache.ibatis.annotations.Select;
 public interface ShOrderGoodsMapper extends BaseMapper<ShOrderGoods> {
     @Select("select * from sh_order_goods where id = #{id}")
     ShOrderGoods getOrderGoods(ShOrderGoods shOrderGoods);
-
+    @Select("select * from sh_order_goods where order_id=#{orderId}")
+    List<ShOrderGoods> selectByOrderId(String id);
 }

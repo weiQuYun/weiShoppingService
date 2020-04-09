@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
@@ -23,8 +24,11 @@ public class ShOrderGoodsController {
     @Autowired
     private IShOrderGoodsService iShOrderGoodsService;
 
-    @GetMapping("/search")
-    public Result getOrderGoods() {
+
+
+    ///这里有修改
+    @GetMapping("/search/{id}")
+    public Result getOrderGoods(@RequestParam String id) {
         ShOrderGoods shOrderGoods = new ShOrderGoods();
         shOrderGoods.setId("123");
         System.out.println(iShOrderGoodsService.getOrderGoods(shOrderGoods));

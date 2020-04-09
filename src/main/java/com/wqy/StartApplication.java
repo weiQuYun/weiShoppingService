@@ -13,7 +13,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableTransactionManagement
 @SpringBootApplication
 @MapperScan(basePackages = {"com.wqy.modules.shopping.mapper"})
-public class StartApplication {
+public class  StartApplication {
 
     public static void main(String[] args) {
         ApplicationContext app = SpringApplication.run(StartApplication.class, args);

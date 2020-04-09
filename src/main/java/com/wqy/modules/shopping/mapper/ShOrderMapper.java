@@ -12,5 +12,17 @@ import com.wqy.modules.shopping.entity.ShOrder;
  * @since 2020-04-01
  */
 public interface ShOrderMapper extends BaseMapper<ShOrder> {
+    /**
+     * 根据订单id查询
+     * @param id
+     * @return
+     */
+    ShOrder selectByOrderId(String id);
+
+    /**
+     * 修改
+     * @param shOrder
+     */
+    void updateOrder(ShOrder shOrder);
 
 }
