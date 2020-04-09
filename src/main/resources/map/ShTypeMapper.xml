@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqy.modules.shopping.mapper.ShTypeMapper">
+    <!--查询全部-->
+    <select id="selectAll" resultType="com.wqy.modules.shopping.entity.ShType">
+        select * from sh_type
+        <choose>
+           <when test="typeName !=null and typeName!=''"><!-- 根据 排序字段 排序 -->
+               where type_Name=#{typeName}
+           </when>
+
+       </choose>
+    </select>
+    <!--添加-->
+    <insert id="addType" parameterType="com.wqy.modules.shopping.entity.ShType">
+        INSERT INTO sh_type ( id,type_name,mark,create_time,update_time )  VALUES   ( #{id},#{typeName},#{mark},#{createTime},#{updateTime})
+    </insert>
+    <!--修改-->
+    <update id="updateType" parameterType="com.wqy.modules.shopping.entity.ShType">
+        update sh_type set type_name=#{typeName},mark=#{mark},update_time=#{updateTime} where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="deleteType" parameterType="String">
+        delete from sh_type where id=#{id}
+    </delete>
+
+</mapper>

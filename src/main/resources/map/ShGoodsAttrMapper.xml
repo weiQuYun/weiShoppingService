@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqy.modules.shopping.mapper.ShGoodsAttrMapper">
+    <!--查询全部-->
+    <select id="selectAll" resultType="com.wqy.modules.shopping.entity.ShGoodsAttr">
+        select * from sh_goods_attr
+       <!-- <choose>
+            <when test="typeName !=null and typeName!=''">&lt;!&ndash; 根据 排序字段 排序 &ndash;&gt;
+                where type_Name=#{typeName}
+            </when>
+
+        </choose>-->
+    </select>
+    <!--添加-->
+    <insert id="addGoodsAttr" parameterType="com.wqy.modules.shopping.entity.ShGoodsAttr">
+        INSERT INTO sh_goods_attr ( id,goods_id,attr_id,attr_value,attr_price,create_time,update_time)  VALUES   ( #{id},#{goodsId},#{attrId},#{attrValue},#{attrPrice},#{createTime},#{updateTime})
+    </insert>
+    <!--修改-->
+    <update id="updateGoodsAttr" parameterType="com.wqy.modules.shopping.entity.ShGoodsAttr">
+        update sh_goods_attr set goods_id=#{goodsId},attr_id=#{attrId},attr_value=#{attrValue},attr_price=#{attrPrice},create_time=#{createTime},update_time=#{updateTime} where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="deleteGoodsAttr" parameterType="String">
+        delete from sh_goods_attr where id=#{id}
+    </delete>
+    <!--根据商品主键删除-->
+    <delete id="deleteByGoods" parameterType="String">
+        delete from sh_goods_attr where goods_id=#{goodsId}
+    </delete>
+    <!--根据属性主键删除-->
+    <delete id="deleteByAttr" parameterType="String">
+        delete from sh_goods_attr where attr_id=#{attrId}
+    </delete>
+</mapper>
