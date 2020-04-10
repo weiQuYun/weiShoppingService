@@ -30,15 +30,13 @@ public class ShMemberController {
 
     @PostMapping("")
     public Boolean addMember(@RequestBody ShMember shMember){
-        iShMemberService.addMember(shMember);
-        return true;
+       return iShMemberService.addMember(shMember);
     }
     /**
      * 修改
      * **/
     @PutMapping(value = "")
     public Boolean updateVip(@RequestParam String id,@RequestParam Integer lvVip){
-        System.out.println(".......");
         System.out.println(id);
         iShMemberService.selectById(id);
         iShMemberService.addVipMember(lvVip,id);

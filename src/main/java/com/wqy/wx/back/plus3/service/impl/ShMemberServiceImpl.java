@@ -38,11 +38,11 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     @Override
     @Transactional
     public Boolean addMember(ShMember shMember) {
-        if (!StringUtils.isEmpty(shMember.getParentId())){
+        if (!StringUtils.isEmpty(shMember.getParentId())) { //先判断他有没有上级，如果有进判断，如果没有直接添加设置为团长
             ShMember shMember1 = shMemberMapper.selectByParentId(shMember.getParentId());
-            if (shMember1.getShareNumber()==null||shMember1.getShareNumber()==0) {
+            if (shMember1.getShareNumber() == null || shMember1.getShareNumber() == 0) { //判断是否有推荐次数，没有就返回false，直接不添加
                 return false;
-            }else if (!StringUtils.isEmpty(shMember.getParentId())){
+            } else  { //如果有推荐次数，就添加
                 String uuid = UUIDUtils.getCharAndNumr();
                 shMember.setId(uuid);
                 Date date = new Date();
@@ -51,32 +51,21 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                 shMemberMapper.addMember(shMember);
                 shMemberMapper.updateIntegral(parentId);
                 return true;
-            }else {
-                String uuid = UUIDUtils.getCharAndNumr();
-                shMember.setId(uuid);
-                Date date = new Date();
-                shMember.setCreateTime(date);
-                String parentId = shMember.getParentId();
-                shMember.setIfsCaptain(1);
-                shMemberMapper.addMember(shMember);
-                shMemberMapper.updateIntegral(parentId);
-                return true;
-            }
 
-        }else {
+            }
+        } else {//直接设置为团长
             String uuid = UUIDUtils.getCharAndNumr();
             shMember.setId(uuid);
             Date date = new Date();
             shMember.setCreateTime(date);
+            //设置是团长
             shMember.setIfsCaptain(1);
             String parentId = shMember.getParentId();
             shMemberMapper.addMember(shMember);
             shMemberMapper.updateIntegral(parentId);
             return true;
         }
-
     }
-
     /**
      * 新建会员
      * @param lvVip
