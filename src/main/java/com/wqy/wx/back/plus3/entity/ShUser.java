@@ -2,6 +2,7 @@ package com.wqy.wx.back.plus3.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.wqy.wx.back.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShUser extends BaseEntity<ShUser> implements Serializable {
+public class ShUser  implements Serializable {
 
     /**
      * 唯一IDUUID
@@ -67,7 +68,6 @@ public class ShUser extends BaseEntity<ShUser> implements Serializable {
      * 前端发送唯一ID
      */
     @ApiModelProperty(value = "前端发送唯一ID ")
-    @TableField("openId")
     @TableField(value = "openId", fill = FieldFill.INSERT_UPDATE)
     private String openId;
     @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)

@@ -2,6 +2,7 @@ package com.wqy.wx.back.plus3.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.wqy.wx.back.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShMember extends BaseEntity<ShMember> implements Serializable {
+public class ShMember  implements Serializable {
 
     /**
      * 主键唯一标识符UUID
@@ -85,9 +86,8 @@ public class ShMember extends BaseEntity<ShMember> implements Serializable {
      * 是否是团长
      */
     @ApiModelProperty(value = "是否是团长")
-    @TableField("is_leader")
     @TableField(value = "is_leader", fill = FieldFill.INSERT_UPDATE)
-    private Boolean leader;
+    private Boolean isLeader;
     /**
      * 下级分销可用数
      */

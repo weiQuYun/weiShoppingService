@@ -25,7 +25,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     username: root
     password: 1234
-    url: jdbc:mysql://192.168.101.106:3306/base_wx?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true
+    url: jdbc:mysql://192.168.101.106:3306/weishopping?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true
     driverClassName: com.mysql.cj.jdbc.Driver
     initialSize: 1
     minIdle: 40                      # 空闲时间，超过此空闲时间，数据库连接将被标记为不可用，然后被释放。设为0 表示无限制
@@ -94,6 +94,16 @@ swagger:
   groupName: api接口管理
   version: @project.version@
 
+
+
+
+#下方为三级分销分成字段即抽成比例
+#---------------------------------
+cheat:
+  one: 0.1
+  two: 0.2
+  three: 0.3
+#---------------------------------
 
 
 #mybatis-plus

@@ -2,6 +2,9 @@ package com.wqy.wx.back.plus3.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wqy.wx.back.plus3.entity.ShMember;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,6 @@ import com.wqy.wx.back.plus3.entity.ShMember;
  * @since 2020-04-09
  */
 public interface ShMemberMapper extends BaseMapper<ShMember> {
+
 
 }

@@ -2,6 +2,7 @@ package com.wqy.wx.back.plus3.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.wqy.wx.back.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +19,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShVip extends BaseEntity<ShVip> implements Serializable {
+public class ShVip  implements Serializable {
 
     /**
      * vipID uuid
@@ -30,21 +31,18 @@ public class ShVip extends BaseEntity<ShVip> implements Serializable {
      * 会员ID
      */
     @ApiModelProperty(value = "会员ID")
-    @TableField("userId")
     @TableField(value = "userId", fill = FieldFill.INSERT_UPDATE)
     private String userId;
     /**
      * 会员名称即一级会员
      */
     @ApiModelProperty(value = "会员名称即一级会员")
-    @TableField("vipName")
     @TableField(value = "vipName", fill = FieldFill.INSERT_UPDATE)
     private String vipName;
     /**
      * 梯度VIP等级由购买力定
      */
     @ApiModelProperty(value = "梯度VIP等级由购买力定")
-    @TableField("vipPrice")
     @TableField(value = "vipPrice", fill = FieldFill.INSERT_UPDATE)
     private Integer vipPrice;
 
