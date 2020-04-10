@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * <p>
  * 会员表 Mapper 接口
@@ -19,7 +22,7 @@ public interface ShMemberMapper extends BaseMapper<ShMember> {
      * 新增用户
      * @param shMember
      */
-    @Insert("INSERT INTO sh_member( id,parent_id,username,password,email,phone,openid,integral,integral_change_count,integral_change_rate,ifs_leader,share_number,Lv_vip,create_time)  VALUES   ( #{id},#{parentId},#{username},#{password},#{email},#{phone},#{openid},#{integral},#{integralChangeCount},#{integralChangeRate},#{leader},#{shareNumber},#{lvVip},#{createTime})")
+    @Insert("INSERT INTO sh_member( id,parent_id,username,password,email,phone,openid,integral,integral_change_count,integral_change_rate,ifs_captain,share_number,Lv_vip,create_time)  VALUES   ( #{id},#{parentId},#{username},#{password},#{email},#{phone},#{openid},#{integral},#{integralChangeCount},#{integralChangeRate},#{ifsCaptain},#{shareNumber},#{lvVip},#{createTime})")
     void addMember(ShMember shMember);
     /**
      * 开会员
@@ -31,11 +34,7 @@ public interface ShMemberMapper extends BaseMapper<ShMember> {
      */
     @Update("update sh_member set integral=#{integral} where id=#{id}")
     void rebatesIntegral(Long integral,String id);
-    /**
-     * 根据Id查询上级
-     */
-    @Select("select * from sh_member where parent_id=#{parentId}")
-    ShMember selectParent(String Pid);
+
     /**
      * 推荐成功后增加上级500积分,可推荐次数减一
      */
@@ -46,4 +45,11 @@ public interface ShMemberMapper extends BaseMapper<ShMember> {
      */
     @Select("select * from sh_member where id=#{id}")
     ShMember selectByid(String id);
+
+
+    @Select("select * from sh_member where update_time>#{date}")
+    List<ShMember> selectByTime(Date date);
+
+    @Select("select * from sh_member where id = #{parentId}")
+    ShMember selectByParentId(String parentId);
 }

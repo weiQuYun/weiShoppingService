@@ -12,13 +12,12 @@ import org.springframework.stereotype.Service;
  * @author licm
  * @since 2020-04-09
  */
-@Service
 public interface IShMemberService extends IService<ShMember> {
     /**
      * 新增会员
      * @param shMember
      */
-    void addMember(ShMember shMember);
+    Boolean addMember(ShMember shMember);
     /**
      * 开会员
      */

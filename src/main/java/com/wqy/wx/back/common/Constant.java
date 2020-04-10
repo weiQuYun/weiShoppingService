@@ -16,6 +16,7 @@ import java.util.Date;
  **/
 public class Constant {
     /**
+    /**
      * api
      */
     public final static String API = "req";
@@ -88,4 +89,8 @@ public class Constant {
      * 登陆过期时间 秒
      */
     public static final long LOGIN_TIME_OUT = 60 * 60 * 2;
+    /**
+     * vip返点 30
+     */
+    public static final Long REBATES=30L;
 }

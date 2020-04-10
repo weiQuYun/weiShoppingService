@@ -27,9 +27,8 @@ public class ShMemberController {
     /**
      * 新增用户
      */
-    @Autowired
-    private IShMemberService iShMemberService;
-    @PostMapping("/batch")
+
+    @PostMapping("")
     public Boolean addMember(@RequestBody ShMember shMember){
         iShMemberService.addMember(shMember);
         return true;
@@ -37,8 +36,10 @@ public class ShMemberController {
     /**
      * 修改
      * **/
-    @PutMapping(value = "/update/{id}")
-    public Boolean updateShUser(@PathVariable Integer lvVip, @PathVariable String id){
+    @PutMapping(value = "")
+    public Boolean updateVip(@RequestParam String id,@RequestParam Integer lvVip){
+        System.out.println(".......");
+        System.out.println(id);
         iShMemberService.selectById(id);
         iShMemberService.addVipMember(lvVip,id);
         return true;
