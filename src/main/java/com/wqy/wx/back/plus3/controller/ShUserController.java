@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "用户表接口管理")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shUser")
+@RequestMapping(Constant.MAPPING + "/user")
 public class ShUserController {
 }

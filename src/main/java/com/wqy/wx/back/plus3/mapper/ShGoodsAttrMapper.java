@@ -19,6 +19,7 @@ public interface ShGoodsAttrMapper extends BaseMapper<ShGoodsAttr> {
 
     @Delete("delete from sh_goods_attr where goods_id = #{id}")
     void deleteByShGoodsId(String id);
+
     @Select("select * from sh_goods_attr where goods_id = #{id}")
     List<ShGoodsAttr> selectByGoodsId(String id);
 }

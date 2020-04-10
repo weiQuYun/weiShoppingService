@@ -2,7 +2,7 @@ package com.wqy.wx.back.plus3.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.wqy.wx.back.model.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -26,7 +26,8 @@ public class ShType implements Serializable {
      * 分类ID,UUID
      */
     @ApiModelProperty(value = "分类ID,UUID")
-    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
+    @TableId(value = "id")
+    @TableField(value = "id", fill = FieldFill.INSERT)
     private String id;
     /**
      * 分类名称

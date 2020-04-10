@@ -22,7 +22,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShUserSign extends BaseEntity<ShUserSign>implements Serializable {
+public class ShUserSign extends BaseEntity<ShUserSign> implements Serializable {
 
     /**
      * 自增无意义id

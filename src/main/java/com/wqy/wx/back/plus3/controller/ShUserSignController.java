@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "签到表接口管理")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shUserSign")
+@RequestMapping(Constant.MAPPING + "/userSign")
 public class ShUserSignController {
     @Autowired
     private IShUserSignService shUserSignService;

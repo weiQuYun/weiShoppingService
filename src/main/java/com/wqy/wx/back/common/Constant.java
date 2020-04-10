@@ -16,7 +16,7 @@ import java.util.Date;
  **/
 public class Constant {
     /**
-    /**
+     * /**
      * api
      */
     public final static String API = "req";
@@ -92,5 +92,5 @@ public class Constant {
     /**
      * vip返点 30
      */
-    public static final Long REBATES=30L;
+    public static final Long REBATES = 30L;
 }

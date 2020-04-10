@@ -1,7 +1,9 @@
 package com.wqy.wx.back.plus3.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,7 +27,8 @@ public class ShCategory implements Serializable {
      * 主键
      */
     @ApiModelProperty(value = "主键")
-    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
+    @TableId(value = "id", type = IdType.AUTO)
+    @TableField(value = "id", fill = FieldFill.INSERT)
     private String id;
     /**
      * 分类名

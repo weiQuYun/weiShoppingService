@@ -2,7 +2,6 @@ package com.wqy.wx.back.plus3.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wqy.wx.back.common.util.UUIDUtils;
-import com.wqy.wx.back.plus3.entity.ShGoodsAttr;
 import com.wqy.wx.back.plus3.entity.ShType;
 import com.wqy.wx.back.plus3.mapper.ShTypeMapper;
 import com.wqy.wx.back.plus3.service.IShTypeService;
@@ -28,6 +27,7 @@ public class ShTypeServiceImpl extends ServiceImpl<ShTypeMapper, ShType> impleme
 
     @Autowired
     private ShTypeMapper shTypeMapper;
+
     @Override
     public List<ShType> selectAll() {
         List<ShType> shTypes = shTypeMapper.selectList(null);
@@ -38,7 +38,7 @@ public class ShTypeServiceImpl extends ServiceImpl<ShTypeMapper, ShType> impleme
 
     @Override
     public ShType selectIndex() {
-       return shTypeMapper.selectById("indexshgoods");
+        return shTypeMapper.selectById("indexshgoods");
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ShTypeServiceImpl extends ServiceImpl<ShTypeMapper, ShType> impleme
 
     @Override
     public boolean updateShType(List<ShType> list) {
-        if (list.size()>0) {
+        if (list.size() > 0) {
             for (ShType shType : list) {
                 updateShType(shType);
             }
@@ -72,7 +72,7 @@ public class ShTypeServiceImpl extends ServiceImpl<ShTypeMapper, ShType> impleme
 
     @Override
     public boolean insertShType(List<ShType> list) {
-        if (list.size()>0) {
+        if (list.size() > 0) {
             for (ShType shType : list) {
                 insertShType(shType);
             }
@@ -82,7 +82,7 @@ public class ShTypeServiceImpl extends ServiceImpl<ShTypeMapper, ShType> impleme
 
     @Override
     public boolean deleteShType(List<String> list) {
-        if (list.size()>0) {
+        if (list.size() > 0) {
             for (String s : list) {
                 deleteById(s);
             }

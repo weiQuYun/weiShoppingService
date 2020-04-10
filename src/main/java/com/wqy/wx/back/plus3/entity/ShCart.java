@@ -29,7 +29,7 @@ public class ShCart extends BaseEntity<ShCart> implements Serializable {
      */
     @ApiModelProperty(value = "主键")
     @TableId(value = "id", type = IdType.AUTO)
-    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "id", fill = FieldFill.INSERT)
     private Long id;
     /**
      * 商品id

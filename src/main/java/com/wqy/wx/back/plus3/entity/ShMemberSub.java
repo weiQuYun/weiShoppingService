@@ -2,6 +2,7 @@ package com.wqy.wx.back.plus3.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class ShMemberSub implements Serializable {
      * UUID唯一标识符
      */
     @ApiModelProperty(value = "UUID唯一标识符")
+    @TableId(value = "id")
     @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
     private String id;
     /**

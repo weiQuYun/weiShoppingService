@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "类别表接口管理")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shCategory")
+@RequestMapping(Constant.MAPPING + "/category")
 public class ShCategoryController {
 }

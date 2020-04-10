@@ -15,8 +15,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -35,6 +33,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     private ShMemberMapper shMemberMapper;
     @Autowired
     private ShVipMapper shVipMapper;
+
     @Override
     @Transactional
     public Boolean addMember(ShMember shMember) {
@@ -42,7 +41,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             ShMember shMember1 = shMemberMapper.selectByParentId(shMember.getParentId());
             if (shMember1.getShareNumber() == null || shMember1.getShareNumber() == 0) { //判断是否有推荐次数，没有就返回false，直接不添加
                 return false;
-            } else  { //如果有推荐次数，就添加
+            } else { //如果有推荐次数，就添加
                 String uuid = UUIDUtils.getCharAndNumr();
                 shMember.setId(uuid);
                 Date date = new Date();
@@ -66,40 +65,42 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             return true;
         }
     }
+
     /**
      * 新建会员
+     *
      * @param lvVip
      * @param id
      */
     @Override
     @Transactional
     public void addVipMember(Integer lvVip, String id) {
-        shMemberMapper.addVipMember(lvVip,id);
+        shMemberMapper.addVipMember(lvVip, id);
         ShMember shMember1 = shMemberMapper.selectByid(id);
         //查找该vip等级的金额好返点
         ShVip shVip = shVipMapper.selectLevel(lvVip);
         Integer vipPrice = shVip.getVipPrice();
-        if (vipPrice==null||vipPrice==0){
-            vipPrice=0;
+        if (vipPrice == null || vipPrice == 0) {
+            vipPrice = 0;
 
         }
-        float num=(float) Constant.REBATES /100;
-        int price=vipPrice.intValue();
+        float num = (float) Constant.REBATES / 100;
+        int price = vipPrice.intValue();
         float v = price * num;
-        int i=(int)v;
-        Integer integral=new Integer(i);
+        int i = (int) v;
+        Integer integral = new Integer(i);
         // System.out.println(integral);
         //查询他的上级 一层
         ShMember shMember = shMemberMapper.selectByParentId(shMember1.getParentId());
         Long integral1 = shMember.getIntegral();
         //System.out.println("=============");
-       // System.out.println(integral);
-        Long integrals=integral+integral1;
+        // System.out.println(integral);
+        Long integrals = integral + integral1;
         System.out.println(integral);
         String id1 = shMember.getId();
         System.out.println(id1);
         System.out.println(shMember.getIntegral());
-        this.rebatesIntegral(integrals,id1);
+        this.rebatesIntegral(integrals, id1);
 
     }
 
@@ -110,13 +111,14 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
 
     /**
      * 积分返点
+     *
      * @param integral
      * @param id
      */
     @Override
     @Transactional
     public void rebatesIntegral(Long integral, String id) {
-        shMemberMapper.rebatesIntegral(integral,id);
+        shMemberMapper.rebatesIntegral(integral, id);
     }
 
 

@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "订单表接口管理")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shOrder")
+@RequestMapping(Constant.MAPPING + "/order")
 public class ShOrderController {
 }

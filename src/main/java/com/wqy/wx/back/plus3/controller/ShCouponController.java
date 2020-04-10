@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "优惠券表接口管理")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shCoupon")
+@RequestMapping(Constant.MAPPING + "/coupon")
 public class ShCouponController {
 }

@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "VIP表接口管理")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shVip")
+@RequestMapping(Constant.MAPPING + "/vip")
 public class ShVipController {
 }

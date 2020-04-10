@@ -1,8 +1,6 @@
 package com.wqy.wx.back.plus3.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wqy.wx.back.common.util.ParamUtils;
 import com.wqy.wx.back.common.util.UUIDUtils;
 import com.wqy.wx.back.plus3.entity.ShGoods;
 import com.wqy.wx.back.plus3.entity.ShGoodsAttr;
@@ -30,6 +28,7 @@ public class ShGoodsAttrServiceImpl extends ServiceImpl<ShGoodsAttrMapper, ShGoo
 
     @Autowired
     private ShGoodsAttrMapper shGoodsAttrMapper;
+
     @Override
     public List<ShGoodsAttr> selectAll(ShGoods shGoods) {
         return shGoodsAttrMapper.selectByGoodsId(shGoods.getId());
@@ -38,7 +37,7 @@ public class ShGoodsAttrServiceImpl extends ServiceImpl<ShGoodsAttrMapper, ShGoo
     @Override
     public boolean deleteGoodsAttr(String id) {
         int i = shGoodsAttrMapper.deleteById(id);
-        if (i==1)return true;
+        if (i == 1) return true;
         return false;
     }
 
@@ -47,20 +46,20 @@ public class ShGoodsAttrServiceImpl extends ServiceImpl<ShGoodsAttrMapper, ShGoo
         String charAndNumr = UUIDUtils.getCharAndNumr();
         shGoodsAttr.setId(charAndNumr);
         int insert = shGoodsAttrMapper.insert(shGoodsAttr);
-        if (insert==1)return true;
+        if (insert == 1) return true;
         return false;
     }
 
     @Override
     public boolean updateShGoodsAttr(ShGoodsAttr shGoodsAttr) {
         int i = shGoodsAttrMapper.updateById(shGoodsAttr);
-        if (i==1)return true;
+        if (i == 1) return true;
         return false;
     }
 
     @Override
     public boolean updateShGoodsAttr(List<ShGoodsAttr> list) {
-        if (list.size()>0) {
+        if (list.size() > 0) {
             for (ShGoodsAttr shGoodsAttr : list) {
                 updateShGoodsAttr(shGoodsAttr);
             }
@@ -70,7 +69,7 @@ public class ShGoodsAttrServiceImpl extends ServiceImpl<ShGoodsAttrMapper, ShGoo
 
     @Override
     public boolean insertShGoodsAttr(List<ShGoodsAttr> list) {
-        if (list.size()>0) {
+        if (list.size() > 0) {
             for (ShGoodsAttr shGoodsAttr : list) {
                 insertShGoodsAttr(shGoodsAttr);
             }
@@ -80,7 +79,7 @@ public class ShGoodsAttrServiceImpl extends ServiceImpl<ShGoodsAttrMapper, ShGoo
 
     @Override
     public boolean deleteGoodsAttr(List<String> list) {
-        if (list.size()>0) {
+        if (list.size() > 0) {
             for (String s : list) {
                 deleteGoodsAttr(s);
             }

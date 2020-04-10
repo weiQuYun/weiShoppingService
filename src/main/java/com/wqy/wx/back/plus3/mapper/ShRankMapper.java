@@ -1,7 +1,7 @@
 package com.wqy.wx.back.plus3.mapper;
 
-import com.wqy.wx.back.plus3.entity.ShRank;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wqy.wx.back.plus3.entity.ShRank;
 
 /**
  * <p>

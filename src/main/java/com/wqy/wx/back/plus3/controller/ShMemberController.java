@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "会员表接口管理")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shMember")
+@RequestMapping(Constant.MAPPING + "/member")
 public class ShMemberController {
     @Autowired
     private IShMemberService iShMemberService;
@@ -24,22 +24,24 @@ public class ShMemberController {
     public PageInfo<ShType> findAll(Page page,@RequestBody ShType shType){
         return shTypeService.selectAll(page,shType);
     }*/
+
     /**
      * 新增用户
      */
 
     @PostMapping("")
-    public Boolean addMember(@RequestBody ShMember shMember){
-       return iShMemberService.addMember(shMember);
+    public Boolean addMember(@RequestBody ShMember shMember) {
+        return iShMemberService.addMember(shMember);
     }
+
     /**
      * 修改
-     * **/
+     **/
     @PutMapping(value = "")
-    public Boolean updateVip(@RequestParam String id,@RequestParam Integer lvVip){
+    public Boolean updateVip(@RequestParam String id, @RequestParam Integer lvVip) {
         System.out.println(id);
         iShMemberService.selectById(id);
-        iShMemberService.addVipMember(lvVip,id);
+        iShMemberService.addVipMember(lvVip, id);
         return true;
 
     }

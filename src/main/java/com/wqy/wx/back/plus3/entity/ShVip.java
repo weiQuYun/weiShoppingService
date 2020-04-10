@@ -1,8 +1,9 @@
 package com.wqy.wx.back.plus3.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.wqy.wx.back.model.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,7 +26,8 @@ public class ShVip implements Serializable {
      * vipID uuid
      */
     @ApiModelProperty(value = "vipID 自增")
-    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
+    @TableId(value = "id", type = IdType.AUTO)
+    @TableField(value = "id", fill = FieldFill.INSERT)
     private String id;
     /**
      * 会员ID

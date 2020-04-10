@@ -2,6 +2,8 @@ package com.wqy.wx.back.plus3.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.wqy.wx.back.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,7 +11,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -20,13 +21,14 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShMember implements Serializable {
+public class ShMember extends BaseEntity<ShMember> implements Serializable {
 
     /**
      * 主键唯一标识符UUID
      */
     @ApiModelProperty(value = "主键唯一标识符UUID")
-    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
+    @TableId(value = "id")
+    @TableField(value = "id", fill = FieldFill.INSERT)
     private String id;
     /**
      * 父级ID UUID
@@ -89,7 +91,6 @@ public class ShMember implements Serializable {
     @TableField(value = "is_leader", fill = FieldFill.INSERT_UPDATE)
     private Boolean leader;
     /**
-     *
      * 下级分销可用数
      */
     @ApiModelProperty(value = "下级分销可用数")

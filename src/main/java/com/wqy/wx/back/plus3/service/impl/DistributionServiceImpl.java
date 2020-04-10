@@ -7,8 +7,6 @@ import com.wqy.wx.back.plus3.mapper.ShMemberMapper;
 import com.wqy.wx.back.plus3.service.DistributionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 /**
  * <p>
  * 属性表 服务实现类

@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "购物车表接口管理")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shCart")
+@RequestMapping(Constant.MAPPING + "/cart")
 public class ShCartController {
 }

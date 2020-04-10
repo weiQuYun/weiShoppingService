@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "属性表接口管理 未使用")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shAttribute")
+@RequestMapping(Constant.MAPPING + "/attribute")
 public class ShAttributeController {
 
     @PostMapping()

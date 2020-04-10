@@ -56,13 +56,13 @@
         </choose>
     </select>-->
     <!--添加-->
-   <!-- <insert id="addMember" parameterType="com.wqy.wx.back.plus3.entity.ShMember">
-        INSERT INTO sh_member( id,parent_id,username,password,email,phone,openid,integral,integral_change_count,integral_change_rate)  VALUES   ( #{id},#{parent_id},#{username},#{password},#{email},#{phone},#{openId},#{integral},#{integral_change_count},#{integral_change_rate})
-    </insert>-->
-  <!--  &lt;!&ndash;修改&ndash;&gt;
-    <update id="updateType" parameterType="com.wqy.modules.shopping.entity.ShType">
-        update sh_type set type_name=#{typeName},mark=#{mark},update_time=#{updateTime} where id=#{id}
-    </update>-->
+    <!-- <insert id="addMember" parameterType="com.wqy.wx.back.plus3.entity.ShMember">
+         INSERT INTO sh_member( id,parent_id,username,password,email,phone,openid,integral,integral_change_count,integral_change_rate)  VALUES   ( #{id},#{parent_id},#{username},#{password},#{email},#{phone},#{openId},#{integral},#{integral_change_count},#{integral_change_rate})
+     </insert>-->
+    <!--  &lt;!&ndash;修改&ndash;&gt;
+      <update id="updateType" parameterType="com.wqy.modules.shopping.entity.ShType">
+          update sh_type set type_name=#{typeName},mark=#{mark},update_time=#{updateTime} where id=#{id}
+      </update>-->
     <!--&lt;!&ndash;删除&ndash;&gt;
     <delete id="deleteType" parameterType="String">
         delete from sh_type where id=#{id}

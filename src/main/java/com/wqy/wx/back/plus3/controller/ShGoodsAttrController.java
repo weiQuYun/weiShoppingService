@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Api(tags = "商品详情表(手机颜色) 已完成")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shGoodsAttr")
+@RequestMapping(Constant.MAPPING + "/goodsAttr")
 public class ShGoodsAttrController {
     @Autowired
     private IShGoodsAttrService iShGoodsAttrService;
@@ -51,7 +51,7 @@ public class ShGoodsAttrController {
             return "修改失败,必须要有GoodsId";
         } else if (shGoodsAttr.getId().equals("")) {
             return "修改失败,必须要有类型ID";
-        }else if (iShGoodsAttrService.updateShGoodsAttr(shGoodsAttr)) return "修改成功";
+        } else if (iShGoodsAttrService.updateShGoodsAttr(shGoodsAttr)) return "修改成功";
         return "修改失败，不知道为什么";
     }
 

@@ -1,8 +1,9 @@
-package com.wqy.wx.back.plus3.entity;
+package com.wqy.wx.back.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 @ApiModel(value = "滚动条数据")
 @Data
 public class TemporaryMember<T> {

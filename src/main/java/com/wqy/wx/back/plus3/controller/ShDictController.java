@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "字典表接口管理")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shDict")
+@RequestMapping(Constant.MAPPING + "/dict")
 public class ShDictController {
 }

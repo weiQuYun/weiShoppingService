@@ -28,7 +28,7 @@ public class ShRank extends BaseEntity<ShRank> implements Serializable {
      * 自动生成id
      */
     @ApiModelProperty(value = "自动生成id")
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.INPUT)
     @TableField(value = "id", fill = FieldFill.INSERT)
     private Integer id;
     /**

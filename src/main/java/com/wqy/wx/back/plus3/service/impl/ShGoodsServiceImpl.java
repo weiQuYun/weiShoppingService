@@ -41,10 +41,11 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
     private ShCartMapper shCartMapper;
     @Autowired
     private ShAttributeMapper shAttributeMapper;
+
     @Override
     //暂时未有模糊查询之后需求更改
     public List<ShGoods> selectAll(ShGoods shGoods) {
-        if (shGoods.getGoodsName()==null){
+        if (shGoods.getGoodsName() == null) {
             return shGoodsMapper.selectList(null);
         }
         QueryWrapper<ShGoods> queryMrapper = new QueryWrapper<ShGoods>();
@@ -61,7 +62,7 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
         //删除购物车中该商品
         shCartMapper.deleteByShGoodsId(id);
         //这里需要知道这个删除是完全删除了这个商品
-        if (i==1)return true;
+        if (i == 1) return true;
         return false;
     }
 
@@ -72,7 +73,7 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
         String charAndNumr = UUIDUtils.getCharAndNumr();
         shGoods.setId(charAndNumr);
         int insert = shGoodsMapper.insert(shGoods);
-        if (insert==1)return true;
+        if (insert == 1) return true;
         return false;
     }
 
@@ -80,7 +81,7 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
     @Transactional
     public boolean updateShGoods(ShGoods shGoods) {
         int i = shGoodsMapper.updateById(shGoods);
-        if (i==1)return true;
+        if (i == 1) return true;
         return false;
     }
 
@@ -94,7 +95,7 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
 
     @Override
     public boolean updateShGoods(List<ShGoods> list) {
-        if (list.size()>0) {
+        if (list.size() > 0) {
             for (ShGoods shGoods : list) {
                 updateShGoods(shGoods);
             }
@@ -104,7 +105,7 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
 
     @Override
     public boolean insertShGoods(List<ShGoods> list) {
-        if (list.size()>0) {
+        if (list.size() > 0) {
             for (ShGoods shGoods : list) {
                 insertShGoods(shGoods);
             }
@@ -114,7 +115,7 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
 
     @Override
     public boolean deleteGoods(List<String> list) {
-        if (list.size()>0) {
+        if (list.size() > 0) {
             for (String s : list) {
                 deleteGoods(s);
             }
