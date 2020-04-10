@@ -3,6 +3,8 @@ package com.wqy.wx.back.plus3.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wqy.wx.back.plus3.entity.ShGoods;
 
+import java.util.List;
+
 /**
  * <p>
  * 商品表 服务类
@@ -13,4 +15,9 @@ import com.wqy.wx.back.plus3.entity.ShGoods;
  */
 public interface IShGoodsService extends IService<ShGoods> {
 
+    List<ShGoods> selectAll(ShGoods shGoods);
+
+    Boolean deleteGoods(String id);
+
+    Boolean insertShGoods(ShGoods shGoods);
 }
