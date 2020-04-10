@@ -19,9 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShUserSignController {
     @Autowired
     private IShUserSignService shUserSignService;
+
     @GetMapping("/sign")
     @ApiOperation("签到")
-    public Boolean signIn(String userId){
+    public Boolean signIn(String userId) {
         return shUserSignService.signIn(userId);
     }
 }

@@ -31,13 +31,13 @@ public class ShUserSignServiceImpl extends ServiceImpl<ShUserSignMapper, ShUserS
 
     @Override
     public Boolean signIn(String userId) {
-        CheckUtils.isStrBlank(userId,"签到用户");
+        CheckUtils.isStrBlank(userId, "签到用户");
         QueryWrapper<ShUserSign> query = new QueryWrapper<>();
-        query.eq("user_id",userId);
+        query.eq("user_id", userId);
         query.like("sign_in", DateUtil.date2String(new Date()));
         List<ShUserSign> shUserSigns = this.list(query);
-        if(CollectionUtils.isNotEmpty(shUserSigns)){
-            throw  new BizException("您今天已经签到了");
+        if (CollectionUtils.isNotEmpty(shUserSigns)) {
+            throw new BizException("您今天已经签到了");
         }
         ShUserSign shUserSign = new ShUserSign();
         shUserSign.setUserId(userId);

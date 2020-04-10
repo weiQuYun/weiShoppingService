@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wqy.wx.back.plus3.entity.ShMember">
 
+
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.wqy.wx.back.plus3.entity.ShMember">
+    <resultMap id="BaseResultMap" type="com.wqy.wx.back.plus4.entity.ShMember">
         <id column="id" property="id"/>
         <result column="parent_id" property="parentId"/>
         <result column="username" property="username"/>
@@ -14,9 +15,11 @@
         <result column="integral" property="integral"/>
         <result column="integral_change_count" property="integralChangeCount"/>
         <result column="integral_change_rate" property="integralChangeRate"/>
-        <result column="is_leader" property="leader"/>
+        <result column="ifs_leader" property="ifsLeader"/>
         <result column="share_number" property="shareNumber"/>
         <result column="lv_vip" property="lvVip"/>
+        <result column="ifs_captain" property="ifsCaptain"/>
+        <result column="captain_name" property="captainName"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
@@ -34,9 +37,11 @@
         integral,
         integral_change_count,
         integral_change_rate,
-        is_leader,
+        ifs_leader,
         share_number,
         lv_vip,
+        ifs_captain,
+        captain_name,
         create_time,
         update_time
     </sql>

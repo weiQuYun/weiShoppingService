@@ -21,11 +21,12 @@ import java.util.List;
 
 /**
  * 此method动过积分表！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
- * **/
+ **/
 @Service
 public class DistributionServiceImpl implements DistributionService {
     @Autowired
     private ShMemberMapper shMemberMapper;
+
     @Override
     public void toDistribution(ShOrder shOrder) throws Exception {
         //1.获取userID 向上三层循环查询 其查询method抽出查询
@@ -36,11 +37,12 @@ public class DistributionServiceImpl implements DistributionService {
         //传递对象查询方便之后还有使用
 
     }
-    private Object threeSearchMenber(ShMember shMemberOld){
+
+    private Object threeSearchMenber(ShMember shMemberOld) {
         String id = shMemberOld.getId();
-        for (int i = 0; i < 3 ; i++) {
+        for (int i = 0; i < 3; i++) {
             ShMember shMember = shMemberMapper.selectById(id);//通过父ID查询上一层
-            if (shMember==null){
+            if (shMember == null) {
                 //说明没有父ID 直接返回
                 break;
             }

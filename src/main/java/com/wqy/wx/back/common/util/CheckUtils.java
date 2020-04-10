@@ -94,7 +94,7 @@ public class CheckUtils {
             if (!isNum.matches()) {
                 throw new BizException(msg + "格式异常");
             }
-        }else{
+        } else {
             throw new BizException(msg + "数据不能为空");
         }
     }
