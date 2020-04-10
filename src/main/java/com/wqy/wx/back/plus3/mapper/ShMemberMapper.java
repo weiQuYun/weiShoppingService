@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wqy.wx.back.plus3.entity.ShMember;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,4 +18,9 @@ import java.util.List;
 public interface ShMemberMapper extends BaseMapper<ShMember> {
 
 
+    @Select("select * from sh_member where update_time>#{date}")
+    List<ShMember> selectByTime(Date date);
+
+    @Select("select * from sh_member where id = #{parentId}")
+    ShMember selectByParentId(String parentId);
 }
