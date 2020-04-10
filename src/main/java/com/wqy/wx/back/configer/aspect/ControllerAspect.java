@@ -33,7 +33,7 @@ public class ControllerAspect {
     /**
      * 定义请求日志切入点，其切入点表达式有多种匹配方式,这里是指定路径
      */
-    @Pointcut("execution(public * com.wqy.wx.back.plus2.controller.*.*(..))")
+    @Pointcut("execution(public * com.wqy.wx.back.plus3.controller.*.*(..))")
     public void webLogPointcut() {
     }
 

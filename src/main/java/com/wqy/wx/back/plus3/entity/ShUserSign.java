@@ -12,24 +12,24 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author licm
- * @since 2020-04-09
+ * @since 2020-04-10
  */
 @ApiModel(value = "签到表")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShUserSign  implements Serializable {
+public class ShUserSign extends BaseEntity<ShUserSign> implements Serializable {
 
     /**
      * 自增无意义id
      */
     @ApiModelProperty(value = "自增无意义id")
     @TableId(value = "id", type = IdType.AUTO)
-    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "id", fill = FieldFill.INSERT)
     private Integer id;
     /**
      * 用户id
@@ -41,7 +41,7 @@ public class ShUserSign  implements Serializable {
      * 签到时间
      */
     @ApiModelProperty(value = "签到时间")
-    @TableField(value = "sign_in", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime signIn;
+    @TableField(value = "sign_in", fill = FieldFill.INSERT)
+    private Date signIn;
 
 }

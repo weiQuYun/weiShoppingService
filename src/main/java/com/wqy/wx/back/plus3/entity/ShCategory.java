@@ -10,11 +10,11 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author licm
- * @since 2020-04-09
+ * @since 2020-04-10
  */
 @ApiModel(value = "类别表")
 @Data
@@ -26,7 +26,7 @@ public class ShCategory  implements Serializable {
      * 主键
      */
     @ApiModelProperty(value = "主键")
-    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "id", fill = FieldFill.INSERT)
     private String id;
     /**
      * 分类名
@@ -44,11 +44,11 @@ public class ShCategory  implements Serializable {
      * 1-显示 0-不显示
      */
     @ApiModelProperty(value = "1-显示 0-不显示")
-    @TableField(value = "is_show", fill = FieldFill.INSERT_UPDATE)
-    private Integer isShow;
-    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime createTime;
+    @TableField(value = "ifs_show", fill = FieldFill.INSERT_UPDATE)
+    private Integer ifsShow;
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    private Date createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 }

@@ -1,4 +1,4 @@
-package com.wqy.wx.back.plus2.service.impl;
+package com.wqy.wx.back.plus3.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wqy.wx.back.common.Constant;
@@ -10,12 +10,12 @@ import com.wqy.wx.back.configer.Req;
 import com.wqy.wx.back.configer.exception.BizException;
 import com.wqy.wx.back.configer.redis.RedisUtil;
 import com.wqy.wx.back.dto.LoginDto;
-import com.wqy.wx.back.plus2.entity.TMenber;
-import com.wqy.wx.back.plus2.entity.TUser;
-import com.wqy.wx.back.plus2.service.ILoginService;
-import com.wqy.wx.back.plus2.service.ITMenberService;
-import com.wqy.wx.back.plus2.service.ITUserService;
-import com.wqy.wx.back.plus2.service.ITokenService;
+import com.wqy.wx.back.plus3.entity.ShMember;
+import com.wqy.wx.back.plus3.entity.ShUser;
+import com.wqy.wx.back.plus3.service.ILoginService;
+import com.wqy.wx.back.plus3.service.IShMemberService;
+import com.wqy.wx.back.plus3.service.IShUserService;
+import com.wqy.wx.back.plus3.service.ITokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +42,11 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class LoginServiceImpl implements ILoginService {
     @Autowired
-    private ITMenberService itMenberService;
+    private IShMemberService itMenberService;
     @Autowired
     private ITokenService tokenService;
     @Autowired
-    private ITUserService userService;
+    private IShUserService userService;
     @Autowired
     private IGenerator generator;
     @Autowired
@@ -55,9 +55,11 @@ public class LoginServiceImpl implements ILoginService {
     @Override
     public Req vxLogin(String phoneNumber, HttpServletRequest request, HttpServletResponse response) {
         CheckUtils.isStrBlank(phoneNumber, "手机号码", Constant.REGEX_MOBILE);
-        TMenber tMenber = new TMenber();
-        tMenber.setPhoneNumber(phoneNumber);
-        List<TMenber> list = itMenberService.getList(tMenber);
+        ShMember tMenber = new ShMember();
+        tMenber.setPhone(phoneNumber);
+        QueryWrapper<ShMember> queryWrapper = new QueryWrapper<>();
+         queryWrapper.eq("phone",phoneNumber);
+        List<ShMember> list = itMenberService.list(queryWrapper);
         if (CollectionUtils.isNotEmpty(list) && list.size() == 1) {
             tMenber = list.get(0);
             Req vxLoginDto1 = loginReg(request, tMenber.getId());
@@ -66,7 +68,7 @@ public class LoginServiceImpl implements ILoginService {
             retrunData(phoneNumber, request, response, tMenber, req);
             return req;
         } else if (CollectionUtils.isEmpty(list)) {
-            tMenber.setUserName("新用户");
+            tMenber.setUsername("新用户"+System.currentTimeMillis());
             itMenberService.save(tMenber);
             Req req = new Req();
             retrunData(phoneNumber, request, response, tMenber, req);
@@ -86,10 +88,10 @@ public class LoginServiceImpl implements ILoginService {
      * @param tMenber
      * @param req
      */
-    private void retrunData(String phoneNumber, HttpServletRequest request, HttpServletResponse response, TMenber tMenber, Req req) {
+    private void retrunData(String phoneNumber, HttpServletRequest request, HttpServletResponse response, ShMember tMenber, Req req) {
         req.setToken(tokenService.getToken(phoneNumber));
         req.setUserId(tMenber.getId());
-        req.setUserName(tMenber.getUserName());
+        req.setUserName(tMenber.getUsername());
         req.setIp(request.getRemoteAddr());
         redisUtil.set(tMenber.getId(), req, Constant.LOGIN_TIME_OUT, TimeUnit.SECONDS);
         Cookie cookie = new Cookie("token", req.getToken());
@@ -102,10 +104,10 @@ public class LoginServiceImpl implements ILoginService {
         CheckUtils.isObjectBlank(dto, "登陆信息");
         CheckUtils.isStrBlank(dto.getUserName(), "用户名");
         CheckUtils.isStrBlank(dto.getPassword(), "密码");
-        TUser tUser = generator.convert(dto, TUser.class);
-        QueryWrapper<TUser> queryWrapper = new QueryWrapper<>();
+        ShUser tUser = generator.convert(dto, ShUser.class);
+        QueryWrapper<ShUser> queryWrapper = new QueryWrapper<>();
         queryWrapper = ParamUtils.reflect(tUser, queryWrapper);
-        List<TUser> list = userService.list(queryWrapper);
+        List<ShUser> list = userService.list(queryWrapper);
         if (CollectionUtils.isNotEmpty(list) && list.size() == 1) {
             tUser = list.get(0);
             Req vxLoginDto11 = loginReg(request, tUser.getId());
@@ -114,7 +116,7 @@ public class LoginServiceImpl implements ILoginService {
             returnData(request, response, tUser, req);
             return req;
         } else if (CollectionUtils.isEmpty(list)) {
-            userService.insertTUser(tUser);
+            userService.save(tUser);
             Req req = new Req();
             returnData(request, response, tUser, req);
             return req;
@@ -132,10 +134,10 @@ public class LoginServiceImpl implements ILoginService {
      * @param tUser
      * @param req
      */
-    private void returnData(HttpServletRequest request, HttpServletResponse response, TUser tUser, Req req) {
-        req.setToken(tokenService.getToken(tUser.getUserName(), tUser.getPassword()));
+    private void returnData(HttpServletRequest request, HttpServletResponse response, ShUser tUser, Req req) {
+        req.setToken(tokenService.getToken(tUser.getUsername(), tUser.getPassword()));
         req.setUserId(tUser.getId());
-        req.setUserName(tUser.getUserName());
+        req.setUserName(tUser.getUsername());
         req.setIp(request.getRemoteAddr());
         req.setUserType(tUser.getRoleId());
         redisUtil.set(tUser.getId(), req, Constant.LOGIN_TIME_OUT, TimeUnit.SECONDS);

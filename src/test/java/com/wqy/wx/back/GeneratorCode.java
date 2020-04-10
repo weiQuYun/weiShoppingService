@@ -19,7 +19,7 @@ import java.nio.file.Paths;
  * @Explain :
  **/
 public class GeneratorCode {
-    private static String packageName = "com.wqy.wx.back.plus3";
+    private static String packageName = "com.wqy.wx.back.plus4";
     private static String outDir = "E:\\workspace\\weiShoppingService\\src\\main\\java";
     private static String entity = "entity";
     private static String mapper = "mapper";
@@ -44,8 +44,8 @@ public class GeneratorCode {
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = true;
         generateByTables(serviceNameStartWithI, packageName,
-                "sh_attribute","sh_cart","sh_category","sh_coupon","sh_dict","sh_goods","sh_goods_attr","sh_member",
-                "sh_member_sub","sh_order","sh_order_goods","sh_type","sh_user","sh_user_sign","sh_user_sign","sh_vip");
+                "sh_attribute","sh_cart","sh_category","sh_coupon","sh_dict","sh_goods","sh_goods_attr","sh_index",
+                "sh_member","sh_order","sh_order_goods","sh_type","sh_user","sh_user_sign","sh_vip");
     }
 
 

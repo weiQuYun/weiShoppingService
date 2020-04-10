@@ -1,9 +1,9 @@
-package com.wqy.wx.back.plus2.controller;
+package com.wqy.wx.back.plus3.controller;
 
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.configer.Req;
 import com.wqy.wx.back.dto.LoginDto;
-import com.wqy.wx.back.plus2.service.ILoginService;
+import com.wqy.wx.back.plus3.service.ILoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

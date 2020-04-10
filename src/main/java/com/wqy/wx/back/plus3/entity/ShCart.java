@@ -12,11 +12,11 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author licm
- * @since 2020-04-09
+ * @since 2020-04-10
  */
 @ApiModel(value = "购物车表")
 @Data
@@ -29,7 +29,7 @@ public class ShCart  implements Serializable {
      */
     @ApiModelProperty(value = "主键")
     @TableId(value = "id", type = IdType.AUTO)
-    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "id", fill = FieldFill.INSERT)
     private Long id;
     /**
      * 商品id
@@ -60,12 +60,12 @@ public class ShCart  implements Serializable {
      */
     @ApiModelProperty(value = "创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime createTime;
+    private Date createTime;
     /**
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 }

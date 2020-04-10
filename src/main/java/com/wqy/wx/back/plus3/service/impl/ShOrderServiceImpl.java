@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wqy.wx.back.plus3.entity.ShOrder;
 import com.wqy.wx.back.plus3.mapper.ShOrderMapper;
 import com.wqy.wx.back.plus3.service.IShOrderService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
  * @author licm
  * @since 2020-04-09
  */
+@Slf4j
+@Primary
 @Service
 public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> implements IShOrderService {
 

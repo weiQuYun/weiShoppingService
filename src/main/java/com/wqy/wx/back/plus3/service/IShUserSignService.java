@@ -12,5 +12,10 @@ import com.wqy.wx.back.plus3.entity.ShUserSign;
  * @since 2020-04-09
  */
 public interface IShUserSignService extends IService<ShUserSign> {
-
+    /**
+     * 签到
+     * @param userId
+     * @return
+     */
+    Boolean signIn(String userId);
 }

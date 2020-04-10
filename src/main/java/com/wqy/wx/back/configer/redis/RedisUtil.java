@@ -596,5 +596,14 @@ public class RedisUtil {
         }
     }
 
+    /**
+     * 清空库
+     * @return
+     */
+    public long removeAll(){
+        Set<String> str = redisTemplate.keys("*");
+        return redisTemplate.delete(str);
+    }
+
 }
 

@@ -1,4 +1,4 @@
-package com.wqy.wx.back.plus2.service;
+package com.wqy.wx.back.plus3.service;
 
 /**
  * 成都微趣云网络科技有限公司

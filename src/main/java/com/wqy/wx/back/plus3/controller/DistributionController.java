@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "分销上三层")
 @RestController
-@RequestMapping(Constant.MAPPING + "/shAttribute")
+@RequestMapping(Constant.MAPPING + "/distribution")
 public class DistributionController {
     @Autowired
     private DistributionService distributionService;

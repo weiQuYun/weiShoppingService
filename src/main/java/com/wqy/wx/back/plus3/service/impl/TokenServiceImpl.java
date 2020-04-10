@@ -1,8 +1,8 @@
-package com.wqy.wx.back.plus2.service.impl;
+package com.wqy.wx.back.plus3.service.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.wqy.wx.back.plus2.service.ITokenService;
+import com.wqy.wx.back.plus3.service.ITokenService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
