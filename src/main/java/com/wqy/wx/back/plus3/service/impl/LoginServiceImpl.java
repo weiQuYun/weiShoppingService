@@ -58,7 +58,7 @@ public class LoginServiceImpl implements ILoginService {
         ShMember tMenber = new ShMember();
         tMenber.setPhone(phoneNumber);
         QueryWrapper<ShMember> queryWrapper = new QueryWrapper<>();
-         queryWrapper.eq("phone",phoneNumber);
+        queryWrapper.eq("phone", phoneNumber);
         List<ShMember> list = itMenberService.list(queryWrapper);
         if (CollectionUtils.isNotEmpty(list) && list.size() == 1) {
             tMenber = list.get(0);
@@ -70,7 +70,7 @@ public class LoginServiceImpl implements ILoginService {
             retrunData(phoneNumber, request, response, tMenber, req);
             return req;
         } else if (CollectionUtils.isEmpty(list)) {
-            tMenber.setUsername("新用户"+System.currentTimeMillis());
+            tMenber.setUsername("新用户" + System.currentTimeMillis());
             itMenberService.save(tMenber);
             Req req = new Req();
             retrunData(phoneNumber, request, response, tMenber, req);

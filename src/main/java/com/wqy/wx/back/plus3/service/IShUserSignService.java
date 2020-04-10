@@ -14,6 +14,7 @@ import com.wqy.wx.back.plus3.entity.ShUserSign;
 public interface IShUserSignService extends IService<ShUserSign> {
     /**
      * 签到
+     *
      * @param userId
      * @return
      */

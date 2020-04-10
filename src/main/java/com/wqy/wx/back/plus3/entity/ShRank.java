@@ -12,60 +12,54 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author licm
  * @since 2020-04-10
  */
-@ApiModel(value = "购物车表")
+@ApiModel(value = "团队分值排行榜")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShCart implements Serializable {
+public class ShRank extends BaseEntity<ShRank> implements Serializable {
 
     /**
-     * 主键
+     * 自动生成id
      */
-    @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "自动生成id")
     @TableId(value = "id", type = IdType.AUTO)
     @TableField(value = "id", fill = FieldFill.INSERT)
-    private Long id;
+    private Integer id;
     /**
-     * 商品id
+     * 队长id
      */
-    @ApiModelProperty(value = "商品id")
-    @TableField(value = "goods_id", fill = FieldFill.INSERT_UPDATE)
-    private String goodsId;
+    @ApiModelProperty(value = "队长id")
+    @TableField(value = "member_id", fill = FieldFill.INSERT_UPDATE)
+    private String memberId;
     /**
-     * 属性id
+     * 团队名
      */
-    @ApiModelProperty(value = "属性id")
-    @TableField(value = "goods_attr_ids", fill = FieldFill.INSERT_UPDATE)
-    private String goodsAttrIds;
+    @ApiModelProperty(value = "团队名")
+    @TableField(value = "captain_name", fill = FieldFill.INSERT_UPDATE)
+    private String captainName;
     /**
-     * 数量
+     * 成绩分数
      */
-    @ApiModelProperty(value = "数量")
-    @TableField(value = "goods_number", fill = FieldFill.INSERT_UPDATE)
-    private Integer goodsNumber;
-    /**
-     * 用户id
-     */
-    @ApiModelProperty(value = "用户id")
-    @TableField(value = "user_id", fill = FieldFill.INSERT_UPDATE)
-    private String userId;
+    @ApiModelProperty(value = "成绩分数")
+    @TableField(value = "grade", fill = FieldFill.INSERT_UPDATE)
+    private Long grade;
     /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
-    private Date createTime;
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
     /**
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
 }

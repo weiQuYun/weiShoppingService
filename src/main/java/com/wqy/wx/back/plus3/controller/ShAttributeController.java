@@ -17,12 +17,13 @@ public class ShAttributeController {
 
     @PostMapping()
     @ApiOperation("保存")
-    public boolean save(@RequestBody ShAttribute shAttribute){
+    public boolean save(@RequestBody ShAttribute shAttribute) {
         return shAttribute.insert();
     }
+
     @PutMapping()
     @ApiOperation("修改")
-    public boolean update(@RequestBody ShAttribute shAttribute){
+    public boolean update(@RequestBody ShAttribute shAttribute) {
         return shAttribute.updateById();
     }
 }

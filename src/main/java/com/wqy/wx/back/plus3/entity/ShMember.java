@@ -103,6 +103,18 @@ public class ShMember extends BaseEntity<ShMember> implements Serializable {
     @TableField(value = "lv_vip", fill = FieldFill.INSERT_UPDATE)
     private Integer lvVip;
     /**
+     * 是否队长 0 否 1是
+     */
+    @ApiModelProperty(value = "是否队长 0 否 1是")
+    @TableField(value = "ifs_captain", fill = FieldFill.INSERT_UPDATE)
+    private Integer ifsCaptain;
+    /**
+     * 团队名称
+     */
+    @ApiModelProperty(value = "团队名称")
+    @TableField(value = "captain_name", fill = FieldFill.INSERT_UPDATE)
+    private String captainName;
+    /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")

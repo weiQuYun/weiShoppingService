@@ -20,7 +20,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShCategory  implements Serializable {
+public class ShCategory implements Serializable {
 
     /**
      * 主键

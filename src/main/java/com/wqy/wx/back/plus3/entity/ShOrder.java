@@ -23,7 +23,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShOrder  implements Serializable {
+public class ShOrder implements Serializable {
 
     /**
      * 订单id 自增无意义
