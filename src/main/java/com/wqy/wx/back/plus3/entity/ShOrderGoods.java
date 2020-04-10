@@ -13,24 +13,23 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * @author licm
- * @since 2020-04-10
+ * @since 2020-04-09
  */
 @ApiModel(value = "订单商品表")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShOrderGoods  implements Serializable {
+public class ShOrderGoods implements Serializable {
 
     /**
      * 无意义id
      */
     @ApiModelProperty(value = "无意义id")
     @TableId(value = "id", type = IdType.AUTO)
-    @TableField(value = "id", fill = FieldFill.INSERT)
+    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
     private Integer id;
     /**
      * 订单ID UUID
@@ -62,9 +61,5 @@ public class ShOrderGoods  implements Serializable {
     @ApiModelProperty(value = "商品价格")
     @TableField(value = "goods_price", fill = FieldFill.INSERT_UPDATE)
     private BigDecimal goodsPrice;
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private Date createTime;
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
 
 }

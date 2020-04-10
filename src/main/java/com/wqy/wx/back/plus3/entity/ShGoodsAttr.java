@@ -2,7 +2,6 @@ package com.wqy.wx.back.plus3.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.wqy.wx.back.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,24 +11,23 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author licm
- * @since 2020-04-10
+ * @since 2020-04-09
  */
 @ApiModel(value = "商品详情表用于商品页面的商品详情")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShGoodsAttr extends BaseEntity<ShGoodsAttr> implements Serializable {
+public class ShGoodsAttr implements Serializable {
 
     /**
      * UUID
      */
     @ApiModelProperty(value = "UUID")
-    @TableId(value = "id")
-    @TableField(value = "id", fill = FieldFill.INSERT)
+    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
     private String id;
     /**
      * 商品Id
@@ -59,13 +57,13 @@ public class ShGoodsAttr extends BaseEntity<ShGoodsAttr> implements Serializable
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private Date createTime;
+    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime createTime;
     /**
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
 }

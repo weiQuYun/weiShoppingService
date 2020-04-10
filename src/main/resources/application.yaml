@@ -109,9 +109,9 @@ cheat:
 
 #mybatis-plus
 mybatis-plus:
-  mapper-locations: classpath:/com/wqy/wx/back/plus2/mapper/xml/*Mapper.xml
+  mapper-locations: classpath:/com/wqy/wx/back/plus3/mapper/xml/*Mapper.xml
   config-location: classpath:mybatis-config.xml
-  type-aliases-package: com.wqy.wx.back.plus2.entity.**
+  type-aliases-package: com.wqy.wx.back.plus3.entity.**
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false

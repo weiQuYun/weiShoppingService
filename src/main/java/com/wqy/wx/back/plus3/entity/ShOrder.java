@@ -13,24 +13,24 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author licm
- * @since 2020-04-10
+ * @since 2020-04-09
  */
 @ApiModel(value = "订单表")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShOrder  implements Serializable {
+public class ShOrder implements Serializable {
 
     /**
      * 订单id 自增无意义
      */
     @ApiModelProperty(value = "订单id 自增无意义")
     @TableId(value = "id", type = IdType.AUTO)
-    @TableField(value = "id", fill = FieldFill.INSERT)
+    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
     private Integer id;
     /**
      * 订单实际ID UUID
@@ -108,13 +108,13 @@ public class ShOrder  implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private Date createTime;
+    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime createTime;
     /**
      * 修改时间
      */
     @ApiModelProperty(value = "修改时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
 }
