@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * @author licm
  * @since 2020-04-09
  */
-@Api(tags = "属性表接口管理")
+@Api(tags = "属性表接口管理 未使用")
 @RestController
 @RequestMapping(Constant.MAPPING + "/shAttribute")
 public class ShAttributeController {

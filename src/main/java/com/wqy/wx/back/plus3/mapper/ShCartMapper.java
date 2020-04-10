@@ -2,6 +2,7 @@ package com.wqy.wx.back.plus3.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wqy.wx.back.plus3.entity.ShCart;
+import org.apache.ibatis.annotations.Delete;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.wqy.wx.back.plus3.entity.ShCart;
  */
 public interface ShCartMapper extends BaseMapper<ShCart> {
 
+    @Delete("delete from sh_cart where goods_id = #{id}")
+    void deleteByShGoodsId(String id);
 }

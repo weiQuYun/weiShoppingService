@@ -4,6 +4,7 @@ package com.wqy.wx.back.plus3.controller;
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.dto.Result;
 import com.wqy.wx.back.dto.StatusCode;
+import com.wqy.wx.back.plus3.entity.ShGoods;
 import com.wqy.wx.back.plus3.entity.ShIndex;
 import com.wqy.wx.back.plus3.entity.TemporaryMember;
 import com.wqy.wx.back.plus3.service.IShIndexService;
@@ -57,6 +58,12 @@ public class IndexController {
     public List<TemporaryMember> getScroll(){
         List<TemporaryMember> list = iShIndexService.getTemporaryMember();
         return list;
+    }
+
+    @GetMapping("/Goods")
+    @ApiOperation(value = "主页商品展示")
+    public List<ShGoods> getIndexShGoods(){
+        return iShIndexService.getIndexShGoods();
     }
 
 

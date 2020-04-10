@@ -2,6 +2,10 @@ package com.wqy.wx.back.plus3.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wqy.wx.back.plus3.entity.ShGoodsAttr;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,8 @@ import com.wqy.wx.back.plus3.entity.ShGoodsAttr;
  */
 public interface ShGoodsAttrMapper extends BaseMapper<ShGoodsAttr> {
 
+    @Delete("delete from sh_goods_attr where goods_id = #{id}")
+    void deleteByShGoodsId(String id);
+    @Select("select * from sh_goods_attr where goods_id = #{id}")
+    List<ShGoodsAttr> selectByGoodsId(String id);
 }

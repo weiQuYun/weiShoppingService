@@ -1,7 +1,10 @@
 package com.wqy.wx.back.plus3.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wqy.wx.back.plus3.entity.ShGoods;
 import com.wqy.wx.back.plus3.entity.ShGoodsAttr;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,17 @@ import com.wqy.wx.back.plus3.entity.ShGoodsAttr;
  */
 public interface IShGoodsAttrService extends IService<ShGoodsAttr> {
 
+    List<ShGoodsAttr> selectAll(ShGoods shGoods);
+
+    boolean deleteGoodsAttr(String id);
+
+    boolean insertShGoodsAttr(ShGoodsAttr shGoodsAttr);
+
+    boolean updateShGoodsAttr(ShGoodsAttr shGoodsAttr);
+
+    boolean updateShGoodsAttr(List<ShGoodsAttr> list);
+
+    boolean insertShGoodsAttr(List<ShGoodsAttr> list);
+
+    boolean deleteGoodsAttr(List<String> list);
 }
