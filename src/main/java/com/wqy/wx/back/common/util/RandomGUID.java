@@ -96,30 +96,31 @@ public class RandomGUID {
     static Map<Long, Long> kvs = Collections.synchronizedMap(new HashMap<Long, Long>());
 
     // ---------------测试---------------
-    public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            Thread t = new Thread(new Runnable() {
-                public void run() {
-                    // System.out.println( Thread.currentThread().getId());
-                    for (int i = 0; i < 1000; i++) {
-                        long id = RandomGUID.getId();
-                        System.out.println(id);
-                        if (!kvs.containsKey(id)) {
-                            kvs.put(id, id);
-                            // System.out.println(id);
-                        } else {
-                            System.out.println("重复的ID：" + id);
-                        }
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
-            t.start();
-        }
-    }
+//    public static void main(String[] args) {
+//        for (int i = 0; i < 10; i++) {
+//            Thread t = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    // System.out.println( Thread.currentThread().getId());
+//                    for (int i = 0; i < 1000; i++) {
+//                        long id = RandomGUID.getId();
+//                        System.out.println(id);
+//                        if (!kvs.containsKey(id)) {
+//                            kvs.put(id, id);
+//                            // System.out.println(id);
+//                        } else {
+//                            System.out.println("重复的ID：" + id);
+//                        }
+//                        try {
+//                            Thread.sleep(1);
+//                        } catch (InterruptedException e) {
+//                            // TODO Auto-generated catch block
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            });
+//            t.start();
+//        }
+//    }
 }

@@ -79,7 +79,7 @@ public class Constant {
     public static final String LONG2 = "long";
     public static final String FLOAT = "float";
 
-    public static final String defaultDate = DateUtil.dateToString(new Date());
+    public static final String default_date = DateUtil.dateToString(new Date());
     /**
      * 手机号
      */

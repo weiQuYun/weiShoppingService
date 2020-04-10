@@ -63,7 +63,9 @@ public class LoginServiceImpl implements ILoginService {
         if (CollectionUtils.isNotEmpty(list) && list.size() == 1) {
             tMenber = list.get(0);
             Req vxLoginDto1 = loginReg(request, tMenber.getId());
-            if (vxLoginDto1 != null) return vxLoginDto1;
+            if (vxLoginDto1 != null) {
+                return vxLoginDto1;
+            }
             Req req = new Req();
             retrunData(phoneNumber, request, response, tMenber, req);
             return req;
@@ -111,7 +113,9 @@ public class LoginServiceImpl implements ILoginService {
         if (CollectionUtils.isNotEmpty(list) && list.size() == 1) {
             tUser = list.get(0);
             Req vxLoginDto11 = loginReg(request, tUser.getId());
-            if (vxLoginDto11 != null) return vxLoginDto11;
+            if (vxLoginDto11 != null) {
+                return vxLoginDto11;
+            }
             Req req = new Req();
             returnData(request, response, tUser, req);
             return req;

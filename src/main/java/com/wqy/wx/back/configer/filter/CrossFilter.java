@@ -40,7 +40,7 @@ public class CrossFilter implements Filter {
         System.out.println("請求路徑：" + path);
         String token = httpServletRequest.getHeader("token");
         String userId = httpServletRequest.getHeader("userId");
-        if (path.contains(Constant.MAPPING) && !httpServletRequest.getMethod().equals("OPTIONS")) {
+        if (path.contains(Constant.MAPPING) && !"OPTIONS".equals(httpServletRequest.getMethod())) {
             if (StringUtils.isNotEmpty(token) && StringUtils.isNotEmpty(userId)) {
                 Req vxLoginDto1 = (Req) redisUtil.get(userId);
                 if (vxLoginDto1 != null) {
