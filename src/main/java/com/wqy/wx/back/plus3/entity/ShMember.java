@@ -100,7 +100,7 @@ public class ShMember extends BaseEntity<ShMember> implements Serializable {
      * vip等级字段查字典
      */
     @ApiModelProperty(value = "vip等级字段查字典")
-    @TableField(value = "lv_vip", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "lv https://github.com/weiQuYun/weiShoppingService.git _vip", fill = FieldFill.INSERT_UPDATE)
     private Integer lvVip;
     /**
      * 是否队长 0 否 1是
