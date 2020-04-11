@@ -33,6 +33,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     private ShMemberMapper shMemberMapper;
     @Autowired
     private ShVipMapper shVipMapper;
+
     @Override
     @Transactional
     public Boolean addMember(ShMember shMember) {
