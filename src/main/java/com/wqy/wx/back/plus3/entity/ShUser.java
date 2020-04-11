@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShUser  implements Serializable {
+public class ShUser implements Serializable {
 
     /**
      * 唯一IDUUID

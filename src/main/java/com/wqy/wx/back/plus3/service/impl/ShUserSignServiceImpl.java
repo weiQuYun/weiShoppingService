@@ -40,7 +40,7 @@ public class ShUserSignServiceImpl extends ServiceImpl<ShUserSignMapper, ShUserS
         ShMember shMember = new ShMember();
         shMember.setId(userId);
         shMember = shMember.selectById();
-        if (shMember==null){
+        if (shMember == null) {
             throw new BizException("签到账户不存在");
         }
         QueryWrapper<ShUserSign> query = new QueryWrapper<>();
@@ -53,8 +53,8 @@ public class ShUserSignServiceImpl extends ServiceImpl<ShUserSignMapper, ShUserS
         ShUserSign shUserSign = new ShUserSign();
         shUserSign.setUserId(userId);
         //todo 积分+100
-        if(shUserSign.insert()){
-            shMember.setIntegral(shMember.getIntegral()+100L);
+        if (shUserSign.insert()) {
+            shMember.setIntegral(shMember.getIntegral() + 100L);
             shMember.updateById();
         }
         return shUserSign.insert();

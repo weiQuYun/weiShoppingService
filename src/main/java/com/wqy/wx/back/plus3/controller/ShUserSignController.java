@@ -28,6 +28,7 @@ public class ShUserSignController {
     public Boolean signIn(String userId) {
         return shUserSignService.signIn(userId);
     }
+
     @GetMapping("/sign/list")
     @ApiOperation("签到记录")
     public List<ShUserSign> getList(String userId) {

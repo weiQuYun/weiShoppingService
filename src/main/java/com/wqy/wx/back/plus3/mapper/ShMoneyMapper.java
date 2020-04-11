@@ -1,7 +1,7 @@
 package com.wqy.wx.back.plus3.mapper;
 
-import com.wqy.wx.back.plus3.entity.ShMoney;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wqy.wx.back.plus3.entity.ShMoney;
 
 /**
  * <p>

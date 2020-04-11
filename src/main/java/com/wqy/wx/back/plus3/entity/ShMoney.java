@@ -13,15 +13,16 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+
 /**
-* @author licm
-* @since 2020-04-11
-*/
-@ApiModel(value ="钱包")
+ * @author licm
+ * @since 2020-04-11
+ */
+@ApiModel(value = "钱包")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ShMoney  extends BaseEntity<ShMoney> implements Serializable {
+public class ShMoney extends BaseEntity<ShMoney> implements Serializable {
 
     /**
      * 用户id

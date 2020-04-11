@@ -4,13 +4,15 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.wqy.wx.back.plus3.entity.ShMoney">
-        <id column="id" property="id" />
-        <result column="amount" property="amount" />
+        <id column="id" property="id"/>
+        <result column="amount" property="amount"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, amount
+        id
+        ,
+        amount
     </sql>
 
 </mapper>
