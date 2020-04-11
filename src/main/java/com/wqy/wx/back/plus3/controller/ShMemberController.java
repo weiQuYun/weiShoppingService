@@ -28,7 +28,6 @@ public class ShMemberController {
     /**
      * 新增用户
      */
-
     @PostMapping("")
     public Boolean addMember(@RequestBody ShMember shMember) {
         return iShMemberService.addMember(shMember);
