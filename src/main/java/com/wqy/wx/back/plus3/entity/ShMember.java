@@ -88,7 +88,7 @@ public class ShMember extends BaseEntity<ShMember> implements Serializable {
      * 是否是团长
      */
     @ApiModelProperty(value = "是否是团长")
-    @TableField(value = "is_leader", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "ifs_leader", fill = FieldFill.INSERT_UPDATE)
     private Boolean leader;
     /**
      * 下级分销可用数
@@ -100,7 +100,7 @@ public class ShMember extends BaseEntity<ShMember> implements Serializable {
      * vip等级字段查字典
      */
     @ApiModelProperty(value = "vip等级字段查字典")
-    @TableField(value = "lv https://github.com/weiQuYun/weiShoppingService.git _vip", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "lv_vip", fill = FieldFill.INSERT_UPDATE)
     private Integer lvVip;
     /**
      * 是否队长 0 否 1是

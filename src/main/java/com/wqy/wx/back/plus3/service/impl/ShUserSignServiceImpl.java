@@ -57,7 +57,7 @@ public class ShUserSignServiceImpl extends ServiceImpl<ShUserSignMapper, ShUserS
             shMember.setIntegral(shMember.getIntegral() + 100L);
             shMember.updateById();
         }
-        return shUserSign.insert();
+        return true;
     }
 
     @Override

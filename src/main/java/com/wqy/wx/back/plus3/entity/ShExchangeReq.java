@@ -30,8 +30,14 @@ public class ShExchangeReq extends BaseEntity<ShExchangeReq> implements Serializ
      */
     @ApiModelProperty(value = "自动主键")
     @TableId(value = "id", type = IdType.AUTO)
-    @TableField(value = "id", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "id", fill = FieldFill.INSERT)
     private Long id;
+    /**
+     * 手机号
+     */
+    @ApiModelProperty(value = "手机号")
+    @TableField(value = "phone", fill = FieldFill.INSERT_UPDATE)
+    private String phone;
     /**
      * 用户id
      */
@@ -50,9 +56,10 @@ public class ShExchangeReq extends BaseEntity<ShExchangeReq> implements Serializ
     @ApiModelProperty(value = "申请状态  0 未处理 1 已受理")
     @TableField(value = "status", fill = FieldFill.INSERT_UPDATE)
     private Integer status;
-    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
+
 
 }
