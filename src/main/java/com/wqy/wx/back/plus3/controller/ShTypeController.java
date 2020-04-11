@@ -14,7 +14,7 @@ import java.util.List;
  * @author licm
  * @since 2020-04-09
  */
-@Api(tags = "分类表接口管理")
+@Api(tags = "分类表接口管理 已完成")
 @RestController
 @RequestMapping(Constant.MAPPING + "/type")
 public class ShTypeController {

@@ -18,4 +18,7 @@ public interface ShGoodsMapper extends BaseMapper<ShGoods> {
 
     @Select("select * from sh_goods where type_id = #{id}")
     List<ShGoods> selectByIndex(String id);
+
+    @Select("select * from sh_goods where is_hot = 1")
+    List<ShGoods> selectByIsHot();
 }

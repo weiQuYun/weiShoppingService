@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -115,5 +116,13 @@ public class ShOrder implements Serializable {
     @ApiModelProperty(value = "修改时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+
+
+    @ApiModelProperty(value = "商品表")
+    @TableField(exist = false)
+    private ShGoods shGoods;
+    @ApiModelProperty(value = "商品属性表")
+    @TableField(exist = false)
+    private ShGoodsAttr shGoodsAttr;
 
 }

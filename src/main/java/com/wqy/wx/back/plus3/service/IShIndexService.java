@@ -14,4 +14,6 @@ public interface IShIndexService {
     List<TemporaryMember> getTemporaryMember();
 
     List<ShGoods> getIndexShGoods();
+
+    List<ShGoods> getIndexHotShGoods();
 }

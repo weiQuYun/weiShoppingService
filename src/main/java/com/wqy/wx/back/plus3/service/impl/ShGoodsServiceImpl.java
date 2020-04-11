@@ -7,6 +7,7 @@ import com.wqy.wx.back.common.util.ParamUtils;
 import com.wqy.wx.back.common.util.UUIDUtils;
 import com.wqy.wx.back.common.util.page.PageDTO;
 import com.wqy.wx.back.plus3.entity.ShGoods;
+import com.wqy.wx.back.plus3.entity.ShGoodsAttr;
 import com.wqy.wx.back.plus3.mapper.ShAttributeMapper;
 import com.wqy.wx.back.plus3.mapper.ShCartMapper;
 import com.wqy.wx.back.plus3.mapper.ShGoodsAttrMapper;
@@ -58,7 +59,7 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
     public Boolean deleteGoods(String id) {
         int i = shGoodsMapper.deleteById(id);
         //删除商品详情表
-        shGoodsAttrMapper.deleteByShGoodsId(id);
+        //shGoodsAttrMapper.deleteByShGoodsId(id);
         //删除购物车中该商品
         shCartMapper.deleteByShGoodsId(id);
         //这里需要知道这个删除是完全删除了这个商品
@@ -73,6 +74,14 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
         String charAndNumr = UUIDUtils.getCharAndNumr();
         shGoods.setId(charAndNumr);
         int insert = shGoodsMapper.insert(shGoods);
+        //这里新增了一个商品 在为她默认生成一张属性表
+        ShGoodsAttr shGoodsAttr = new ShGoodsAttr();
+        shGoodsAttr.setId(UUIDUtils.getCharAndNumr());
+        shGoodsAttr.setGoodsId(charAndNumr);
+        shGoodsAttr.setAttrValue(shGoods.getGoodsName());
+        shGoodsAttr.setAttrPrice(shGoods.getGoodsPrice());
+        shGoodsAttr.setAttrId(UUIDUtils.getCharAndNumr());
+        shGoodsAttrMapper.insert(shGoodsAttr);
         if (insert == 1) return true;
         return false;
     }

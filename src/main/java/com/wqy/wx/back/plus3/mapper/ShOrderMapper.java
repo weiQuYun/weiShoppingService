@@ -2,6 +2,7 @@ package com.wqy.wx.back.plus3.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wqy.wx.back.plus3.entity.ShOrder;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.wqy.wx.back.plus3.entity.ShOrder;
  */
 public interface ShOrderMapper extends BaseMapper<ShOrder> {
 
+    @Select("select * from sh_order where order_id = #{id}")
+    ShOrder selectByOrderId(String id);
 }

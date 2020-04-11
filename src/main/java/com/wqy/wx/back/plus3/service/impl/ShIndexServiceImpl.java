@@ -92,4 +92,9 @@ public class ShIndexServiceImpl implements IShIndexService {
     public List<ShGoods> getIndexShGoods() {
         return shGoodsMapper.selectByIndex("indexshgoods");
     }
+
+    @Override
+    public List<ShGoods> getIndexHotShGoods() {
+        return shGoodsMapper.selectByIsHot();
+    }
 }

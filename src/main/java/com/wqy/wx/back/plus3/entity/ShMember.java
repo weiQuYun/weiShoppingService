@@ -89,7 +89,8 @@ public class ShMember extends BaseEntity<ShMember> implements Serializable {
      */
     @ApiModelProperty(value = "是否是团长")
     @TableField(value = "ifs_leader", fill = FieldFill.INSERT_UPDATE)
-    private Boolean leader;
+    private Boolean ifsLeader;
+
     /**
      * 下级分销可用数
      */

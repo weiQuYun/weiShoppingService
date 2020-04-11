@@ -68,5 +68,11 @@ public class IndexController {
         return iShIndexService.getIndexShGoods();
     }
 
+    @GetMapping("/hotGoods")
+    @ApiOperation(value = "首页热销接口")
+    public List<ShGoods> getIndexHotShGoods(){
+        return iShIndexService.getIndexHotShGoods();
+    }
+
 
 }

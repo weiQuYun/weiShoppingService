@@ -12,6 +12,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author licm
@@ -109,8 +110,8 @@ public class ShGoods implements Serializable {
     @TableField(value = "goods_desc", fill = FieldFill.INSERT_UPDATE)
     private String goodsDesc;
     @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime createTime;
+    private Date createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 }

@@ -1,7 +1,10 @@
 package com.wqy.wx.back.plus3.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wqy.wx.back.plus3.entity.ShCart;
 import com.wqy.wx.back.plus3.entity.ShOrder;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.wqy.wx.back.plus3.entity.ShOrder;
  */
 public interface IShOrderService extends IService<ShOrder> {
 
+    ShOrder insertShOrder(ShCart shCart);
+
+    String updateShOrder(ShOrder shOrder);
+
+    ShOrder selectByShOrderId(String id);
 }
