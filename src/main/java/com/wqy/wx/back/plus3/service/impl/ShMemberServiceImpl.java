@@ -78,6 +78,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         shMemberMapper.addVipMember(lvVip, id);
         ShMember shMember1 = shMemberMapper.selectByid(id);
         //查找该vip等级的金额好返点
+        //===================
         ShVip shVip = shVipMapper.selectLevel(lvVip);
         Integer vipPrice = shVip.getVipPrice();
         if (vipPrice == null || vipPrice == 0) {
