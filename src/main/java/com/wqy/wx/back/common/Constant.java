@@ -95,4 +95,8 @@ public class Constant {
      * vip返点 30
      */
     public static final Long REBATES = 30L;
+    /**
+     * 高级vip返点上上级，上上上级  10
+     */
+    public static final Long REBATES_UP=10L;
 }

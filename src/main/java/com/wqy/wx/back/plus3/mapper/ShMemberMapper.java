@@ -23,7 +23,7 @@ public interface ShMemberMapper extends BaseMapper<ShMember> {
      *
      * @param shMember
      */
-    @Insert("INSERT INTO sh_member( id,parent_id,username,password,email,phone,openid,integral,integral_change_count,integral_change_rate,ifs_captain,share_number,Lv_vip,create_time)  VALUES   ( #{id},#{parentId},#{username},#{password},#{email},#{phone},#{openid},#{integral},#{integralChangeCount},#{integralChangeRate},#{ifsCaptain},#{shareNumber},#{lvVip},#{createTime})")
+    @Insert("INSERT INTO sh_member( id,parent_id,username,password,email,phone,openid,integral,integral_change_count,integral_change_rate,ifs_captain,share_number,create_time)  VALUES   ( #{id},#{parentId},#{username},#{password},#{email},#{phone},#{openid},#{integral},#{integralChangeCount},#{integralChangeRate},#{ifsCaptain},#{shareNumber},#{createTime})")
     void addMember(ShMember shMember);
 
     /**
@@ -39,9 +39,9 @@ public interface ShMemberMapper extends BaseMapper<ShMember> {
     void rebatesIntegral(Long integral, String id);
 
     /**
-     * 推荐成功后增加上级500积分,可推荐次数减一
+     * 推荐成功后增加上级990积分,可推荐次数减一
      */
-    @Update("update sh_member set integral=integral+500,share_number=share_number-1 where id=#{id}")
+    @Update("update sh_member set integral=integral+990 where id=#{id}")
     void updateIntegral(String id);
 
     /**

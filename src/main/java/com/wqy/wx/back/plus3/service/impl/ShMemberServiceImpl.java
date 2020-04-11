@@ -39,9 +39,9 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     public Boolean addMember(ShMember shMember) {
         if (!StringUtils.isEmpty(shMember.getParentId())) { //先判断他有没有上级，如果有进判断，如果没有直接添加设置为团长
             ShMember shMember1 = shMemberMapper.selectByParentId(shMember.getParentId());
-            if (shMember1.getShareNumber() == null || shMember1.getShareNumber() == 0) { //判断是否有推荐次数，没有就返回false，直接不添加
+            if (shMember1.getLvVip()==0) { //判断是否是vip
                 return false;
-            } else { //如果有推荐次数，就添加
+            } else { //如果是vip就添加
                 String uuid = UUIDUtils.getCharAndNumr();
                 shMember.setId(uuid);
                 Date date = new Date();
@@ -61,7 +61,6 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             shMember.setIfsCaptain(1);
             String parentId = shMember.getParentId();
             shMemberMapper.addMember(shMember);
-            shMemberMapper.updateIntegral(parentId);
             return true;
         }
     }
@@ -75,33 +74,74 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     @Override
     @Transactional
     public void addVipMember(Integer lvVip, String id) {
+        //添加vip
         shMemberMapper.addVipMember(lvVip, id);
+        //根据id查找这个用户
         ShMember shMember1 = shMemberMapper.selectByid(id);
+        //查询上级id
+        String parentId = shMember1.getParentId();
+
         //查找该vip等级的金额好返点
         //===================
         ShVip shVip = shVipMapper.selectLevel(lvVip);
+        float num = (float) Constant.REBATES / 100;
+        float num2=(float) Constant.REBATES_UP/100;
+        //查询vip价格
         Integer vipPrice = shVip.getVipPrice();
         if (vipPrice == null || vipPrice == 0) {
             vipPrice = 0;
 
         }
-        float num = (float) Constant.REBATES / 100;
-        int price = vipPrice.intValue();
-        float v = price * num;
-        int i = (int) v;
-        Integer integral = new Integer(i);
-        // System.out.println(integral);
-        //查询他的上级 一层
-        ShMember shMember = shMemberMapper.selectByParentId(shMember1.getParentId());
-        Long integral1 = shMember.getIntegral();
-        //System.out.println("=============");
-        //System.out.println(integral);
-        Long integrals = integral + integral1;
-        System.out.println(integral);
-        String id1 = shMember.getId();
-        System.out.println(id1);
-        System.out.println(shMember.getIntegral());
-        this.rebatesIntegral(integrals, id1);
+        //查询vip等级，好进行不同返点
+        Integer vipLevel = shVip.getVipLevel();
+        if (vipLevel==1){
+            if (parentId==null){
+                return;
+            }else {
+                ShMember shMember2 = shMemberMapper.selectByid(parentId);
+                Long integral = shMember2.getIntegral();
+                Long fist = this.fist(integral, num, vipPrice);
+                this.rebatesIntegral(fist,parentId);
+            }
+        }else if (vipLevel==2){
+            if (parentId==null){
+                return;
+            }
+            //查询上级
+            ShMember shMember = shMemberMapper.selectByid(parentId);
+            //查询他的上上级的id
+            String parentId2 = shMember.getParentId();
+            ShMember shMember3 = shMemberMapper.selectByid(parentId2);
+          //  String parentId3 = shMember3.getParentId();
+            System.out.println("==============================");
+            System.out.println(shMember3.getParentId());
+            System.out.println(shMember3==null);
+            if (parentId==null){
+                return;
+            }else if (parentId!=null && parentId2==null && shMemberMapper.selectByid(parentId2).getParentId()==null){ //只有一层
+                ShMember shMember2 = shMemberMapper.selectByid(parentId);
+                Long integral = shMember2.getIntegral();
+                Long fist = this.fist(integral, num, vipPrice);
+                this.rebatesIntegral(fist,parentId);
+            }else if (parentId!=null && parentId2!=null && shMemberMapper.selectByid(parentId2).getParentId()==null){ //有两层
+                ShMember shMember2 = shMemberMapper.selectByid(parentId2);
+                Long integral = shMember2.getIntegral();
+                Long fist = this.fist(integral, num, vipPrice);
+                Long second=this.fist(integral,num2,vipPrice);
+                this.rebatesIntegral(fist,parentId);
+                this.rebatesIntegral(second,parentId2);
+            }else if (parentId!=null && parentId2!=null && shMemberMapper.selectByid(parentId2).getParentId()!=null){ //有三层
+                String parentId4 = shMemberMapper.selectByid(parentId2).getParentId();
+                ShMember shMember2 = shMemberMapper.selectByid(parentId2);
+                Long integral = shMember2.getIntegral();
+                Long fist = this.fist(integral, num, vipPrice);
+                Long second=this.fist(integral,num2,vipPrice);
+                this.rebatesIntegral(fist,parentId);
+                this.rebatesIntegral(second,parentId2);
+                this.rebatesIntegral(second,parentId4);
+
+            }
+        }
 
     }
 
@@ -122,5 +162,24 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         shMemberMapper.rebatesIntegral(integral, id);
     }
 
+    /**
+     * 计算折算后的积分
+     * @param integral  积分
+     * @param num  百分率
+     * @param vipPrice  vip价格
+     * @return
+     */
+    public Long fist(Long integral,float num,Integer vipPrice){
+        int price = vipPrice.intValue();
+        float v = price * num;
+        int i = (int) v;
+        Integer integral1 = new Integer(i);
+        //System.out.println("=============");
+        Long integrals = integral + integral1;
+        //System.out.println(integral);
+        // System.out.println(id1);
+        // System.out.println(shMember.getIntegral());
+        return integrals;
+        }
 
 }
