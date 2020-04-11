@@ -94,7 +94,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         ShMember shMember = shMemberMapper.selectByParentId(shMember1.getParentId());
         Long integral1 = shMember.getIntegral();
         //System.out.println("=============");
-        // System.out.println(integral);
+        //System.out.println(integral);
         Long integrals = integral + integral1;
         System.out.println(integral);
         String id1 = shMember.getId();
