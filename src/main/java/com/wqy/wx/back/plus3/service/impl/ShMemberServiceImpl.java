@@ -54,6 +54,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                 String parentId = shMember.getParentId();
                 shMemberMapper.addMember(shMember);
                 shMemberMapper.updateIntegral(parentId);
+                //添加完毕后添加他个人的钱包，钱包金额设置为0
                 shMoney.setAmount(new BigDecimal(0));
                 shMoney.setId(shMember.getId());
                 shMoneyMapper.insert(shMoney);
@@ -69,6 +70,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             shMember.setIfsCaptain(1);
             String parentId = shMember.getParentId();
             shMemberMapper.addMember(shMember);
+            //添加完毕后添加他个人的钱包，钱包金额设置为0
             shMoney.setAmount(new BigDecimal(0));
             shMoney.setId(shMember.getId());
             shMoneyMapper.insert(shMoney);
@@ -110,17 +112,22 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         //是不是一级会员
         if (vipLevel==1){
             //判断有没有上级
-            if (parentId==null){
+            if (StringUtils.isEmpty(parentId)){
                 return;
             }else {
                 ShMember shMember2 = shMemberMapper.selectByid(parentId);
-                Long integral = shMember2.getIntegral();
+                Long integral = null;
+                if (shMember2.getIntegral()==null){
+                    integral=0l;
+                }else{
+                    integral=shMember2.getIntegral();
+                }
                 Long fist = this.fist(integral, num, vipPrice);
                 this.rebatesIntegral(fist,parentId);
             }
             //二级会员进这个判断
         }else if (vipLevel==2){
-            if (parentId==null){
+            if (StringUtils.isEmpty(parentId)){ //如果上级为空
                 return;
             }
             //查询上级
@@ -130,23 +137,23 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             ShMember shMember3 = shMemberMapper.selectByid(parentId2);
           //  String parentId3 = shMember3.getParentId();
             //System.out.println("==============================");
-            //System.out.println(shMember3.getParentId());
+            System.out.println(shMember3==null);
             //System.out.println(shMember3==null);
-            if (parentId==null){
+            if (StringUtils.isEmpty(parentId)){
                 return;
-            }else if (parentId!=null && parentId2==null && shMemberMapper.selectByid(parentId2).getParentId()==null){ //只有一层
+            }else if (!StringUtils.isEmpty(parentId) && StringUtils.isEmpty(parentId2) && shMember3==null){ //只有一层
                 ShMember shMember2 = shMemberMapper.selectByid(parentId);
                 Long integral = shMember2.getIntegral();
                 Long fist = this.fist(integral, num, vipPrice);
                 this.rebatesIntegral(fist,parentId);
-            }else if (parentId!=null && parentId2!=null && shMemberMapper.selectByid(parentId2).getParentId()==null){ //有两层
+            }else if (!StringUtils.isEmpty(parentId) && !StringUtils.isEmpty(parentId2) && shMember3==null){ //有两层
                 ShMember shMember2 = shMemberMapper.selectByid(parentId2);
                 Long integral = shMember2.getIntegral();
                 Long fist = this.fist(integral, num, vipPrice);
                 Long second=this.fist(integral,num2,vipPrice);
                 this.rebatesIntegral(fist,parentId);
                 this.rebatesIntegral(second,parentId2);
-            }else if (parentId!=null && parentId2!=null && shMemberMapper.selectByid(parentId2).getParentId()!=null){ //有三层
+            }else if (!StringUtils.isEmpty(parentId) && !StringUtils.isEmpty(parentId2) && shMember3!=null){ //有三层
                 String parentId4 = shMemberMapper.selectByid(parentId2).getParentId();
                 ShMember shMember2 = shMemberMapper.selectByid(parentId2);
                 Long integral = shMember2.getIntegral();
