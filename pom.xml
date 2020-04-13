@@ -292,6 +292,10 @@
             <artifactId>converter-gson</artifactId>
             <version>2.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
         <!--string<->对象-->
     </dependencies>
 

@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.common.util.UUIDUtils;
 import com.wqy.wx.back.plus3.entity.ShMember;
+import com.wqy.wx.back.plus3.entity.ShMoney;
 import com.wqy.wx.back.plus3.entity.ShVip;
 import com.wqy.wx.back.plus3.mapper.ShMemberMapper;
+import com.wqy.wx.back.plus3.mapper.ShMoneyMapper;
 import com.wqy.wx.back.plus3.mapper.ShVipMapper;
 import com.wqy.wx.back.plus3.service.IShMemberService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -33,12 +36,14 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     private ShMemberMapper shMemberMapper;
     @Autowired
     private ShVipMapper shVipMapper;
-
+    @Autowired
+    private ShMoneyMapper shMoneyMapper;
+    ShMoney shMoney=new ShMoney();
     @Override
     @Transactional
     public Boolean addMember(ShMember shMember) {
         if (!StringUtils.isEmpty(shMember.getParentId())) { //先判断他有没有上级，如果有进判断，如果没有直接添加设置为团长
-            ShMember shMember1 = shMemberMapper.selectByParentId(shMember.getParentId());
+            ShMember shMember1 = shMemberMapper.selectByParentId(shMember.getParentId());//获取他的上级
             if (shMember1.getLvVip()==0) { //判断是否是vip
                 return false;
             } else { //如果是vip就添加
@@ -49,6 +54,9 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                 String parentId = shMember.getParentId();
                 shMemberMapper.addMember(shMember);
                 shMemberMapper.updateIntegral(parentId);
+                shMoney.setAmount(new BigDecimal(0));
+                shMoney.setId(shMember.getId());
+                shMoneyMapper.insert(shMoney);
                 return true;
 
             }
@@ -61,6 +69,9 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             shMember.setIfsCaptain(1);
             String parentId = shMember.getParentId();
             shMemberMapper.addMember(shMember);
+            shMoney.setAmount(new BigDecimal(0));
+            shMoney.setId(shMember.getId());
+            shMoneyMapper.insert(shMoney);
             return true;
         }
     }
@@ -84,7 +95,9 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         //查找该vip等级的金额好返点
         //===================
         ShVip shVip = shVipMapper.selectLevel(lvVip);
+        //百分之30
         float num = (float) Constant.REBATES / 100;
+        //百分之10
         float num2=(float) Constant.REBATES_UP/100;
         //查询vip价格
         Integer vipPrice = shVip.getVipPrice();
@@ -94,7 +107,9 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         }
         //查询vip等级，好进行不同返点
         Integer vipLevel = shVip.getVipLevel();
+        //是不是一级会员
         if (vipLevel==1){
+            //判断有没有上级
             if (parentId==null){
                 return;
             }else {
@@ -103,6 +118,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                 Long fist = this.fist(integral, num, vipPrice);
                 this.rebatesIntegral(fist,parentId);
             }
+            //二级会员进这个判断
         }else if (vipLevel==2){
             if (parentId==null){
                 return;
@@ -113,9 +129,9 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             String parentId2 = shMember.getParentId();
             ShMember shMember3 = shMemberMapper.selectByid(parentId2);
           //  String parentId3 = shMember3.getParentId();
-            System.out.println("==============================");
-            System.out.println(shMember3.getParentId());
-            System.out.println(shMember3==null);
+            //System.out.println("==============================");
+            //System.out.println(shMember3.getParentId());
+            //System.out.println(shMember3==null);
             if (parentId==null){
                 return;
             }else if (parentId!=null && parentId2==null && shMemberMapper.selectByid(parentId2).getParentId()==null){ //只有一层
