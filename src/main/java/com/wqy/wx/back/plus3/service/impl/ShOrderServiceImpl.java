@@ -36,6 +36,10 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
     private ShMemberMapper shMemberMapper;
     @Autowired
     private ShVipMapper shVipMapper;
+    @Autowired
+    private ShMoneyMapper shMoneyMapper;
+    @Autowired
+    private ShCartMapper shCartMapper;
     @Override
     public ShOrder insertShOrder(ShCart shCart) {
         //如果你要下订单就必须给我一个购物车对象 其中有 1. 什么商品 2. 是什么颜色的手机
@@ -51,6 +55,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
         if (shCart.getGoodsNumber().equals("")) {
             return null;
         }
+
 //        所有属性已经存在 生成订单
 //        1.生成唯一的订单ID 此ID 赋予订单详情用于查询具体商品
         String orderUUID = UUIDUtils.getCharAndNumr();
@@ -66,7 +71,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
         shOrder.setSendStatus(0);
         //设置支付返回码状态
         shOrder.setAliOrderId("");
-        //已经生成了一个订单 返回给前端填写剩下的数据
+        //已经生成了一个订单 返回给前端填写剩下的数
         //生成订单详情页面 已经保证所有商品均为商品属性表的值 所以直接调用商品属性表即可获取这个商品的价格及他
         String goodsAttrIds = shCart.getGoodsAttrIds();
         //1.如果不是会员 7折加上30%签到积分返还
@@ -80,55 +85,112 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
         ShGoods shGoods = shGoodsMapper.selectById(shCart.getGoodsId());
         shOrder.setShGoods(shGoods);
         shOrder.setShGoodsAttr(shGoodsAttr);
+        shCartMapper.insert(shCart);
         return shOrder;
     }
 
     @Override
-    public String updateShOrder(ShOrder shOrder) {
+    public Boolean updateShOrder(ShOrder shOrder) {
         //这里是正式下单或者修改订单 都需要保存订单
         ShMember shMember = shMemberMapper.selectById(shOrder.getMemberId());
-        if (shOrder.getAliOrderId().equals("")) {
+        if (shOrder.getPayStatus()==1) {
             //已经下单支付这是增加物流之类的 此处要增加返还积分及其其他的上积分情况
             if (shMember.getLvVip()==0){
                 //1.不是会员直接返还积分
                 BigDecimal totalPrice = shOrder.getTotalPrice();
-                BigDecimal subtract = totalPrice.divide(new BigDecimal(0.7)).subtract(totalPrice);//这就是需要的积分
+                BigDecimal subtract = totalPrice.divide(new BigDecimal(0.7),BigDecimal.ROUND_HALF_UP).subtract(totalPrice);//这就是需要的积分
                 int i = subtract.intValue();//这是需要的积分
                 shMember.setIntegral(shMember.getIntegral()-i);
-                return "下单成功";
+                shMemberMapper.updateById(shMember);//这里改变了用户签到积分！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+                shOrderMapper.insert(shOrder);//保存订单！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+                return true;
             }
             //2.购买够10次了 清除所有连锁
             if (shMember.getIntegralChangeRate()>10){
                 shMember.setParentId("");
                 shMember.setIntegralChangeRate(shMember.getIntegralChangeRate()+1);//购买次数+1
+                shMemberMapper.updateById(shMember);//保存用户下单数据 这里改变了用户购买次数！！！！！！！！！！！！！！！！！！！！！！！！！！！
+                shOrderMapper.insert(shOrder);//保存订单！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+                return true;
             }
             //3.没有购买够10次进行分红
             if (shMember.getIntegralChangeRate()<=10){
                 //提出三层分红method
-                shareMoney(shOrder);
+                shareMoney(shOrder);//三层分红完毕
+                shMember.setIntegralChangeRate(shMember.getIntegralChangeRate()+1);
+                shMemberMapper.updateById(shMember);//保存用户下单数据 这里改变了用户购买次数！！！！！！！！！！！！！！！！！！！！！！！！！！！
+                shOrderMapper.insert(shOrder);//保存数据
+                return true;
             }
-            return ";";
-
-
-        }else {
+            return false;
+        }else if(shOrder.getPayStatus()==2){
+            //钱包钱够 不通过微信支付
+            if (shMember.getIntegralChangeRate()>10){
+                shMember.setParentId("");
+                shMember.setIntegralChangeRate(shMember.getIntegralChangeRate()+1);//购买次数+1
+                BigDecimal totalPrice = shOrder.getTotalPrice();
+                ShMoney shMoney = shMoneyMapper.selectById(shMember.getId());
+                shMoney.setAmount(shMoney.getAmount().subtract(totalPrice));//这里对用户钱包进行了更改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+                shMoneyMapper.updateById(shMoney);
+                shMemberMapper.updateById(shMember);//保存用户下单数据 这里改变了用户购买次数！！！！！！！！！！！！！！！！！！！！！！！！！！！
+                shOrderMapper.insert(shOrder);//保存订单！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+                return true;
+            }
+            //3.没有购买够10次进行分红
+            if (shMember.getIntegralChangeRate()<=10){
+                //提出三层分红method
+                shareMoney(shOrder);//三层分红完毕
+                shMember.setIntegralChangeRate(shMember.getIntegralChangeRate()+1);
+                BigDecimal totalPrice = shOrder.getTotalPrice();
+                ShMoney shMoney = shMoneyMapper.selectById(shMember.getId());
+                shMoney.setAmount(shMoney.getAmount().subtract(totalPrice));//这里对用户钱包进行了更改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+                shMoneyMapper.updateById(shMoney);
+                shMemberMapper.updateById(shMember);//保存用户下单数据 这里改变了用户购买次数！！！！！！！！！！！！！！！！！！！！！！！！！！！
+                shOrderMapper.insert(shOrder);//保存数据
+                return true;
+            }
+        }
+        else {
             //这是没给钱正式下单即修改订单 只是修改订单没有产生积分变化
+            if (!updateResources(shOrder)) {
+                return false;
+            }
             if (shMember.getLvVip()==0){
                 //1.不是会员直接返还积分
                 BigDecimal totalPrice = shOrder.getTotalPrice();
-                BigDecimal subtract = totalPrice.divide(new BigDecimal(0.7)).subtract(totalPrice);//这就是需要的积分
+                BigDecimal subtract = totalPrice.divide(new BigDecimal(0.7),BigDecimal.ROUND_HALF_UP);//这就是需要的积分
+                subtract = subtract.multiply(new BigDecimal(0.3));
                 int i = subtract.intValue();//这是需要的积分
                 if (shMember.getIntegral()-i>0){
                     //积分够得可以购买
                     shOrderMapper.insert(shOrder);
-                    return "订单生成成功";
+                    return true;
                 }else {
                     //积分不够
-                    return "积分不够不能购买";
+                    return false;
                 }
             }
             shOrderMapper.insert(shOrder);
-            return "订单生成成功";
+            return true;
         }
+        return false;
+    }
+
+    /**
+     * 库存管理
+     * **/
+    private Boolean updateResources(ShOrder shOrder) {
+        String memberId = shOrder.getMemberId();//获取会员ID
+        ShCart shCart = shCartMapper.selectByMemberId(memberId);
+        String goodsId = shCart.getGoodsId();
+        Integer goodsNumber = shCart.getGoodsNumber();
+        ShGoods shGoods = shGoodsMapper.selectById(goodsId);
+        if (shGoods.getGoodsNumber()-goodsNumber>=0) {
+            shGoods.setGoodsNumber(shGoods.getGoodsNumber()-goodsNumber);
+            shGoodsMapper.updateById(shGoods);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -144,21 +206,34 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
         }
             ShMember shMember1 = shMemberMapper.selectById(parentId);//一层用户
         BigDecimal totalPrice = shOrder.getTotalPrice();
-        BigDecimal multiply = totalPrice.divide(new BigDecimal(0.7)).multiply(new BigDecimal(0.1));//这是一层分红10%
+        BigDecimal multiply = totalPrice.divide(new BigDecimal(0.7),BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(0.1));//这是一层分红10%
+
+        //获取该用户的钱包
+        ShMoney shMoney = shMoneyMapper.selectById(shMember1.getId());
+        shMoney.setAmount(shMoney.getAmount().add(multiply));
+        shMoneyMapper.updateById(shMoney);
         if (shMember1.getParentId().equals("")) {
             //没有父ID 直接不分了
             return true;
         }
+
         //这个地方是增加钱
         ShMember shMember2 = shMemberMapper.selectById(shMember1.getParentId());//二层用户
-        BigDecimal multiply1 = totalPrice.divide(new BigDecimal(0.7)).multiply(new BigDecimal(0.05));//这是一层分红10%
+        BigDecimal multiply1 = totalPrice.divide(new BigDecimal(0.7),BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(0.05));//这是一层分红10%
+
+        ShMoney shMoney1 = shMoneyMapper.selectById(shMember2.getId());
+        shMoney.setAmount(shMoney.getAmount().add(multiply1));
+        shMoneyMapper.updateById(shMoney1);
         if (shMember2.getParentId().equals("")) {
             //没有父ID 直接不分了
             return true;
         }
         //这个地方是增加钱
         ShMember shMember3 = shMemberMapper.selectById(shMember2.getParentId());//三层用户
-        BigDecimal multiply2 = totalPrice.divide(new BigDecimal(0.7)).multiply(new BigDecimal(0.05));//这是一层分红10%
+        BigDecimal multiply2 = totalPrice.divide(new BigDecimal(0.7),BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(0.05));//这是一层分红10%
+        ShMoney shMoney2 = shMoneyMapper.selectById(shMember3.getId());
+        shMoney.setAmount(shMoney.getAmount().add(multiply2));
+        shMoneyMapper.updateById(shMoney2);
         //这个地方是增加钱
         return true;
     }
@@ -181,191 +256,4 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
         //3.是会员 //7折加上 10 5 5 返还
         return multiply.multiply(new BigDecimal(0.7)).setScale(2,BigDecimal.ROUND_HALF_UP);
     }
-
-
-
 }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// 获取了所有的购物车信息即商品iD
-//        //判断下是不是垃圾数据
-//        if (list.size() < 1) {
-//            return null;
-//        }
-//        //1.生成唯一的订单ID 此ID 赋予订单详情用于查询具体商品
-//        String orderUUID = UUIDUtils.getCharAndNumr();
-//        //2.生成一张订单表
-//        ShOrder shOrder = new ShOrder();
-//        //设置唯一的订单号
-//        shOrder.setOrderId(orderUUID);
-//        //注入memberID
-//        shOrder.setMemberId(list.get(0).getUserId());
-//        //设置支付状态
-//        shOrder.setPayStatus(0);
-//        //设置发货状态
-//        shOrder.setSendStatus(0);
-//        //设置支付返回码状态
-//        shOrder.setAliOrderId("");
-//        //已经生成了一个订单 返回给前端填写剩下的数据
-//        //生成订单详情页面
-//        for (ShCart shCart : list) {
-//            //拉取每一个购物车生成订单详情
-//            String procuteId = shCart.getGoodsId();
-//            //这里必须要做一个判断商品是买的属性表中的商品还是商品表的商品
-//            if (shCart.getGoodsAttrIds().equals("")) {
-//                //如果是属性表的商品执行价格为属性表价格
-//            } else {
-//                //不是属性表商品执行商品表价格
-//            }
-////            //获取商品ID 通过商品ID 查询商品详情填充订单详情页
-////
-////            //此处增加库存判定
-////            if (!updateNumber(tOrder)) {
-////                throw new BizException("库存异常");
-////            }
-////            //以上
-////            TOrderInfo tOrderInfo = new TOrderInfo();//填充详情页
-////            tOrderInfo.setOrderId(orderUUID);
-////            tOrderInfo.setProductId(procuteId);
-////            tOrderInfo.setProductNumber(tCart.getProcuteNumber());
-////            tOrderInfo.setReceivableAmount(tProduct.getPriceOld().multiply(new BigDecimal(tCart.getProcuteNumber())));//...........这尼玛有毒填入实际价格即原价
-////            tOrderInfo.setReceivedAmount(tProduct.getPriceNew().multiply(new BigDecimal(tCart.getProcuteNumber())));//填入实收金额
-////            tOrderInfo.setDiscountAmount(tProduct.getPriceOld().multiply(new BigDecimal(tCart.getProcuteNumber()))
-////                    .subtract(tProduct.getPriceNew().multiply(new BigDecimal(tCart.getProcuteNumber()))));//优惠金额
-////            tOrderInfoMapper.insert(tOrderInfo);//保存详情页
-////        }
-////        //保存订单页
-////        tOrderMapper.insert(tOrder);
-////        return tOrderMapper.selectByOrderNumber(tOrder.getOrderNumber());
-////
-//////        return null;
-//        }
-//        return null;
-//    }
-//}
