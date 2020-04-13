@@ -1,0 +1,30 @@
+${AnsiColor.BRIGHT_GREEN}
+               .__
+__  _  __ ____ |__|   ________ __   ___.__.__ __  ____
+\ \/ \/ // __ \|  |  / ____/  |  \ <   |  |  |  \/    \
+ \     /\  ___/|  | < <_|  |  |  /  \___  |  |  /   |  \
+  \/\_/  \___  >__|  \__   |____/   / ____|____/|___|  /
+             \/         |__|        \/               \/
+
+${AnsiColor.BRIGHT_BLUE}
+Application Name: ${spring.application.name}
+Application Profile: ${spring.profiles.active}
+Server Port: ${server.port}
+Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
+     ┏┓　　　┏┓
+   ┏┛┻━━━┛┻┓
+   ┃　　　　　　　┃
+   ┃　　　━　　　┃
+   ┃　┳┛　┗┳　┃
+   ┃　　　　　　　┃
+   ┃　　　┻　　　┃
+   ┃　　　　　　　┃
+   ┗━┓　　　┏━┛
+   　　┃　　　┃神兽保佑
+   　　┃　　　┃代码无BUG！
+   　　┃　　　┗━━━┓
+   　　┃　　　　　　　┣┓
+   　　┃　　　　　　　┏┛
+   　　┗┓┓┏━┳┓┏┛
+   　　　┃┫┫　┃┫┫
+   　　　┗┻┛　┗┻┛

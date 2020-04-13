@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqy.wx.back.plus3.entity.ShMember">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wqy.wx.back.plus4.entity.ShMember">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="openid" property="openid"/>
+        <result column="integral" property="integral"/>
+        <result column="integral_change_count" property="integralChangeCount"/>
+        <result column="integral_change_rate" property="integralChangeRate"/>
+        <result column="ifs_leader" property="ifsLeader"/>
+        <result column="share_number" property="shareNumber"/>
+        <result column="lv_vip" property="lvVip"/>
+        <result column="ifs_captain" property="ifsCaptain"/>
+        <result column="captain_name" property="captainName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,
+        parent_id,
+        username,
+        password,
+        email,
+        phone,
+        openid,
+        integral,
+        integral_change_count,
+        integral_change_rate,
+        ifs_leader,
+        share_number,
+        lv_vip,
+        ifs_captain,
+        captain_name,
+        create_time,
+        update_time
+    </sql>
+    <!--查询全部-->
+    <!--<select id="selectAll" resultType="com.wqy.modules.shopping.entity.ShType">
+        select * from sh_type
+        <choose>
+            <when test="typeName !=null and typeName!=''">&lt;!&ndash; 根据 排序字段 排序 &ndash;&gt;
+                where type_Name=#{typeName}
+            </when>
+
+        </choose>
+    </select>-->
+    <!--添加-->
+    <!-- <insert id="addMember" parameterType="com.wqy.wx.back.plus3.entity.ShMember">
+         INSERT INTO sh_member( id,parent_id,username,password,email,phone,openid,integral,integral_change_count,integral_change_rate)  VALUES   ( #{id},#{parent_id},#{username},#{password},#{email},#{phone},#{openId},#{integral},#{integral_change_count},#{integral_change_rate})
+     </insert>-->
+    <!--  &lt;!&ndash;修改&ndash;&gt;
+      <update id="updateType" parameterType="com.wqy.modules.shopping.entity.ShType">
+          update sh_type set type_name=#{typeName},mark=#{mark},update_time=#{updateTime} where id=#{id}
+      </update>-->
+    <!--&lt;!&ndash;删除&ndash;&gt;
+    <delete id="deleteType" parameterType="String">
+        delete from sh_type where id=#{id}
+    </delete>-->
+</mapper>

@@ -1,0 +1,141 @@
+server:
+  port: 60010
+#  sessionTimeout: 30
+  tomcat.uri-encoding: UTF-8
+  servlet:
+    session:
+      timeout: 3600s
+      cookie:
+        max-age: -1
+spring:
+  devtools:
+    restart:
+      enabled: false
+  jackson:
+#    time-zone: GMT+8
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  mvc:
+    static-path-pattern: /**
+    dispatch-options-request: true
+  profiles:
+    include: dev
+  datasource:
+    name: wqyun
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: 1234
+    url: jdbc:mysql://192.168.101.106:3306/weishopping?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useTimezone=true
+    driverClassName: com.mysql.cj.jdbc.Driver
+    initialSize: 1
+    minIdle: 40                      # 空闲时间，超过此空闲时间，数据库连接将被标记为不可用，然后被释放。设为0 表示无限制
+    maxActive: 200
+    removeAbandoned: true           #超过时间限制是否回收
+    removeAbandonedTimeout: 30       #超时时间；单位为秒。180秒=3分钟
+    logAbandoned: false               #是否关闭abanded连接时输出错误日志
+    maxWait: 60000                   #最大建立连接等待时间
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall
+    connectionProperties:
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: 192.168.101.132
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password:
+    #连接池最大连接数（使用负值表示没有限制）
+    max-active: 8
+    # 连接池最大连接数（使用负值表示没有限制）
+    jedis.pool.max-active: 8
+    # 连接池最大阻塞等待时间（使用负值表示没有限制）
+    jedis.pool.max-wait: -1
+    # 连接池中的最大空闲连接
+    edis.pool.max-idle: 8
+    # 连接池中的最小空闲连接
+    jedis.pool.min-idle: 0
+    # 连接超时时间（毫秒）
+    timeout: 5000
+#    filters: stat
+#    maxActive: 20
+#    initialSize: 1
+#    maxWait: 60000
+#    minIdle: 1
+#    timeBetweenEvictionRunsMillis: 60000
+#    minEvictableIdleTimeMillis: 300000
+#    validationQuery: select 'x'
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    poolPreparedStatements: true
+#    maxOpenPreparedStatements: 20
+
+
+
+logging:
+  level:
+    org.springframework.data.mongodb.core: DEBUG
+    com.wqy.wx.back.plus3.mapper: DEBUG
+    com.wqy.wx.back.plus2.mapper: DEBUG
+    com:
+      example:
+        mapper : debug
+swagger:
+  enable: true
+  basePackage: com.wqy.wx.back
+  groupName: api接口管理
+  version: @project.version@
+
+
+
+
+#下方为三级分销分成字段即抽成比例
+#---------------------------------
+cheat:
+  one: 0.1
+  two: 0.2
+  three: 0.3
+#---------------------------------
+
+
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/com/wqy/wx/back/plus3/mapper/xml/*Mapper.xml
+  config-location: classpath:mybatis-config.xml
+  type-aliases-package: com.wqy.wx.back.plus3.entity.**
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    idType: 1
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    fieldStrategy: 0
+    #驼峰下划线转换
+    dbColumnUnderline: true
+    #刷新mapper 调试神器
+    isRefresh: true
+    #数据库大写下划线转换
+    isCapitalMode: true
+    #逻辑删除配置
+    logicDeleteValue: 0
+    logicNotDeleteValue: 1
+    db-config:
+      db-type: mysql
+      column-underline: true
+      logic-delete-value: true
+      logic-not-delete-value: false
+
+

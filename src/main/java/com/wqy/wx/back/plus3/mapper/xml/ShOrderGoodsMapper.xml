@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wqy.wx.back.plus3.mapper.ShOrderGoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wqy.wx.back.plus3.entity.ShOrderGoods">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="goods_attr_ids" property="goodsAttrIds"/>
+        <result column="goods_number" property="goodsNumber"/>
+        <result column="goods_price" property="goodsPrice"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        ,
+        order_id,
+        goods_id,
+        goods_attr_ids,
+        goods_number,
+        goods_price
+    </sql>
+
+</mapper>
