@@ -39,6 +39,8 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     private ShVipMapper shVipMapper;
     @Autowired
     private ShMoneyMapper shMoneyMapper;
+    @Autowired
+    private MothMoneyUtils mothMoneyUtils;
     ShMoney shMoney=new ShMoney();
     @Override
     @Transactional
@@ -110,6 +112,8 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         }
         //查询vip等级，好进行不同返点
         Integer vipLevel = shVip.getVipLevel();
+        //将购买vip的价格加入到月钱表
+        mothMoneyUtils.MothMoneyUtilss(new BigDecimal(vipPrice),id);
         //是不是一级会员
         if (vipLevel==1){
             //判断有没有上级
