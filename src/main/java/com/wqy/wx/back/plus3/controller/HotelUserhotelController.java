@@ -42,7 +42,7 @@ import java.util.List;
         iHotelUserhotelService.remove(new QueryWrapper<>(hotelUserhotel));
         return "删除成功";
     }
-    @PostMapping("")
+    @PutMapping("")
     @ApiOperation("修改线下店铺")
     public String updateHotel(@RequestBody HotelUserhotel hotelUserhotel){
         iHotelUserhotelService.update(new QueryWrapper<>(hotelUserhotel));

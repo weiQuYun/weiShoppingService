@@ -27,7 +27,6 @@ public class MothMoney extends BaseEntity<ShAttribute> implements Serializable {
     @TableId(value = "id")
     @TableField(value = "id", fill = FieldFill.INSERT)
     private Integer id;
-
     @ApiModelProperty(value = "用户id")
     @TableField(value = "member_id", fill = FieldFill.INSERT_UPDATE)
     private String memberId;

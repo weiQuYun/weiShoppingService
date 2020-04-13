@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wqy.wx.back.plus3.entity.HotelUserhotel;
 import com.wqy.wx.back.plus3.mapper.HotelUserhotelMapper;
 import com.wqy.wx.back.plus3.service.IHotelUserhotelService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @author licm
  * @since 2020-04-13
  */
+@Primary
 @Service
 public class HotelUserhotelServiceImpl extends ServiceImpl<HotelUserhotelMapper, HotelUserhotel> implements IHotelUserhotelService {
 

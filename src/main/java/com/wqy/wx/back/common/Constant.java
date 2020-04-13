@@ -64,6 +64,9 @@ public class Constant {
 
     public static final Integer NINE = 9;
 
+    public static final Integer TEN = 10;
+
+
     /**
      * 数据类型  ParamUtils 中使用
      */
