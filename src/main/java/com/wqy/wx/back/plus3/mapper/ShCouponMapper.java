@@ -2,6 +2,9 @@ package com.wqy.wx.back.plus3.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wqy.wx.back.plus3.entity.ShCoupon;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.wqy.wx.back.plus3.entity.ShCoupon;
  */
 public interface ShCouponMapper extends BaseMapper<ShCoupon> {
 
+    @Select("select * from sh_coupon where member_id = ${id}")
+    List<ShCoupon> selectByMemberId(String id);
+
+    @Select("select * from sh_coupon where hotel_id = ${id}")
+    List<ShCoupon> selectByHotelId(String id);
 }

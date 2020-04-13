@@ -1,7 +1,11 @@
 package com.wqy.wx.back.plus3.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wqy.wx.back.plus3.entity.HotelUserhotel;
 import com.wqy.wx.back.plus3.entity.ShCoupon;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,10 @@ import com.wqy.wx.back.plus3.entity.ShCoupon;
  */
 public interface IShCouponService extends IService<ShCoupon> {
 
+
+    List<ShCoupon> selectByMemberId(String id);
+
+    void doShCoupon(HotelUserhotel hotelUserhotel, String id);
+
+    List<ShCoupon> selectByHotelId(HotelUserhotel hotelUserhotel);
 }
