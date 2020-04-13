@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.common.util.MothMoneyUtils;
 import com.wqy.wx.back.common.util.UUIDUtils;
+import com.wqy.wx.back.plus3.entity.ShCoupon;
 import com.wqy.wx.back.plus3.entity.ShMember;
 import com.wqy.wx.back.plus3.entity.ShMoney;
 import com.wqy.wx.back.plus3.entity.ShVip;
+import com.wqy.wx.back.plus3.mapper.ShCouponMapper;
 import com.wqy.wx.back.plus3.mapper.ShMemberMapper;
 import com.wqy.wx.back.plus3.mapper.ShMoneyMapper;
 import com.wqy.wx.back.plus3.mapper.ShVipMapper;
@@ -41,6 +43,8 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     private ShMoneyMapper shMoneyMapper;
     @Autowired
     private MothMoneyUtils mothMoneyUtils;
+    @Autowired
+    private ShCouponMapper shCouponMapper;
     ShMoney shMoney=new ShMoney();
     @Override
     @Transactional
@@ -116,6 +120,13 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         mothMoneyUtils.MothMoneyUtilss(new BigDecimal(vipPrice),id);
         //是不是一级会员
         if (vipLevel==1){
+            //添加优惠卷
+            ShCoupon shCoupon = new ShCoupon();
+            //添加会员id
+            shCoupon.setMemberId(id);
+            //添加UUID
+            shCoupon.setId(UUIDUtils.getCharAndNumr());
+            shCouponMapper.insert(shCoupon);
             //判断有没有上级
             if (StringUtils.isEmpty(parentId)){
                 return;
@@ -132,6 +143,19 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             }
             //二级会员进这个判断
         }else if (vipLevel==2){
+            //添加优惠卷
+            ShCoupon shCoupon = new ShCoupon();
+            //添加会员id
+            shCoupon.setMemberId(id);
+            for (int i = 0; i <12; i++) {
+                //添加优惠卷
+                ShCoupon shCoupon1 = new ShCoupon();
+                //添加会员id
+                shCoupon1.setMemberId(id);
+                //添加UUID
+                shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                shCouponMapper.insert(shCoupon1);
+            }
             if (StringUtils.isEmpty(parentId)){ //如果上级为空
                 return;
             }

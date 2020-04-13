@@ -37,12 +37,6 @@ public class ShCoupon extends BaseEntity<ShCoupon> implements Serializable {
     @TableField(value = "coupon_name", fill = FieldFill.INSERT_UPDATE)
     private String couponName;
     /**
-     * 优惠券数量
-     */
-    @ApiModelProperty(value = "优惠券数量")
-    @TableField(value = "coupon_number", fill = FieldFill.INSERT_UPDATE)
-    private Integer couponNumber;
-    /**
      * 过期时间
      */
     @ApiModelProperty(value = "过期时间")
@@ -52,5 +46,10 @@ public class ShCoupon extends BaseEntity<ShCoupon> implements Serializable {
     private Date createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
-
+    @TableField(value = "member_id",fill = FieldFill.INSERT_UPDATE)
+    private String memberId;
+    @TableField(value = "hotel_id",fill = FieldFill.INSERT_UPDATE)
+    private String hotelId;
+    @TableField(value = "stuts",fill = FieldFill.INSERT_UPDATE)
+    private Boolean stuts=false;
 }
