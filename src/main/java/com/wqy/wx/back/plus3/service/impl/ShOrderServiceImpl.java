@@ -222,7 +222,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
         BigDecimal multiply1 = totalPrice.divide(new BigDecimal(0.7),BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(0.05));//这是一层分红10%
 
         ShMoney shMoney1 = shMoneyMapper.selectById(shMember2.getId());
-        shMoney.setAmount(shMoney.getAmount().add(multiply1));
+        shMoney1.setAmount(shMoney1.getAmount().add(multiply1));
         shMoneyMapper.updateById(shMoney1);
         if (shMember2.getParentId().equals("")) {
             //没有父ID 直接不分了
@@ -232,7 +232,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
         ShMember shMember3 = shMemberMapper.selectById(shMember2.getParentId());//三层用户
         BigDecimal multiply2 = totalPrice.divide(new BigDecimal(0.7),BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(0.05));//这是一层分红10%
         ShMoney shMoney2 = shMoneyMapper.selectById(shMember3.getId());
-        shMoney.setAmount(shMoney.getAmount().add(multiply2));
+        shMoney2.setAmount(shMoney2.getAmount().add(multiply2));
         shMoneyMapper.updateById(shMoney2);
         //这个地方是增加钱
         return true;
