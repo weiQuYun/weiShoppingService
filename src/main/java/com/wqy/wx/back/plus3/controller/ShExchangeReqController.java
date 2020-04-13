@@ -4,12 +4,10 @@ import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.plus3.entity.ShExchangeReq;
 import com.wqy.wx.back.plus3.service.IShExchangeReqService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -35,9 +33,10 @@ public class ShExchangeReqController {
     public List<ShExchangeReq> getList(ShExchangeReq shExchangeReq){
         return iShExchangeReqService.getList(shExchangeReq);
     }
-    @PostMapping("/downloadFile")
-    @ApiOperation("下载文件")
-     public Boolean downloadFile(HttpServletResponse response){
-        return iShExchangeReqService.downloadFile(response);
+    @GetMapping(value = "/downloadFile", produces = "application/json;charset=UTF-8")
+    @ApiOperation("下载文件-按日期区，一天只生成一次，历史请选择日期，默认当天")
+    @ApiImplicitParam(value = "日期-年月日",name = "date",dataType = "String")
+     public void downloadFile(@RequestParam(value = "date",required = false) String date, HttpServletResponse response){
+         iShExchangeReqService.downloadFile(date,response);
      }
 }

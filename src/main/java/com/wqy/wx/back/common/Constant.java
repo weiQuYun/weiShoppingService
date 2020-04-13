@@ -99,4 +99,9 @@ public class Constant {
      * 高级vip返点上上级，上上上级  10
      */
     public static final Long REBATES_UP=10L;
+
+    /**
+     * 文件导出路径
+     */
+    public static final String FILE_PATH = System.getProperty("user.dir")+"/file/";
 }

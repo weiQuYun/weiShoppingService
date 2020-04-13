@@ -1,5 +1,7 @@
 package com.wqy.wx.back.common.util.excel;
 
+import com.wqy.wx.back.common.Constant;
+import com.wqy.wx.back.common.util.DateUtil;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -13,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * 成都微趣云网络科技有限公司
@@ -24,11 +25,11 @@ import java.util.UUID;
  * @Date 2020/4/11 16:42
  * @Version V1.0
  */
-public final class ExportExcel {
+public  class ExportExcel {
     /***
      * 构造方法
      */
-    private ExportExcel() {
+    public   ExportExcel() {
 
     }
 
@@ -71,7 +72,7 @@ public final class ExportExcel {
      * @param sheetName
      *        sheet名称和表头值
      */
-    public static void excelExport(List<?> dataList, Map<String, String> titleMap, String sheetName) {
+    public  String excelExport(String exclName,List<?> dataList, Map<String, String> titleMap, String sheetName) {
         // 初始化workbook
         initHSSFWorkbook(sheetName);
         // 标题行
@@ -83,21 +84,27 @@ public final class ExportExcel {
         // 文本行
         createContentRow(dataList, titleMap);
         //设置自动伸缩
-        //autoSizeColumn(titleMap.size());
+//        autoSizeColumn(titleMap.size());
         // 写入处理结果
+        String path=null;
         try {
             //生成UUID文件名称
             //UUID是指在一台机器上生成的数字，它保证对在同一时空中的所有机器都是唯一的。
-            UUID uuid = UUID.randomUUID();
-            String filedisplay = uuid+".xls";
+            StringBuffer buffer = new StringBuffer();
+            buffer.append(exclName).append("_");
+            buffer.append(DateUtil.dateToYMDString(new Date()));
+            buffer.append(".xlsx");
+            path = buffer.toString();
+            System.out.println("存入路径："+Constant.FILE_PATH+path);
             //如果web项目，1、设置下载框的弹出（设置response相关参数)；2、通过httpservletresponse.getOutputStream()获取
-            OutputStream out = new FileOutputStream("D:\\" + filedisplay);
+            OutputStream out = new FileOutputStream(Constant.FILE_PATH+path);
             workbook.write(out);
             out.close();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+        return path;
     }
 
     /***

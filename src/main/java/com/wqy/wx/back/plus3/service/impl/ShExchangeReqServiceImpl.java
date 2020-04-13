@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.common.util.CheckUtils;
+import com.wqy.wx.back.common.util.DateUtil;
 import com.wqy.wx.back.common.util.ParamUtils;
+import com.wqy.wx.back.common.util.dozer.IGenerator;
 import com.wqy.wx.back.common.util.excel.ExportExcel;
 import com.wqy.wx.back.configer.exception.BizException;
+import com.wqy.wx.back.dto.ExchangeReqDto;
 import com.wqy.wx.back.plus3.entity.ShExchangeReq;
 import com.wqy.wx.back.plus3.entity.ShMember;
 import com.wqy.wx.back.plus3.entity.ShMoney;
@@ -15,6 +18,9 @@ import com.wqy.wx.back.plus3.mapper.ShMoneyMapper;
 import com.wqy.wx.back.plus3.service.IShExchangeReqService;
 import com.wqy.wx.back.plus3.service.IShMemberService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -25,9 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.URLEncoder;
+import java.util.*;
 
 /**
  * <p>
@@ -42,6 +47,8 @@ import java.util.Map;
 @Service
 public class ShExchangeReqServiceImpl extends ServiceImpl<ShExchangeReqMapper, ShExchangeReq> implements IShExchangeReqService {
 
+    @Autowired
+    private IGenerator generator;
     @Autowired
     private IShMemberService memberService;
     @Autowired
@@ -79,56 +86,44 @@ public class ShExchangeReqServiceImpl extends ServiceImpl<ShExchangeReqMapper, S
     }
 
     @Override
-    public Boolean downloadFile(HttpServletResponse response) {
-        createFile();
-        //被下载的文件在服务器中的路径,
-        String downloadFilePath = "/root/fileSavePath/";
-        //被下载文件的名称
-        String fileName = "demo.xml";
-        File file = new File(downloadFilePath);
-        if (file.exists()) {
-            // 设置强制下载不打开
-            response.setContentType("application/force-download");
-            response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
-            byte[] buffer = new byte[1024];
-            FileInputStream fis = null;
-            BufferedInputStream bis = null;
-            try {
-                fis = new FileInputStream(file);
-                bis = new BufferedInputStream(fis);
-                OutputStream outputStream = response.getOutputStream();
-                int i = bis.read(buffer);
-                while (i != -1) {
-                    outputStream.write(buffer, 0, i);
-                    i = bis.read(buffer);
-                }
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (bis != null) {
-                    try {
-                        bis.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (fis != null) {
-                    try {
-                        fis.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+    public void downloadFile(String date,HttpServletResponse response) {
+        String fileName = null;
+        File file = null;
+        if (StringUtils.isNotBlank(date)){
+            fileName = "兑换信息导出_" +date+".xlsx";
+            file = new File(Constant.FILE_PATH,fileName);
+            if(!file.exists()){
+                throw new BizException("文件不存在");
+            }
+        }else{
+            fileName ="兑换信息导出_" +DateUtil.dateToYMDString(new Date())+".xlsx";
+             file = new File(Constant.FILE_PATH,fileName);
+             log.info("文件不存在则生成");
+            if(!file.exists()){
+                fileName = createFile();
             }
         }
-        return false;
+        try(
+                InputStream inputStream = new FileInputStream(new File(Constant.FILE_PATH,fileName));
+                OutputStream outputStream = response.getOutputStream()
+        ){
+            response.setContentType("multipart/form-data");
+            response.setHeader("Content-Disposition", "attachment; fileName="+  fileName +";filename*=utf-8''"+ URLEncoder.encode(fileName,"UTF-8"));
+            IOUtils.copy(inputStream, outputStream);
+            outputStream.flush();
+        }catch (IOException e){
+            e.printStackTrace();
+            throw new BizException("文件下载失败");
+        }
     }
 
-    private void   createFile(){
+    private String   createFile(){
         QueryWrapper<ShExchangeReq> query = new QueryWrapper<>();
         query.eq("status",0);
         List<ShExchangeReq> staffs = this.list(query);
+        if (CollectionUtils.isEmpty(staffs)){
+            throw new BizException("没有要兑换的数据");
+        }
         Map<String,String> titleMap = new LinkedHashMap<>();
         titleMap.put("phone", "手机号");
         titleMap.put("exchangeIntegral", "提现积分");
@@ -136,10 +131,22 @@ public class ShExchangeReqServiceImpl extends ServiceImpl<ShExchangeReqMapper, S
         String sheetName = "兑换信息导出";
         System.out.println("start导出");
         long start = System.currentTimeMillis();
-        ExportExcel.excelExport(staffs, titleMap, sheetName);
+        ExportExcel exportExcel = new ExportExcel();
         long end = System.currentTimeMillis();
         System.out.println("end导出");
         System.out.println("耗时："+(end-start)+"ms");
-        this.updateBatchById(staffs);
+        staffs.forEach(item->{
+            item.setStatus(Constant.ONE);
+        });
+        if(this.updateBatchById(staffs)){
+            List<ExchangeReqDto> list = new ArrayList<>();
+            staffs.forEach(item->{
+                ExchangeReqDto dto = generator.convert(item,ExchangeReqDto.class);
+                dto.setCreateTime(DateUtil.dateToString(item.getCreateTime()));
+                list.add(dto);
+            });
+            return  exportExcel.excelExport("兑换信息导出",list, titleMap, sheetName);
+        }
+        return null;
     }
 }

@@ -8,8 +8,11 @@ server:
       cookie:
         max-age: -1
 spring:
+  devtools:
+    restart:
+      enabled: false
   jackson:
-    time-zone: GMT+8
+#    time-zone: GMT+8
   http:
     encoding:
       charset: UTF-8
@@ -25,7 +28,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     username: root
     password: 1234
-    url: jdbc:mysql://192.168.101.106:3306/weishopping?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true
+    url: jdbc:mysql://192.168.101.106:3306/weishopping?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useTimezone=true
     driverClassName: com.mysql.cj.jdbc.Driver
     initialSize: 1
     minIdle: 40                      # 空闲时间，超过此空闲时间，数据库连接将被标记为不可用，然后被释放。设为0 表示无限制

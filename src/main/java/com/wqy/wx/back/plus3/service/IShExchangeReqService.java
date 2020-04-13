@@ -32,8 +32,9 @@ public interface IShExchangeReqService extends IService<ShExchangeReq> {
 
     /**
      * 下载文件
+     * @param date
      * @param response
      * @return
      */
-     Boolean downloadFile(HttpServletResponse response);
+    void downloadFile(String date,HttpServletResponse response);
 }
