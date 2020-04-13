@@ -44,8 +44,7 @@ public class GeneratorCode {
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = true;
         generateByTables(serviceNameStartWithI, packageName,
-                "sh_attribute","sh_cart","sh_category","sh_coupon","sh_dict","sh_goods","sh_goods_attr","sh_index",
-                "sh_member","sh_order","sh_order_goods","sh_type","sh_user","sh_user_sign","sh_vip");
+                "moth_money");
     }
 
 

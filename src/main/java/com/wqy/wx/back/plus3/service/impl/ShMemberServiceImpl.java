@@ -104,7 +104,6 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         float num2=(float) Constant.REBATES_UP/100;
         //查询vip价格
         Integer vipPrice = shVip.getVipPrice();
-        new MothMoneyUtils(new BigDecimal(vipPrice),id);
         if (vipPrice == null || vipPrice == 0) {
             vipPrice = 0;
 

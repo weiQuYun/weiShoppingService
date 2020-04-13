@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * <p>
@@ -41,6 +40,8 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
     private ShMoneyMapper shMoneyMapper;
     @Autowired
     private ShCartMapper shCartMapper;
+    @Autowired
+    private MothMoneyUtils mothMoneyUtils;
     @Override
     public ShOrder insertShOrder(ShCart shCart) {
         //如果你要下订单就必须给我一个购物车对象 其中有 1. 什么商品 2. 是什么颜色的手机
@@ -104,7 +105,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
                 shMember.setIntegral(shMember.getIntegral()-i);
                 shMemberMapper.updateById(shMember);//这里改变了用户签到积分！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
                 shOrderMapper.insert(shOrder);//保存订单！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-                new MothMoneyUtils(shOrder.getTotalPrice(),shOrder.getMemberId());
+                mothMoneyUtils.MothMoneyUtilss(shOrder.getTotalPrice(),shOrder.getMemberId());
                 return true;
             }
             //2.购买够10次了 清除所有连锁
@@ -113,7 +114,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
                 shMember.setIntegralChangeRate(shMember.getIntegralChangeRate()+1);//购买次数+1
                 shMemberMapper.updateById(shMember);//保存用户下单数据 这里改变了用户购买次数！！！！！！！！！！！！！！！！！！！！！！！！！！！
                 shOrderMapper.insert(shOrder);//保存订单！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-                new MothMoneyUtils(shOrder.getTotalPrice(),shOrder.getMemberId());
+                mothMoneyUtils.MothMoneyUtilss(shOrder.getTotalPrice(),shOrder.getMemberId());
                 return true;
             }
             //3.没有购买够10次进行分红
@@ -123,7 +124,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
                 shMember.setIntegralChangeRate(shMember.getIntegralChangeRate()+1);
                 shMemberMapper.updateById(shMember);//保存用户下单数据 这里改变了用户购买次数！！！！！！！！！！！！！！！！！！！！！！！！！！！
                 shOrderMapper.insert(shOrder);//保存数据
-                new MothMoneyUtils(shOrder.getTotalPrice(),shOrder.getMemberId());
+                mothMoneyUtils.MothMoneyUtilss(shOrder.getTotalPrice(),shOrder.getMemberId());
                 return true;
             }
             return false;
@@ -138,7 +139,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
                 shMoneyMapper.updateById(shMoney);
                 shMemberMapper.updateById(shMember);//保存用户下单数据 这里改变了用户购买次数！！！！！！！！！！！！！！！！！！！！！！！！！！！
                 shOrderMapper.insert(shOrder);//保存订单！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-                new MothMoneyUtils(shOrder.getTotalPrice(),shOrder.getMemberId());
+                mothMoneyUtils.MothMoneyUtilss(shOrder.getTotalPrice(),shOrder.getMemberId());
                 return true;
             }
             //3.没有购买够10次进行分红
@@ -152,7 +153,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
                 shMoneyMapper.updateById(shMoney);
                 shMemberMapper.updateById(shMember);//保存用户下单数据 这里改变了用户购买次数！！！！！！！！！！！！！！！！！！！！！！！！！！！
                 shOrderMapper.insert(shOrder);//保存数据
-                new MothMoneyUtils(shOrder.getTotalPrice(),shOrder.getMemberId());
+                mothMoneyUtils.MothMoneyUtilss(shOrder.getTotalPrice(),shOrder.getMemberId());
                 return true;
             }
         }
