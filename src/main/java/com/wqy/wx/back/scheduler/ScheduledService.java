@@ -21,7 +21,7 @@ public class ScheduledService {
     @Autowired
     private IShRankService shRankService;
 
-    @Scheduled(cron = "0 0 0 1 * ?")//每月一号触发
+    @Scheduled(cron = "0 0 0 15 * ?")//每月15号触发
     public void scheduled() {
         log.info("=====>>>>>开始计算排行榜  {}", System.currentTimeMillis());
         shRankService.generateRank();

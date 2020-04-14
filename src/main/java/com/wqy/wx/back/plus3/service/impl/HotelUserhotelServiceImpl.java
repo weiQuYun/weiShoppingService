@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
  * @author licm
  * @since 2020-04-13
  */
+@Primary
 @Service
 public class HotelUserhotelServiceImpl extends ServiceImpl<HotelUserhotelMapper, HotelUserhotel> implements IHotelUserhotelService {
 
