@@ -90,7 +90,7 @@ public class MonthServiceImpl extends ServiceImpl<MothMoneyMapper, MothMoney> im
             file = new File(Constant.FILE_PATH,fileName);
             log.info("文件不存在则生成");
             if(!file.exists()){
-                fileName = createFile();
+                throw new BizException("文件不存在");
             }
         }
         try(
@@ -106,8 +106,8 @@ public class MonthServiceImpl extends ServiceImpl<MothMoneyMapper, MothMoney> im
             throw new BizException("文件下载失败");
         }
     }
-
-    private String  createFile(){
+    @Override
+    public  void  createFile(){
         List<ExclDto> list = new ArrayList<>();
         MothMoney mothMoney = new MothMoney();
         mothMoney.setStatus(0);
@@ -141,8 +141,7 @@ public class MonthServiceImpl extends ServiceImpl<MothMoneyMapper, MothMoney> im
             monthDtos.forEach(item->{
                 item.setAddTime(DateUtil.dateToString(item.getCreateTime()));
             });
-            return  exportExcel.excelExport2("消费信息导出",list);
+              exportExcel.excelExport2("消费信息导出",list);
         }
-        return null;
     }
 }

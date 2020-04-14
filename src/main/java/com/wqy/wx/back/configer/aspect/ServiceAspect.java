@@ -32,7 +32,7 @@ public class ServiceAspect {
     /**
      * 定义请求日志切入点，其切入点表达式有多种匹配方式,这里是指定路径
      */
-    @Pointcut("execution(* com.wqy.wx.back.plus2.service..*(..))")
+    @Pointcut("execution(* com.wqy.wx.back.plus3.service..*(..))")
     public void webLogPointcut() {
     }
 
@@ -46,16 +46,9 @@ public class ServiceAspect {
      */
     @Before("webLogPointcut()")
     public void doBefore(JoinPoint joinPoint) {
-        // 接收到请求，记录请求内容
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        //获取请求头中的User-Agent
-        UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-        //打印请求的内容
         startTime = System.currentTimeMillis();
         log.info("service 请求开始时间：{},请求方法 : {},请求参数 : {}",
-                LocalDateTime.now(), joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()), Arrays.toString(joinPoint.getArgs())
-        );
+                LocalDateTime.now(), joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()), Arrays.toString(joinPoint.getArgs()));
     }
 
     /**

@@ -29,4 +29,10 @@ public interface IShUserSignService extends IService<ShUserSign> {
      * @return
      */
     List<ShUserSign> getList(String userId);
+    /**
+     * 扣分
+     *
+     * @return
+     */
+    void deduction();
 }

@@ -22,4 +22,6 @@ public interface IMonthService extends IService<MothMoney> {
      List<MonthDto> getList(MothMoney mothMoney);
 
      void downloadFile( String date, HttpServletResponse response);
+
+     void createFile();
 }
