@@ -71,7 +71,7 @@ public class LoginServiceImpl implements ILoginService {
             return req;
         } else if (CollectionUtils.isEmpty(list)) {
             tMenber.setUsername("新用户" + System.currentTimeMillis());
-            itMenberService.save(tMenber);
+            tMenber.insert();
             Req req = new Req();
             retrunData(phoneNumber, request, response, tMenber, req);
             return req;
