@@ -201,4 +201,51 @@ public class DateUtil {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
+    /**
+     * 获取过去时间点
+     * @param type
+     * @return
+     */
+    public static Date getLastPeroid(int type, Date date){
+        //SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //String day = format.format(Date);
+        Calendar c = Calendar.getInstance();
+
+        if (0 == type){
+            //过去1天
+            c.setTime(date);
+            c.add(Calendar.DATE, -1);
+            Date d = c.getTime();
+            return d;
+        }else if (1 == type){
+            //过去7天
+            c.setTime(date);
+            c.add(Calendar.DATE, -7);
+            Date d = c.getTime();
+            return d;
+        }else if (2 == type){
+            //过去一月
+            c.setTime(date);
+            c.add(Calendar.MONTH, -1);
+            Date m = c.getTime();
+            return m;
+        }else if (3 == type){
+            //过去一年
+            c.setTime(date);
+            c.add(Calendar.YEAR, -1);
+            Date y = c.getTime();
+            return y;
+        }else if (4 == type){
+            //过去二十年
+            c.setTime(date);
+            c.add(Calendar.YEAR, -20);
+            Date y = c.getTime();
+            return y;
+        }
+        //过去1天
+        c.setTime(date);
+        c.add(Calendar.DATE, -1);
+        Date d = c.getTime();
+        return d;
+    }
 }
