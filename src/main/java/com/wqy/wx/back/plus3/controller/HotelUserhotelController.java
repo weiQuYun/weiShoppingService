@@ -1,7 +1,9 @@
 package com.wqy.wx.back.plus3.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wqy.wx.back.common.util.UUIDUtils;
 import com.wqy.wx.back.plus3.entity.HotelUserhotel;
+import com.wqy.wx.back.plus3.mapper.HotelUserhotelMapper;
 import com.wqy.wx.back.plus3.service.IHotelUserhotelService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import java.util.List;
 
     @Autowired
     private IHotelUserhotelService iHotelUserhotelService;
+    @Autowired
+    private HotelUserhotelMapper hotelUserhotelMapper;
 
     @GetMapping("/list")
     @ApiOperation("这里是获取所有的线下店铺地址的")
@@ -32,6 +36,7 @@ import java.util.List;
     @PostMapping("")
     @ApiOperation("添加线下店铺")
     public String addHotel(@RequestBody HotelUserhotel hotelUserhotel){
+        hotelUserhotel.setHotelId(UUIDUtils.getCharAndNumr());
         iHotelUserhotelService.save(hotelUserhotel);
         return "添加成功";
     }
@@ -45,10 +50,7 @@ import java.util.List;
     @PutMapping("")
     @ApiOperation("修改线下店铺")
     public String updateHotel(@RequestBody HotelUserhotel hotelUserhotel){
-        iHotelUserhotelService.update(new QueryWrapper<>(hotelUserhotel));
-        return "删除成功";
+       hotelUserhotelMapper.updateById(hotelUserhotel);
+        return "修改成功";
     }
-
-
-
 }

@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author licm
@@ -71,9 +72,9 @@ public class ShUser implements Serializable {
     @ApiModelProperty(value = "前端发送唯一ID ")
     @TableField(value = "openId", fill = FieldFill.INSERT_UPDATE)
     private String openId;
-    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime createTime;
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    private Date createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 }
