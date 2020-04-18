@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author licm
@@ -113,5 +114,7 @@ public class ShGoods implements Serializable {
     private Date createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
+    @TableField(exist = false)
+    private List<ShGoodsAttr> goodsAttrList;
 
 }

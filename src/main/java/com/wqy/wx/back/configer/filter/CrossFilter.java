@@ -8,17 +8,15 @@ import com.wqy.wx.back.configer.redis.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-@Configuration
-@WebFilter(urlPatterns = {"/api/*"},filterName = "securityRequestFilter")
+//@Configuration
+//@WebFilter(urlPatterns = {"/api/*"},filterName = "securityRequestFilter")
 public class CrossFilter implements Filter {
     @Autowired
     private RedisUtil redisUtil;

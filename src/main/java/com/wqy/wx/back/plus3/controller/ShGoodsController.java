@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.common.util.page.PageDTO;
 import com.wqy.wx.back.plus3.entity.ShGoods;
+import com.wqy.wx.back.plus3.entity.ShGoodsAttr;
+import com.wqy.wx.back.plus3.service.IShGoodsAttrService;
 import com.wqy.wx.back.plus3.service.IShGoodsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,11 +24,19 @@ import java.util.List;
 public class ShGoodsController {
     @Autowired
     private IShGoodsService iShGoodsService;
+    @Autowired
+    private IShGoodsAttrService iShGoodsAttrService;
 
     @GetMapping("/list")
     @ApiOperation(value = "获取全部,通过名称查询 无名称默认查询所有")
     public List<ShGoods> getShGoodsAll(ShGoods shGoods) {
-        return iShGoodsService.selectAll(shGoods);
+        List<ShGoods> list = iShGoodsService.selectAll(shGoods);
+        if (shGoods.getId().length()<30){
+            return list;
+        }
+        List<ShGoodsAttr> shGoodsAttrs = iShGoodsAttrService.selectAll(shGoods);
+        list.get(0).setGoodsAttrList(shGoodsAttrs);
+        return list;
     }
 
     @DeleteMapping("/{id}")
