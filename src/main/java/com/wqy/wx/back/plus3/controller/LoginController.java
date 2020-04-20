@@ -32,8 +32,8 @@ public class LoginController {
 
     @PostMapping("/login/vx")
     @ApiOperation("微信登陆接口")
-    public Req vxLogin(@ApiParam("手机号") @RequestBody String phoneNumber, HttpServletRequest request, HttpServletResponse response) {
-        return loginService.vxLogin(phoneNumber, request, response);
+    public Req vxLogin(@ApiParam("手机号") @RequestBody String openId, HttpServletRequest request, HttpServletResponse response) {
+        return loginService.vxLogin(openId, request, response);
     }
 
     @PostMapping("/login/back")

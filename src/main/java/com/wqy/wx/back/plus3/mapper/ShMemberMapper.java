@@ -56,4 +56,11 @@ public interface ShMemberMapper extends BaseMapper<ShMember> {
 
     @Select("select * from sh_member where id = #{parentId}")
     ShMember selectByParentId(String parentId);
+
+    /**
+     * 查询全部会员
+     * @return
+     */
+    @Select("select * from sh_member")
+    List<ShMember> selectAll();
 }

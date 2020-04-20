@@ -25,7 +25,7 @@ public interface ILoginService {
      * @param response
      * @return
      */
-    Req vxLogin(String phoneNumber, HttpServletRequest request, HttpServletResponse response);
+    Req vxLogin(String openId, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 后台登陆接口

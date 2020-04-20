@@ -54,11 +54,11 @@ public class LoginServiceImpl implements ILoginService {
 
     @Override
     public Req vxLogin(String phoneNumber, HttpServletRequest request, HttpServletResponse response) {
-        CheckUtils.isStrBlank(phoneNumber, "手机号码", Constant.REGEX_MOBILE);
+        CheckUtils.isStrBlank(phoneNumber, "云编码");
         ShMember tMenber = new ShMember();
-        tMenber.setPhone(phoneNumber);
+        tMenber.setOpenid(phoneNumber);
         QueryWrapper<ShMember> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("phone", phoneNumber);
+        queryWrapper.eq("openid", phoneNumber);
         List<ShMember> list = itMenberService.list(queryWrapper);
         if (CollectionUtils.isNotEmpty(list) && list.size() == 1) {
             tMenber = list.get(0);
@@ -72,6 +72,8 @@ public class LoginServiceImpl implements ILoginService {
         } else if (CollectionUtils.isEmpty(list)) {
             tMenber.setUsername("新用户" + System.currentTimeMillis());
             tMenber.insert();
+            List<ShMember> list1 = itMenberService.list(queryWrapper);
+            tMenber = list1.get(0);
             Req req = new Req();
             retrunData(phoneNumber, request, response, tMenber, req);
             return req;
@@ -94,6 +96,7 @@ public class LoginServiceImpl implements ILoginService {
         req.setToken(tokenService.getToken(phoneNumber));
         req.setUserId(tMenber.getId());
         req.setUserName(tMenber.getUsername());
+        req.setUserType(tMenber.getLvVip().toString());
         req.setIp(request.getRemoteAddr());
         redisUtil.set(tMenber.getId(), req, Constant.LOGIN_TIME_OUT, TimeUnit.SECONDS);
         Cookie cookie = new Cookie("token", req.getToken());

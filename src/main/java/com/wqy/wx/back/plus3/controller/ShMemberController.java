@@ -1,6 +1,10 @@
 package com.wqy.wx.back.plus3.controller;
 
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import com.wqy.wx.back.common.Constant;
+import com.wqy.wx.back.common.util.page.PageDTO;
 import com.wqy.wx.back.plus3.entity.ShMember;
 import com.wqy.wx.back.plus3.service.IShMemberService;
 import io.swagger.annotations.Api;
@@ -20,10 +24,10 @@ public class ShMemberController {
     /*
      *  查询全部
      * */
-   /* @PostMapping("findAll")
-    public PageInfo<ShType> findAll(Page page,@RequestBody ShType shType){
-        return shTypeService.selectAll(page,shType);
-    }*/
+    @PostMapping("findAll")
+    public Page<ShMember> findAll(PageDTO pageDTO, ShMember shMember){
+        return iShMemberService.selectAll(pageDTO,shMember);
+    }
 
     /**
      * 新增用户
@@ -34,8 +38,11 @@ public class ShMemberController {
     }
 
     /**
-     * 修改
-     **/
+     *
+     * @param id
+     * @param lvVip
+     * @return
+     */
     @PutMapping(value = "")
     public Boolean updateVip(@RequestParam String id, @RequestParam Integer lvVip) {
         System.out.println(id);

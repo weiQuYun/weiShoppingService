@@ -1,13 +1,14 @@
 package com.wqy.wx.back.plus3.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.common.util.MothMoneyUtils;
+import com.wqy.wx.back.common.util.ParamUtils;
 import com.wqy.wx.back.common.util.UUIDUtils;
-import com.wqy.wx.back.plus3.entity.ShCoupon;
-import com.wqy.wx.back.plus3.entity.ShMember;
-import com.wqy.wx.back.plus3.entity.ShMoney;
-import com.wqy.wx.back.plus3.entity.ShVip;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wqy.wx.back.common.util.page.PageDTO;
+import com.wqy.wx.back.plus3.entity.*;
 import com.wqy.wx.back.plus3.mapper.ShCouponMapper;
 import com.wqy.wx.back.plus3.mapper.ShMemberMapper;
 import com.wqy.wx.back.plus3.mapper.ShMoneyMapper;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -212,6 +214,19 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     @Transactional
     public void rebatesIntegral(Long integral, String id) {
         shMemberMapper.rebatesIntegral(integral, id);
+    }
+
+    /**
+     * 查询全部会员
+     * @param
+     * @return
+     */
+    @Override
+    public Page<ShMember> selectAll(PageDTO pageDTO,ShMember shMember) {
+        QueryWrapper<ShMember> queryMrapper = new QueryWrapper<ShMember>();
+        QueryWrapper<ShMember> reflect = ParamUtils.reflect(shMember, queryMrapper);
+       Page<ShMember> PageShMembers = new Page<>(pageDTO.getPageIndex(), pageDTO.getPageSize());
+        return shMemberMapper.selectPage(PageShMembers,reflect);
     }
 
     /**
