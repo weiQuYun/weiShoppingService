@@ -1,7 +1,10 @@
 package com.wqy.wx.back.plus3.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wqy.wx.back.common.Constant;
+import com.wqy.wx.back.common.util.ParamUtils;
 import com.wqy.wx.back.common.util.UUIDUtils;
+import com.wqy.wx.back.plus3.entity.ShGoods;
 import com.wqy.wx.back.plus3.entity.ShUser;
 import com.wqy.wx.back.plus3.mapper.ShUserMapper;
 import com.wqy.wx.back.plus3.service.IShUserService;
@@ -27,8 +30,10 @@ public class ShUserController {
 
     @GetMapping("/list")
     @ApiOperation("查询全部")
-    public List<ShUser> getAll(){
-        return shUserMapper.selectList(null);
+    public List<ShUser> getAll(ShUser shUser){
+        QueryWrapper<ShUser> queryMrapper = new QueryWrapper<ShUser>();
+        QueryWrapper<ShUser> reflect = ParamUtils.reflect(shUser, queryMrapper);
+        return shUserMapper.selectList(reflect);
     }
 
     @PutMapping()
