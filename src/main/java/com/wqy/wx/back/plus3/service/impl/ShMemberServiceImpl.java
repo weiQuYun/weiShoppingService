@@ -14,6 +14,7 @@ import com.wqy.wx.back.plus3.mapper.ShMemberMapper;
 import com.wqy.wx.back.plus3.mapper.ShMoneyMapper;
 import com.wqy.wx.back.plus3.mapper.ShVipMapper;
 import com.wqy.wx.back.plus3.service.IShMemberService;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -198,10 +199,15 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         }
 
     }
-
     @Override
     public ShMember selectById(String id) {
-        return shMemberMapper.selectByid(id);
+        ShMember shMember = shMemberMapper.selectByid(id);
+        String id1 = shMember.getId();
+        ShMoney shMoney = shMoneyMapper.selecyByMemberId(id1);
+        shMember.setShMoney(shMoney);
+        System.out.println("===========");
+        System.out.println(shMember);
+        return shMember;
     }
 
     /**
@@ -225,7 +231,8 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     public Page<ShMember> selectAll(PageDTO pageDTO,ShMember shMember) {
         QueryWrapper<ShMember> queryMrapper = new QueryWrapper<ShMember>();
         QueryWrapper<ShMember> reflect = ParamUtils.reflect(shMember, queryMrapper);
-       Page<ShMember> PageShMembers = new Page<>(pageDTO.getPageIndex(), pageDTO.getPageSize());
+        System.out.println(reflect);
+        Page<ShMember> PageShMembers = new Page<>(pageDTO.getPageIndex(), pageDTO.getPageSize());
         return shMemberMapper.selectPage(PageShMembers,reflect);
     }
 

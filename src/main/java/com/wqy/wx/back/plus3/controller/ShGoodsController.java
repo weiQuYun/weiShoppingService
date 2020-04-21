@@ -36,6 +36,7 @@ public class ShGoodsController {
         }
         List<ShGoodsAttr> shGoodsAttrs = iShGoodsAttrService.selectAll(shGoods);
         list.get(0).setGoodsAttrList(shGoodsAttrs);
+        System.out.println(list);
         return list;
     }
 

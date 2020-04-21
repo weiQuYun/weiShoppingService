@@ -2,12 +2,14 @@ package com.wqy.wx.back.plus3.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.pagehelper.PageInfo;
+
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.common.util.page.PageDTO;
 import com.wqy.wx.back.plus3.entity.ShMember;
 import com.wqy.wx.back.plus3.service.IShMemberService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,14 +27,23 @@ public class ShMemberController {
      *  查询全部
      * */
     @PostMapping("findAll")
+    @ApiOperation("查询全部用户")
     public Page<ShMember> findAll(PageDTO pageDTO, ShMember shMember){
         return iShMemberService.selectAll(pageDTO,shMember);
     }
-
+    /**
+     * 根据id查询单个用户
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("查询单个用户")
+    public ShMember selectById(@PathVariable String id){
+        return iShMemberService.selectById(id);
+    }
     /**
      * 新增用户
      */
     @PostMapping("")
+    @ApiOperation("新增用户 推人")
     public Boolean addMember(@RequestBody ShMember shMember) {
         return iShMemberService.addMember(shMember);
     }
@@ -44,6 +55,7 @@ public class ShMemberController {
      * @return
      */
     @PutMapping(value = "")
+    @ApiOperation("开会员")
     public Boolean updateVip(@RequestParam String id, @RequestParam Integer lvVip) {
         System.out.println(id);
         iShMemberService.selectById(id);

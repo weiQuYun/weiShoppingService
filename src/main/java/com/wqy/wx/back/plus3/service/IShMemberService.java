@@ -2,12 +2,8 @@ package com.wqy.wx.back.plus3.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.pagehelper.PageInfo;
-
 import com.wqy.wx.back.common.util.page.PageDTO;
 import com.wqy.wx.back.plus3.entity.ShMember;
-
-import java.util.List;
 
 /**
  * <p>
@@ -44,4 +40,6 @@ public interface IShMemberService extends IService<ShMember> {
      * 查询全部用户
      */
     Page<ShMember> selectAll(PageDTO pageDTO, ShMember shMember);
+
+
 }
