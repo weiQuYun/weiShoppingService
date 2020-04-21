@@ -128,4 +128,8 @@ public class ShMember extends BaseEntity<ShMember> implements Serializable {
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+    @ApiModelProperty(value = "钱包")
+    @TableField(exist = false)
+    private ShMoney shMoney;
+
 }
