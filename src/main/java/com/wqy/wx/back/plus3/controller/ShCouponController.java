@@ -30,7 +30,7 @@ public class ShCouponController {
 
     @PutMapping("/{id}")
     @ApiOperation("使用优惠券")
-    public String doShCoupon(@RequestBody HotelUserhotel hotelUserhotel,String id){
+    public String doShCoupon(@RequestBody HotelUserhotel hotelUserhotel,@PathVariable String id){
         iShCouponService.doShCoupon(hotelUserhotel,id);
         return "使用成功";
     }
