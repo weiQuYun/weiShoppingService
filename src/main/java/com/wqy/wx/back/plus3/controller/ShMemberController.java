@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "会员表接口管理")
 @RestController
 @RequestMapping(Constant.MAPPING + "/member")
-public class ShMemberController {
+public class     ShMemberController {
     @Autowired
     private IShMemberService iShMemberService;
     /*

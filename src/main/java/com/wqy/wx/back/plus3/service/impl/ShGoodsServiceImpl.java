@@ -47,6 +47,7 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
     @Override
     //暂时未有模糊查询之后需求更改
     public List<ShGoods> selectAll(ShGoods shGoods) {
+
         if (shGoods.getId().length()>30){
             List<ShGoods> list = new ArrayList<>();
             ShGoods shGoods1 = shGoodsMapper.selectById(shGoods.getId());
