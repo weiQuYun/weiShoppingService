@@ -96,13 +96,13 @@ public class ShOrder implements Serializable {
      * 快递公司名称
      */
     @ApiModelProperty(value = "快递公司名称")
-    @TableField(value = "company", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "company", fill = FieldFill.DEFAULT)
     private String company;
     /**
      * 快递订单号
      */
     @ApiModelProperty(value = "快递订单号")
-    @TableField(value = "number", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "number", fill = FieldFill.DEFAULT)
     private String number;
     /**
      * 创建时间

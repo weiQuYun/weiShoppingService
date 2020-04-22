@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -44,19 +45,20 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
     private MothMoneyUtils mothMoneyUtils;
 
     @Override
+    @Transactional
     public ShOrder insertShOrder(ShCart shCart) {
-        //如果你要下订单就必须给我一个购物车对象 其中有 1. 什么商品 2. 是什么颜色的手机
-        if (shCart.getGoodsAttrIds().equals("")) {
-            return null;
-        }
-        if (shCart.getUserId().equals("")) {
-            return null;
-        }
-        if (shCart.getGoodsId().equals("")) {
-            return null;
-        }
-        if (shCart.getGoodsNumber().equals("")) {
-            return null;
+                //如果你要下订单就必须给我一个购物车对象 其中有 1. 什么商品 2. 是什么颜色的手机
+                if (shCart.getGoodsAttrIds().equals("")) {
+                    return null;
+                }
+                if (shCart.getUserId().equals("")) {
+                    return null;
+                }
+                if (shCart.getGoodsId().equals("")) {
+                    return null;
+                }
+                if (shCart.getGoodsNumber().equals("")) {
+                    return null;
         }
 
 //        所有属性已经存在 生成订单
@@ -126,6 +128,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
     }
 
     @Override
+    @Transactional
     public Boolean updateShOrder(ShOrder shOrder) {
         //这里是正式下单或者修改订单 都需要保存订单
         ShMember shMember = shMemberMapper.selectById(shOrder.getMemberId());
@@ -235,6 +238,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
     /**
      * 这个方法抽出用于3层分销向上三层分红
      **/
+
     private Boolean shareMoney(ShOrder shOrder) {
         String memberId = shOrder.getMemberId();//获取用户ID
         ShMember shMember = shMemberMapper.selectById(memberId);//获取到用户
