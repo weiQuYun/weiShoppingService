@@ -55,6 +55,7 @@ public class ShIndexServiceImpl implements IShIndexService {
     public List<TemporaryMember> getTemporaryMember() {
         //用于主页滚动条
         List<TemporaryMember> list = new ArrayList<>();
+
         Date date = new Date(new Date().getTime() -1000000);
         //获取最新的更新用户表
         List<ShMember> memberList = shMemberMapper.selectByTime(date);

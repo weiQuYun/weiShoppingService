@@ -1,6 +1,7 @@
 package com.wqy.wx.back.plus3.controller;
 
 import com.wqy.wx.back.common.Constant;
+import com.wqy.wx.back.dto.ShOrderDto;
 import com.wqy.wx.back.plus3.entity.ShCart;
 import com.wqy.wx.back.plus3.entity.ShOrder;
 import com.wqy.wx.back.plus3.service.IShOrderService;
@@ -42,7 +43,11 @@ public class ShOrderController {
     }
     @PostMapping("/update")
     @ApiOperation("修改发货状态")
-    public boolean updateShorder(@RequestBody ShOrder shOrder){
+    public boolean updateShorder(@RequestBody ShOrderDto shOrderDto){
+        ShOrder shOrder = iShOrderService.selectByShOrderId(shOrderDto.getShOrderId());
+        shOrder.setCompany(shOrderDto.getShOrdercompany());
+        shOrder.setNumber(shOrderDto.getShOrderNumber());
+        shOrder.setSendStatus(shOrderDto.getShOrderSendStatus());
         iShOrderService.updateShOrderSend(shOrder);
         return true;
     }
