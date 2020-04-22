@@ -40,6 +40,12 @@ public class ShOrderController {
     public ShOrder getOrder(@PathVariable String id){
         return iShOrderService.selectByShOrderId(id);
     }
+    @PostMapping("/update")
+    @ApiOperation("修改发货状态")
+    public boolean updateShorder(@RequestBody ShOrder shOrder){
+        iShOrderService.updateShOrderSend(shOrder);
+        return true;
+    }
 
 
 }

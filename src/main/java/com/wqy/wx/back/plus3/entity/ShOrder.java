@@ -108,14 +108,14 @@ public class ShOrder implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime createTime;
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    private Data createTime;
     /**
      * 修改时间
      */
     @ApiModelProperty(value = "修改时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private Data updateTime;
 
 
     @ApiModelProperty(value = "商品表")

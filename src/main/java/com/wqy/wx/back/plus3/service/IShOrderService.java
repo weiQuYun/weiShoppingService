@@ -21,4 +21,6 @@ public interface IShOrderService extends IService<ShOrder> {
     Boolean updateShOrder(ShOrder shOrder);
 
     ShOrder selectByShOrderId(String id);
+
+    void updateShOrderSend(ShOrder shOrder);
 }

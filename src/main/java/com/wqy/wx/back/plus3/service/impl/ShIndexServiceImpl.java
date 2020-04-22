@@ -53,7 +53,7 @@ public class ShIndexServiceImpl implements IShIndexService {
     public List<TemporaryMember> getTemporaryMember() {
         //用于主页滚动条
         List<TemporaryMember> list = new ArrayList<>();
-        Date date = new Date(new Date().getTime() + 27700000l);
+        Date date = new Date(new Date().getTime() -1000000);
         //获取最新的更新用户表
         List<ShMember> memberList = shMemberMapper.selectByTime(date);
         if (memberList.size() > 0) {
@@ -76,9 +76,9 @@ public class ShIndexServiceImpl implements IShIndexService {
                     //简单的遮一下
                     shMember.setPassword("");
                     shMemberParent.setPassword("");
-                    memberList1.add(shMember);
-                    memberList1.add(shMemberParent);
-                    shMemberTemporaryMember.setData(memberList1);
+//                    memberList1.add(shMember);
+//                    memberList1.add(shMemberParent);
+//                    shMemberTemporaryMember.setData(memberList1);
                     list.add(shMemberTemporaryMember);
                 }
             }

@@ -284,7 +284,14 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
 
     @Override
     public ShOrder selectByShOrderId(String id) {
-        return shOrderMapper.selectByOrderId(id);
+        ShOrder shOrder = shOrderMapper.selectByOrderId(id);
+        System.out.println(shOrder);
+        return shOrder;
+    }
+
+    @Override
+    public void updateShOrderSend(ShOrder shOrder) {
+        shOrderMapper.updateById(shOrder);
     }
 
     private BigDecimal judgeMember(ShMember shMember, BigDecimal multiply) {
