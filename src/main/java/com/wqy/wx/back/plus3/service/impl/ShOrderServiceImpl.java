@@ -96,10 +96,25 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
             if (payOk) {
                 shOrder.setPayStatus(3);
             }
-        } else ;//非会员不存在这个钱的问题
+        } else if(moneyMenber.getLvVip() == 0){
+            BigDecimal totalPrice = shOrder.getTotalPrice();
+            BigDecimal subtract = totalPrice.divide(new BigDecimal(0.7), BigDecimal.ROUND_HALF_UP);//这就是需要的积分
+            subtract = subtract.multiply(new BigDecimal(0.3));
+            int i = subtract.intValue();//这是需要的积分
+            if (moneyMenber.getIntegral() - i > 0) {
+                //积分够得可以购买
+                shOrder.setPayStatus(0);
+            } else {
+                //积分不够
+                shOrder.setPayStatus(4);
+            }
+        } ;//非会员不存在这个钱的问题
         return shOrder;
     }
 
+    /**
+     * 新添method 主要用来上面暂定 的判断 判断钱包是否购扣
+     * **/
     private Boolean judgeMoneyForVip(ShMember moneyMenber, BigDecimal totalPrice) {
         String id = moneyMenber.getId();
         ShMoney shMoney = shMoneyMapper.selectById(id);
@@ -180,20 +195,20 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
             if (!updateResources(shOrder)) {
                 return false;
             }
-            if (shMember.getLvVip() == 0) {
-                BigDecimal totalPrice = shOrder.getTotalPrice();
-                BigDecimal subtract = totalPrice.divide(new BigDecimal(0.7), BigDecimal.ROUND_HALF_UP);//这就是需要的积分
-                subtract = subtract.multiply(new BigDecimal(0.3));
-                int i = subtract.intValue();//这是需要的积分
-                if (shMember.getIntegral() - i > 0) {
-                    //积分够得可以购买
-                    shOrderMapper.insert(shOrder);
-                    return true;
-                } else {
-                    //积分不够
-                    return false;
-                }
-            }
+//            if (shMember.getLvVip() == 0) {
+//                BigDecimal totalPrice = shOrder.getTotalPrice();
+//                BigDecimal subtract = totalPrice.divide(new BigDecimal(0.7), BigDecimal.ROUND_HALF_UP);//这就是需要的积分
+//                subtract = subtract.multiply(new BigDecimal(0.3));
+//                int i = subtract.intValue();//这是需要的积分
+//                if (shMember.getIntegral() - i > 0) {
+//                    //积分够得可以购买
+//                    shOrderMapper.insert(shOrder);
+//                    return true;
+//                } else {
+//                    //积分不够
+//                    return false;
+//                }
+//            }
             shOrderMapper.insert(shOrder);
             return true;
         }
