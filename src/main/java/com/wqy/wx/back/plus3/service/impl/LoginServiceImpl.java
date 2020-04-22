@@ -71,7 +71,7 @@ public class LoginServiceImpl implements ILoginService {
             return req;
         } else if (CollectionUtils.isEmpty(list)) {
             tMenber.setUsername("新用户" + System.currentTimeMillis());
-            tMenber.insert();
+            tMenber.insert();//
             List<ShMember> list1 = itMenberService.list(queryWrapper);
             tMenber = list1.get(0);
             Req req = new Req();
