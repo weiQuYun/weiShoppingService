@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wqy.wx.back.common.util.ParamUtils;
+import com.wqy.wx.back.common.util.ShGoodsPricePlus;
 import com.wqy.wx.back.common.util.UUIDUtils;
 import com.wqy.wx.back.common.util.page.PageDTO;
 import com.wqy.wx.back.plus3.entity.ShGoods;
@@ -52,15 +53,17 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
             List<ShGoods> list = new ArrayList<>();
             ShGoods shGoods1 = shGoodsMapper.selectById(shGoods.getId());
             list.add(shGoods1);
-            return list;
+            return ShGoodsPricePlus.add(list);
         }
         if (shGoods.getGoodsName() == null) {
-            return shGoodsMapper.selectList(null);
+            List<ShGoods> list = shGoodsMapper.selectList(null);
+            return ShGoodsPricePlus.add(list);
         }
 
         QueryWrapper<ShGoods> queryMrapper = new QueryWrapper<ShGoods>();
         QueryWrapper<ShGoods> reflect = ParamUtils.reflect(shGoods, queryMrapper);
-        return shGoodsMapper.selectList(reflect);
+        List<ShGoods> list = shGoodsMapper.selectList(reflect);
+        return ShGoodsPricePlus.add(list);
     }
 
     @Override

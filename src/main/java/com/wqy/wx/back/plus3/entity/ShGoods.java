@@ -116,5 +116,10 @@ public class ShGoods implements Serializable {
     private Date updateTime;
     @TableField(exist = false)
     private List<ShGoodsAttr> goodsAttrList;
+    @TableField(exist = false)
+    private BigDecimal goodsIntegral;
+    @TableField(exist = false)
+    private BigDecimal goodsPriceNew;
+
 
 }

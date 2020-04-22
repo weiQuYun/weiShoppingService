@@ -1,5 +1,6 @@
 package com.wqy.wx.back.plus3.service.impl;
 
+import com.wqy.wx.back.common.util.ShGoodsPricePlus;
 import com.wqy.wx.back.dto.TemporaryMember;
 import com.wqy.wx.back.plus3.entity.ShGoods;
 import com.wqy.wx.back.plus3.entity.ShIndex;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,11 +92,15 @@ public class ShIndexServiceImpl implements IShIndexService {
 
     @Override
     public List<ShGoods> getIndexShGoods() {
-        return shGoodsMapper.selectByIndex("indexshgoods");
+        List<ShGoods> list = shGoodsMapper.selectByIndex("indexshgoods");
+        return ShGoodsPricePlus.add(list);
+      //  return list;
     }
 
     @Override
     public List<ShGoods> getIndexHotShGoods() {
-        return shGoodsMapper.selectByIsHot();
+        List<ShGoods> list = shGoodsMapper.selectByIsHot();
+        return ShGoodsPricePlus.add(list);
+       // return list;
     }
 }
