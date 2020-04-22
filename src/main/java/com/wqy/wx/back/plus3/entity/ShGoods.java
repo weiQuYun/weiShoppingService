@@ -117,4 +117,5 @@ public class ShGoods implements Serializable {
     @TableField(exist = false)
     private List<ShGoodsAttr> goodsAttrList;
 
+
 }
