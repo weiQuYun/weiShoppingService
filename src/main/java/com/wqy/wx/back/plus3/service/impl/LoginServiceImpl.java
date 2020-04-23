@@ -64,7 +64,8 @@ public class LoginServiceImpl implements ILoginService {
     @Override
     public Req vxLogin(String phoneNumber, HttpServletRequest request, HttpServletResponse response) {
         CheckUtils.isStrBlank(phoneNumber, "云编码");
-        Map<String,String> map = OpenIdGetUtils.getOpenId(phoneNumber);
+        String phoneNumber1 = getPhoneNumber(phoneNumber);//这里获取的code有问题 给他切了一下
+        Map<String,String> map = OpenIdGetUtils.getOpenId(phoneNumber1);
         phoneNumber = map.get("openid");
         ShMember tMenber = new ShMember();
         tMenber.setOpenid(phoneNumber);
@@ -99,6 +100,11 @@ public class LoginServiceImpl implements ILoginService {
             throw new BizException("W005", "存在相同的用户");
         }
         return null;
+    }
+
+    private String getPhoneNumber(String phoneNumber) {
+        String[] split = phoneNumber.split("\"");
+        return split[3];
     }
 
     /**

@@ -1,5 +1,5 @@
 server:
-  port: 60011
+  port: 60010
 #  sessionTimeout: 30
   tomcat.uri-encoding: UTF-8
   servlet:

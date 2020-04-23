@@ -309,6 +309,13 @@
             <artifactId>jackson-annotations</artifactId>
         </dependency>
         <!--string<->对象-->
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.3</version>
+        </dependency>
+
     </dependencies>
 
     <build>

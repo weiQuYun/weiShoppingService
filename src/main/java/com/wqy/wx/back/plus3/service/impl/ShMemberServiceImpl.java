@@ -51,44 +51,53 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     private MothMoneyUtils mothMoneyUtils;
     @Autowired
     private ShCouponMapper shCouponMapper;
+    @Autowired
+    private ShareIDChange shareIDChange;
     ShMoney shMoney=new ShMoney();
     @Override
     @Transactional
     public Boolean addMember(ShMember shMember) {
-        if (!StringUtils.isEmpty(shMember.getParentId())) { //先判断他有没有上级，如果有进判断，如果没有直接添加设置为团长
-            ShMember shMember1 = shMemberMapper.selectByParentId(shMember.getParentId());//获取他的上级
-            if (shMember1.getLvVip()==0) { //判断是否是vip
-                return false;
-            } else { //如果是vip就添加
+        String id = shMember.getId();
+        if (shMemberMapper.selectById(id)!=null) {
+            if (!StringUtils.isEmpty(shMember.getParentId())) { //先判断他有没有上级，如果有进判断，如果没有直接添加设置为团长
+                ShMember shMember1 = shMemberMapper.selectByParentId(shMember.getParentId());//获取他的上级
+                if (shMember1.getLvVip() == 0) { //判断是否是vip
+                    return false;
+                } else { //如果是vip就添加
+                    String uuid = UUIDUtils.getCharAndNumr();
+                    shMember.setId(uuid);
+                    Date date = new Date();
+                    shMember.setCreateTime(date);
+                    String parentId = shMember.getParentId();
+                    shMemberMapper.addMember(shMember);
+
+                    shMemberMapper.updateIntegral(parentId);
+                    //添加完毕后添加他个人的钱包，钱包金额设置为0
+                    shMoney.setAmount(new BigDecimal(0));
+                    shMoney.setId(shMember.getId());
+                    shMoneyMapper.insert(shMoney);
+                    shareIDChange.insertParentLongSortId(parentId);
+                    return true;
+
+                }
+            } else {//直接设置为团长
                 String uuid = UUIDUtils.getCharAndNumr();
                 shMember.setId(uuid);
                 Date date = new Date();
                 shMember.setCreateTime(date);
+                //设置是团长
+                shMember.setIfsCaptain(1);
                 String parentId = shMember.getParentId();
                 shMemberMapper.addMember(shMember);
-
-                shMemberMapper.updateIntegral(parentId);
                 //添加完毕后添加他个人的钱包，钱包金额设置为0
                 shMoney.setAmount(new BigDecimal(0));
                 shMoney.setId(shMember.getId());
                 shMoneyMapper.insert(shMoney);
+                shareIDChange.insertParentLongSortId(parentId);
                 return true;
-
             }
-        } else {//直接设置为团长
-            String uuid = UUIDUtils.getCharAndNumr();
-            shMember.setId(uuid);
-            Date date = new Date();
-            shMember.setCreateTime(date);
-            //设置是团长
-            shMember.setIfsCaptain(1);
-            String parentId = shMember.getParentId();
-            shMemberMapper.addMember(shMember);
-            //添加完毕后添加他个人的钱包，钱包金额设置为0
-            shMoney.setAmount(new BigDecimal(0));
-            shMoney.setId(shMember.getId());
-            shMoneyMapper.insert(shMoney);
-            return true;
+        }else {
+            return false;
         }
     }
 
@@ -279,6 +288,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                         shMoney.setAmount(new BigDecimal(0));
                         shMoney.setId(shMember.getId());
                         shMoneyMapper.insert(shMoney);
+                        shareIDChange.insertParentLongSortId(parentId);
                         return true;
 
                     }
@@ -304,6 +314,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                     shMoney.setAmount(new BigDecimal(0));
                     shMoney.setId(shMember.getId());
                     shMoneyMapper.insert(shMoney);
+                    shareIDChange.insertParentLongSortId(parentId);
                     return true;
                 }
             }else {
