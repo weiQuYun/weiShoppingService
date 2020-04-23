@@ -66,6 +66,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                 shMember.setCreateTime(date);
                 String parentId = shMember.getParentId();
                 shMemberMapper.addMember(shMember);
+
                 shMemberMapper.updateIntegral(parentId);
                 //添加完毕后添加他个人的钱包，钱包金额设置为0
                 shMoney.setAmount(new BigDecimal(0));

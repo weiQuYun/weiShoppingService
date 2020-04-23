@@ -2,6 +2,7 @@ package com.wqy.wx.back.plus3.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wqy.wx.back.plus3.entity.ShDict;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -13,4 +14,9 @@ import com.wqy.wx.back.plus3.entity.ShDict;
  */
 public interface ShDictMapper extends BaseMapper<ShDict> {
 
+    @Select("select * from sh_dict where dict_type_code = #{sortId}")
+    ShDict selectBySortId(String sortId);
+
+    @Select("select * from sh_dict where dict_type_name = #{longId}")
+    ShDict selectByLongId(String longId);
 }

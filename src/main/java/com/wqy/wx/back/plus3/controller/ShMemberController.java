@@ -12,6 +12,7 @@ import com.wqy.wx.back.plus3.entity.ShOrder;
 import com.wqy.wx.back.plus3.mapper.ShOrderMapper;
 import com.wqy.wx.back.plus3.service.IShMemberService;
 import com.wqy.wx.back.plus3.service.IShOrderService;
+import com.wqy.wx.back.plus3.service.impl.ShareIDChange;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +36,8 @@ public class     ShMemberController {
     private IShMemberService iShMemberService;
     @Autowired
     private ShOrderMapper shOrderMapper;
+    @Autowired
+    private ShareIDChange shareIDChange;
     //偷下懒 LCX
     /*
      *  查询全部
@@ -66,7 +69,8 @@ public class     ShMemberController {
     public Boolean addMembers(String code,String parentId){
         System.out.println(code);
         System.out.println(parentId);
-        return iShMemberService.addMembers(code,parentId);
+        String parentLong = shareIDChange.getParentLong(parentId);
+        return iShMemberService.addMembers(code,parentLong);
     }
 
     /**
@@ -106,6 +110,13 @@ public class     ShMemberController {
         shOrder.setUpdateTime(new Date());
         shOrderMapper.insert(shOrder);
         return true;
+    }
+
+
+    @GetMapping("/parentId/{id}")
+    @ApiOperation("获取自己的推荐码")
+    public String getShareId(@PathVariable("id") String id){
+        return shareIDChange.getParentsort(id);
     }
     /**
      * 删除

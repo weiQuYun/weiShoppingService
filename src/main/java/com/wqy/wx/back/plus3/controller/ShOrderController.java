@@ -2,7 +2,6 @@ package com.wqy.wx.back.plus3.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wqy.wx.back.common.Constant;
-import com.wqy.wx.back.dto.ShOrderDto;
 import com.wqy.wx.back.plus3.entity.ShCart;
 import com.wqy.wx.back.plus3.entity.ShOrder;
 import com.wqy.wx.back.plus3.mapper.ShOrderMapper;
@@ -62,9 +61,6 @@ public class ShOrderController {
     public List<ShOrder> getPayStatus(@PathVariable("pay") Integer pay){
         return shOrderMapper.selectByPay(pay);
     }
-
-
-
     @GetMapping("/list")
     @ApiOperation("查询全部")
     public List<ShOrder> selectAll(){

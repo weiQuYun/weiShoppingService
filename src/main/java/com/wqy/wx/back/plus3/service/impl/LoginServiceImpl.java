@@ -21,6 +21,7 @@ import com.wqy.wx.back.plus3.service.IShUserService;
 import com.wqy.wx.back.plus3.service.ITokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,9 @@ public class LoginServiceImpl implements ILoginService {
     private IGenerator generator;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private ShareIDChange shareIDChange;
+
 
     @Override
     public Req vxLogin(String phoneNumber, HttpServletRequest request, HttpServletResponse response) {
@@ -80,6 +84,7 @@ public class LoginServiceImpl implements ILoginService {
             tMenber.setUsername("新用户" + System.currentTimeMillis());
             tMenber.setId(UUIDUtils.getCharAndNumr());
             tMenber.insert();
+            shareIDChange.insertParentLongSortId(tMenber.getId());
             //这里给用户新添加了钱包
             ShMoney shMoney = new ShMoney();
             shMoney.setAmount(new BigDecimal(0));
