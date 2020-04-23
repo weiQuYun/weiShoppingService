@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.common.util.CheckUtils;
 import com.wqy.wx.back.common.util.IpUtils;
+import com.wqy.wx.back.common.util.OpenIdGetUtils;
 import com.wqy.wx.back.common.util.ParamUtils;
 import com.wqy.wx.back.common.util.dozer.IGenerator;
 import com.wqy.wx.back.configer.Req;
@@ -26,6 +27,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -55,6 +57,8 @@ public class LoginServiceImpl implements ILoginService {
     @Override
     public Req vxLogin(String phoneNumber, HttpServletRequest request, HttpServletResponse response) {
         CheckUtils.isStrBlank(phoneNumber, "云编码");
+        Map<String,String> map = OpenIdGetUtils.getOpenId(phoneNumber);
+        phoneNumber = map.get("openid");
         ShMember tMenber = new ShMember();
         tMenber.setOpenid(phoneNumber);
         QueryWrapper<ShMember> queryWrapper = new QueryWrapper<>();
