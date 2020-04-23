@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author licm
@@ -70,8 +71,8 @@ public class ShDict implements Serializable {
     @TableField(value = "memo", fill = FieldFill.INSERT_UPDATE)
     private String memo;
     @TableField(value = "add_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime addTime;
+    private Date addTime;
     @TableField(value = "modify_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime modifyTime;
+    private Date modifyTime;
 
 }

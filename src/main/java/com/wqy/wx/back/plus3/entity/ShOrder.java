@@ -14,6 +14,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author licm
@@ -109,13 +110,13 @@ public class ShOrder implements Serializable {
      */
     @ApiModelProperty(value = "创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private Data createTime;
+    private Date createTime;
     /**
      * 修改时间
      */
     @ApiModelProperty(value = "修改时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Data updateTime;
+    private Date updateTime;
 
 
     @ApiModelProperty(value = "商品表")
