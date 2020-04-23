@@ -5,6 +5,7 @@ import com.wqy.wx.back.plus3.entity.ShUserSign;
 import com.wqy.wx.back.plus3.service.IShUserSignService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,5 +34,15 @@ public class ShUserSignController {
     @ApiOperation("签到记录")
     public List<ShUserSign> getList(String userId) {
         return shUserSignService.getList(userId);
+    }
+
+    @GetMapping("/sign/count")
+    @ApiOperation("签到总数")
+    public Integer getCount(String userId) {
+        List<ShUserSign> list = shUserSignService.getList(userId);
+        if(CollectionUtils.isEmpty(list)){
+            return 0;
+        }
+        return list.size();
     }
 }
