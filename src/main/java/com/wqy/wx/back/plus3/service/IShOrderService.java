@@ -1,6 +1,7 @@
 package com.wqy.wx.back.plus3.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wqy.wx.back.dto.ShOrderDto;
 import com.wqy.wx.back.plus3.entity.ShCart;
 import com.wqy.wx.back.plus3.entity.ShOrder;
 
@@ -20,7 +21,9 @@ public interface IShOrderService extends IService<ShOrder> {
 
     Boolean updateShOrder(ShOrder shOrder);
 
-    ShOrder selectByShOrderId(String id);
+    List<ShOrder> selectByShOrderId(String id);
 
     void updateShOrderSend(ShOrder shOrder);
+
+    ShOrder selectByShOrderId(ShOrderDto shOrderDto);
 }

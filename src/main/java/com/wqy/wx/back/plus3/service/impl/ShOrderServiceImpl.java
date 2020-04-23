@@ -3,6 +3,7 @@ package com.wqy.wx.back.plus3.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wqy.wx.back.common.util.MothMoneyUtils;
 import com.wqy.wx.back.common.util.UUIDUtils;
+import com.wqy.wx.back.dto.ShOrderDto;
 import com.wqy.wx.back.plus3.entity.*;
 import com.wqy.wx.back.plus3.mapper.*;
 import com.wqy.wx.back.plus3.service.IShOrderService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * <p>
@@ -283,15 +285,19 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
 
 
     @Override
-    public ShOrder selectByShOrderId(String id) {
-        ShOrder shOrder = shOrderMapper.selectByOrderId(id);
-        System.out.println(shOrder);
-        return shOrder;
+    public List<ShOrder> selectByShOrderId(String id) {
+      //  List<ShOrder> shOrders = shOrderMapper.selectByOrderId(id);
+        List<ShOrder> shOrders = shOrderMapper.selectByMemberId(id);
+        return shOrders;
     }
 
     @Override
     public void updateShOrderSend(ShOrder shOrder) {
         shOrderMapper.updateById(shOrder);
+    }
+    @Override
+    public ShOrder selectByShOrderId(ShOrderDto shOrderDto){
+        return shOrderMapper.selectByOrderId(shOrderDto.getShOrderId());
     }
 
     private BigDecimal judgeMember(ShMember shMember, BigDecimal multiply) {

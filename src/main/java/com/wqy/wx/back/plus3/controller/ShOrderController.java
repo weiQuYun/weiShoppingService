@@ -4,6 +4,7 @@ import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.dto.ShOrderDto;
 import com.wqy.wx.back.plus3.entity.ShCart;
 import com.wqy.wx.back.plus3.entity.ShOrder;
+import com.wqy.wx.back.plus3.mapper.ShOrderMapper;
 import com.wqy.wx.back.plus3.service.IShOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,9 @@ public class ShOrderController {
 
    @Autowired
    private IShOrderService iShOrderService;
+   @Autowired
+   private ShOrderMapper shOrderMapper;
+   //偷下懒 by LCX
     @PostMapping("")
     @ApiOperation(value = "订单生成接口")
     public ShOrder getShOrder(@RequestBody ShCart shCart){
@@ -38,19 +42,32 @@ public class ShOrderController {
     }
     @GetMapping("/{id}")
     @ApiOperation("这是请求获取订单的接口")
-    public ShOrder getOrder(@PathVariable String id){
+    public List<ShOrder> getOrder(@PathVariable String id){
         return iShOrderService.selectByShOrderId(id);
     }
     @PostMapping("/update")
     @ApiOperation("修改发货状态")
     public boolean updateShorder(@RequestBody ShOrderDto shOrderDto){
-        ShOrder shOrder = iShOrderService.selectByShOrderId(shOrderDto.getShOrderId());
+        ShOrder shOrder = iShOrderService.selectByShOrderId(shOrderDto);
         shOrder.setCompany(shOrderDto.getShOrdercompany());
         shOrder.setNumber(shOrderDto.getShOrderNumber());
         shOrder.setSendStatus(shOrderDto.getShOrderSendStatus());
         iShOrderService.updateShOrderSend(shOrder);
         return true;
     }
+    @GetMapping("/send/{integer}")
+    @ApiOperation("未发货查询")
+    public List<ShOrder> getSendNow(@PathVariable("integer") Integer integer){
+        return shOrderMapper.selectBySend(integer);
+    }
+    @GetMapping("/pay/{pay}")
+    @ApiOperation("支付状态查询")
+    public List<ShOrder> getPayStatus(@PathVariable("pay") Integer pay){
+        return shOrderMapper.selectByPay(pay);
+    }
+
+
+
 
 
 }
