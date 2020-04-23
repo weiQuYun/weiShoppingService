@@ -39,7 +39,7 @@ public interface ShMemberMapper extends BaseMapper<ShMember> {
     void rebatesIntegral(Long integral, String id);
 
     /**
-     * 推荐成功后增加上级990积分,可推荐次数减一
+     * 推荐成功后增加上级990积分
      */
     @Update("update sh_member set integral=integral+990 where id=#{id}")
     void updateIntegral(String id);
@@ -50,7 +50,13 @@ public interface ShMemberMapper extends BaseMapper<ShMember> {
     @Select("select * from sh_member where id=#{id}")
     ShMember selectByid(String id);
 
-
+    /**
+     * 根据openid查询
+     * @param openid
+     * @return
+     */
+    @Select("select * from sh_member where openid=#{openid}")
+    ShMember selectByOpenId(String openid);
     @Select("select * from sh_member where update_time>#{date}")
     List<ShMember> selectByTime(Date date);
 

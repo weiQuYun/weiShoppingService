@@ -31,9 +31,9 @@ public class ShGoodsController {
     @ApiOperation(value = "获取全部,通过名称查询 无名称默认查询所有")
     public List<ShGoods> getShGoodsAll(ShGoods shGoods) {
         List<ShGoods> list = iShGoodsService.selectAll(shGoods);
-        if (!shGoods.getId().isEmpty()&&shGoods.getId().length()<30){
+        /*if (!shGoods.getId().isEmpty()&&shGoods.getId().length()<30){
             return list;
-        }
+        }*/
         List<ShGoodsAttr> shGoodsAttrs = iShGoodsAttrService.selectAll(shGoods);
         list.get(0).setGoodsAttrList(shGoodsAttrs);
         System.out.println(list);

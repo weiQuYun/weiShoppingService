@@ -50,7 +50,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
     @Transactional
     public ShOrder insertShOrder(ShCart shCart) {
                 //如果你要下订单就必须给我一个购物车对象 其中有 1. 什么商品 2. 是什么颜色的手机
-                if (shCart.getGoodsAttrIds().equals("")) {
+             /*   if (shCart.getGoodsAttrIds().equals("")) {
                     return null;
                 }
                 if (shCart.getUserId().equals("")) {
@@ -61,7 +61,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
                 }
                 if (shCart.getGoodsNumber().equals("")) {
                     return null;
-        }
+        }*/
 
 //        所有属性已经存在 生成订单
 //        1.生成唯一的订单ID 此ID 赋予订单详情用于查询具体商品

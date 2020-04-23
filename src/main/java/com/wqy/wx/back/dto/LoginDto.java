@@ -3,6 +3,7 @@ package com.wqy.wx.back.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.dozer.Mapping;
 
 import java.io.Serializable;
 
@@ -20,6 +21,7 @@ import java.io.Serializable;
 @Data
 public class LoginDto implements Serializable {
     @ApiModelProperty("用户名")
+    @Mapping("username")
     private String userName;
     @ApiModelProperty("密码")
     private String password;

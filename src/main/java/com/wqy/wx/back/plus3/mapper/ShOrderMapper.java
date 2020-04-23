@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface ShOrderMapper extends BaseMapper<ShOrder> {
 
-    @Select("select * from sh_order where order_id = #{id}")
+    @Select("select * from sh_order where member_id = #{id}")
     ShOrder selectByOrderId(String id);
 
     @Select("select * from sh_order where member_id = #{id}")

@@ -6,12 +6,14 @@ import com.wqy.wx.back.common.util.CheckUtils;
 import com.wqy.wx.back.common.util.IpUtils;
 import com.wqy.wx.back.common.util.OpenIdGetUtils;
 import com.wqy.wx.back.common.util.ParamUtils;
+import com.wqy.wx.back.common.util.UUIDUtils;
 import com.wqy.wx.back.common.util.dozer.IGenerator;
 import com.wqy.wx.back.configer.Req;
 import com.wqy.wx.back.configer.exception.BizException;
 import com.wqy.wx.back.configer.redis.RedisUtil;
 import com.wqy.wx.back.dto.LoginDto;
 import com.wqy.wx.back.plus3.entity.ShMember;
+import com.wqy.wx.back.plus3.entity.ShMoney;
 import com.wqy.wx.back.plus3.entity.ShUser;
 import com.wqy.wx.back.plus3.service.ILoginService;
 import com.wqy.wx.back.plus3.service.IShMemberService;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -75,7 +78,13 @@ public class LoginServiceImpl implements ILoginService {
             return req;
         } else if (CollectionUtils.isEmpty(list)) {
             tMenber.setUsername("新用户" + System.currentTimeMillis());
-            tMenber.insert();//
+            tMenber.setId(UUIDUtils.getCharAndNumr());
+            tMenber.insert();
+            //这里给用户新添加了钱包
+            ShMoney shMoney = new ShMoney();
+            shMoney.setAmount(new BigDecimal(0));
+            shMoney.setId(tMenber.getId());
+            shMoney.insert();
             List<ShMember> list1 = itMenberService.list(queryWrapper);
             tMenber = list1.get(0);
             Req req = new Req();

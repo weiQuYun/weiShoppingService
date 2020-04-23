@@ -41,5 +41,11 @@ public interface IShMemberService extends IService<ShMember> {
      */
     Page<ShMember> selectAll(PageDTO pageDTO, ShMember shMember);
 
-
+    /**
+     * 新增会员
+     * @param code
+     * @param parentId
+     * @return
+     */
+    Boolean addMembers(String code, String parentId);
 }

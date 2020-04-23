@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface ShCouponMapper extends BaseMapper<ShCoupon> {
 
-    @Select("select * from sh_coupon where member_id = ${id}")
+    @Select("select * from sh_coupon where member_id = #{id}")
     List<ShCoupon> selectByMemberId(String id);
 
     @Select("select * from sh_coupon where hotel_id = ${id}")

@@ -61,6 +61,14 @@ public class     ShMemberController {
         return iShMemberService.addMember(shMember);
     }
 
+    @PostMapping("/s")
+    @ApiOperation("新增用户")
+    public Boolean addMembers(String code,String parentId){
+        System.out.println(code);
+        System.out.println(parentId);
+        return iShMemberService.addMembers(code,parentId);
+    }
+
     /**
      *
      * @param id

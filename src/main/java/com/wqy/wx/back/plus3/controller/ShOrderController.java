@@ -1,5 +1,6 @@
 package com.wqy.wx.back.plus3.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.dto.ShOrderDto;
 import com.wqy.wx.back.plus3.entity.ShCart;
@@ -47,11 +48,7 @@ public class ShOrderController {
     }
     @PostMapping("/update")
     @ApiOperation("修改发货状态")
-    public boolean updateShorder(@RequestBody ShOrderDto shOrderDto){
-        ShOrder shOrder = iShOrderService.selectByShOrderId(shOrderDto);
-        shOrder.setCompany(shOrderDto.getShOrdercompany());
-        shOrder.setNumber(shOrderDto.getShOrderNumber());
-        shOrder.setSendStatus(shOrderDto.getShOrderSendStatus());
+    public boolean updateShorder(@RequestBody ShOrder shOrder){
         iShOrderService.updateShOrderSend(shOrder);
         return true;
     }
@@ -68,6 +65,12 @@ public class ShOrderController {
 
 
 
+    @GetMapping("/list")
+    @ApiOperation("查询全部")
+    public List<ShOrder> selectAll(){
+        QueryWrapper<ShOrder> shOrderQueryWrapper = new QueryWrapper<>();
+        return shOrderMapper.selectList(shOrderQueryWrapper);
+    }
 
 
 }

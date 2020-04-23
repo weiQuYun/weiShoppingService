@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.common.util.MothMoneyUtils;
+import com.wqy.wx.back.common.util.OpenIdGetUtils;
 import com.wqy.wx.back.common.util.ParamUtils;
 import com.wqy.wx.back.common.util.UUIDUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -22,9 +23,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -199,6 +202,12 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         }
 
     }
+
+    /**
+     * 查询单个用户
+     * @param id
+     * @return
+     */
     @Override
     public ShMember selectById(String id) {
         ShMember shMember = shMemberMapper.selectByid(id);
@@ -234,6 +243,76 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
         System.out.println(reflect);
         Page<ShMember> PageShMembers = new Page<>(pageDTO.getPageIndex(), pageDTO.getPageSize());
         return shMemberMapper.selectPage(PageShMembers,reflect);
+    }
+
+    @Override
+    @Transactional
+    public Boolean addMembers(String code, String parentId) {
+        try {
+            Map<String, String> map = OpenIdGetUtils.getOpenId(code);
+            String openId = map.get("openId");
+            if (shMemberMapper.selectByOpenId(openId)==null){
+                if (!StringUtils.isEmpty(parentId)){ //先判断他有没有上级，如果有进判断，如果没有直接添加设置为团长
+                    ShMember shMember1 = shMemberMapper.selectByParentId(parentId);//获取他的上级
+                    if (shMember1.getLvVip()==0) { //判断是否是vip
+                        return false;
+                    } else { //如果是vip就添加
+                        ShMember shMember = new ShMember();
+                        String uuid = UUIDUtils.getCharAndNumr();
+                        shMember.setId(uuid);
+                        shMember.setParentId(parentId);
+                        shMember.setOpenid(openId);
+                        shMember.setUsername("新用户" + System.currentTimeMillis());
+                        shMember.setPassword("");
+                        shMember.setEmail("");
+                        shMember.setPhone("");
+                        shMember.setIntegral(0L);
+                        shMember.setIntegralChangeRate(0);
+                        shMember.setIntegralChangeCount(0);
+                        shMember.setCaptainName("");
+                        Date date = new Date();
+                        shMember.setCreateTime(date);
+                        shMemberMapper.addMember(shMember);
+                        shMemberMapper.updateIntegral(parentId);
+                        //添加完毕后添加他个人的钱包，钱包金额设置为0
+                        shMoney.setAmount(new BigDecimal(0));
+                        shMoney.setId(shMember.getId());
+                        shMoneyMapper.insert(shMoney);
+                        return true;
+
+                    }
+                } else {//直接设置为团长
+                    ShMember shMember = new ShMember();
+                    String uuid = UUIDUtils.getCharAndNumr();
+                    shMember.setId(uuid);
+                    shMember.setOpenid(openId);
+                    shMember.setUsername("新用户" + System.currentTimeMillis());
+                    shMember.setPassword("");
+                    shMember.setEmail("");
+                    shMember.setPhone("");
+                    shMember.setIntegral(0L);
+                    shMember.setIntegralChangeRate(0);
+                    shMember.setIntegralChangeCount(0);
+                    shMember.setCaptainName("");
+                    Date date = new Date();
+                    shMember.setCreateTime(date);
+                    //设置是团长
+                    shMember.setIfsCaptain(1);
+                    shMemberMapper.addMember(shMember);
+                    //添加完毕后添加他个人的钱包，钱包金额设置为0
+                    shMoney.setAmount(new BigDecimal(0));
+                    shMoney.setId(shMember.getId());
+                    shMoneyMapper.insert(shMoney);
+                    return true;
+                }
+            }else {
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       return false;
     }
 
     /**
