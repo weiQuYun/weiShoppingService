@@ -33,6 +33,12 @@ public class ShTypeController {
         return iShTypeService.selectIndex();
     }
 
+    @GetMapping("/list/{id}")
+    @ApiOperation(value = "后端使用查询")
+    public List<ShType> getShTypee(@PathVariable("id") Integer id) {
+        return iShTypeService.selectAll(id);
+    }
+
     @PutMapping("")
     @ApiOperation(value = "分类修改")
     public String updateShType(@RequestBody ShType shType) {

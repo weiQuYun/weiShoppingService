@@ -89,4 +89,16 @@ public class ShTypeServiceImpl extends ServiceImpl<ShTypeMapper, ShType> impleme
         }
         return true;
     }
+
+    @Override
+    public List<ShType> selectAll(Integer id) {
+        if (id==0){
+            return shTypeMapper.selectList(null);
+        }else {
+            List<ShType> shTypes = shTypeMapper.selectList(null);
+            ShType indexshgoods = shTypeMapper.selectById("indexshgoods");
+            shTypes.remove(indexshgoods);
+            return shTypes;
+        }
+    }
 }

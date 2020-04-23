@@ -30,4 +30,6 @@ public interface IShTypeService extends IService<ShType> {
     boolean insertShType(List<ShType> list);
 
     boolean deleteShType(List<String> list);
+
+    List<ShType> selectAll(Integer id);
 }

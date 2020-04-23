@@ -48,21 +48,24 @@ public class ShGoodsServiceImpl extends ServiceImpl<ShGoodsMapper, ShGoods> impl
     @Override
     //暂时未有模糊查询之后需求更改
     public List<ShGoods> selectAll(ShGoods shGoods) {
-
+        try{
         if (shGoods.getId().length()>30){
             List<ShGoods> list = new ArrayList<>();
             ShGoods shGoods1 = shGoodsMapper.selectById(shGoods.getId());
             list.add(shGoods1);
             return ShGoodsPricePlus.add(list);
+        }}catch (Exception e){
+
         }
         if (shGoods.getGoodsName() == null) {
             List<ShGoods> list = shGoodsMapper.selectList(null);
             return ShGoodsPricePlus.add(list);
         }
-
+        shGoods.setId(null);
         QueryWrapper<ShGoods> queryMrapper = new QueryWrapper<ShGoods>();
-        QueryWrapper<ShGoods> reflect = ParamUtils.reflect(shGoods, queryMrapper);
-        List<ShGoods> list = shGoodsMapper.selectList(reflect);
+        QueryWrapper<ShGoods> goods_name = queryMrapper.like("goods_name", shGoods.getGoodsName());
+        // QueryWrapper<ShGoods> reflect = ParamUtils.reflect(shGoods, queryMrapper);
+        List<ShGoods> list = shGoodsMapper.selectList(goods_name);
         return ShGoodsPricePlus.add(list);
     }
 
