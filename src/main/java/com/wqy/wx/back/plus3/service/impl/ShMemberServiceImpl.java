@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                     shMoney.setAmount(new BigDecimal(0));
                     shMoney.setId(shMember.getId());
                     shMoneyMapper.insert(shMoney);
-                    shareIDChange.insertParentLongSortId(parentId);
+                    //shareIDChange.insertParentLongSortId(parentId);
                     return true;
 
                 }
@@ -93,7 +94,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                 shMoney.setAmount(new BigDecimal(0));
                 shMoney.setId(shMember.getId());
                 shMoneyMapper.insert(shMoney);
-                shareIDChange.insertParentLongSortId(parentId);
+               // shareIDChange.insertParentLongSortId(parentId);
                 return true;
             }
         }else {
@@ -109,7 +110,9 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
      */
     @Override
     @Transactional
-    public void addVipMember(Integer lvVip, String id) {
+    public void
+
+    addVipMember(Integer lvVip, String id) {
         //添加vip
         shMemberMapper.addVipMember(lvVip, id);
         //根据id查找这个用户
@@ -220,6 +223,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
      */
     @Override
     public ShMember selectById(String id) {
+        System.out.println(id);
         ShMember shMember = shMemberMapper.selectByid(id);
         String id1 = shMember.getId();
         ShMoney shMoney = shMoneyMapper.selecyByMemberId(id1);
@@ -288,7 +292,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                         shMoney.setAmount(new BigDecimal(0));
                         shMoney.setId(shMember.getId());
                         shMoneyMapper.insert(shMoney);
-                        shareIDChange.insertParentLongSortId(parentId);
+                       // shareIDChange.insertParentLongSortId(parentId);
                         return true;
 
                     }
@@ -314,7 +318,7 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                     shMoney.setAmount(new BigDecimal(0));
                     shMoney.setId(shMember.getId());
                     shMoneyMapper.insert(shMoney);
-                    shareIDChange.insertParentLongSortId(parentId);
+                  //  shareIDChange.insertParentLongSortId(parentId);
                     return true;
                 }
             }else {
@@ -325,6 +329,45 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             e.printStackTrace();
         }
        return false;
+    }
+
+    @Override
+    public List<ShMember> selectDownThree(String id) {
+        //一成
+        List<ShMember> shMembers = shMemberMapper.selectDownThree(id);
+        List<String> list = new ArrayList<>();
+        for (ShMember shMember : shMembers) {
+            list.add(shMember.getId());
+        }
+        //二成
+        List<String> list1 = new ArrayList<>();
+        for (String s : list) {
+            List<ShMember> shMembers1 = shMemberMapper.selectDownThree(s);
+            for (ShMember shMember : shMembers1) {
+                list1.add(shMember.getId());
+            }
+        }
+        //三成
+        List<String> list2 = new ArrayList<>();
+        for (String s : list1) {
+            List<ShMember> shMembers1 = shMemberMapper.selectDownThree(s);
+            for (ShMember shMember : shMembers1) {
+                list2.add(shMember.getId());
+            }
+        }
+        for (String s : list1) {
+            list.add(s);
+        }
+        for (String s : list2) {
+            list.add(s);
+        }
+        List<ShMember> list3 = new ArrayList<>();
+        for (String s : list) {
+            ShMember shMember = shMemberMapper.selectByid(s);
+            list3.add(shMember);
+        }
+        return list3;
+
     }
 
     /**

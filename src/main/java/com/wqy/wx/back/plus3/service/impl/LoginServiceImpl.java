@@ -15,6 +15,8 @@ import com.wqy.wx.back.dto.LoginDto;
 import com.wqy.wx.back.plus3.entity.ShMember;
 import com.wqy.wx.back.plus3.entity.ShMoney;
 import com.wqy.wx.back.plus3.entity.ShUser;
+import com.wqy.wx.back.plus3.mapper.ShMemberMapper;
+import com.wqy.wx.back.plus3.mapper.ShMoneyMapper;
 import com.wqy.wx.back.plus3.service.ILoginService;
 import com.wqy.wx.back.plus3.service.IShMemberService;
 import com.wqy.wx.back.plus3.service.IShUserService;
@@ -59,6 +61,8 @@ public class LoginServiceImpl implements ILoginService {
     private RedisUtil redisUtil;
     @Autowired
     private ShareIDChange shareIDChange;
+    @Autowired
+    private ShMoneyMapper shMoneyMapper;
 
 
     @Override
@@ -85,12 +89,17 @@ public class LoginServiceImpl implements ILoginService {
             tMenber.setUsername("新用户" + System.currentTimeMillis());
             tMenber.setId(UUIDUtils.getCharAndNumr());
             tMenber.insert();
-            shareIDChange.insertParentLongSortId(tMenber.getId());
+           //shareIDChange.insertParentLongSortId(tMenber.getId());
             //这里给用户新添加了钱包
-            ShMoney shMoney = new ShMoney();
-            shMoney.setAmount(new BigDecimal(0));
-            shMoney.setId(tMenber.getId());
-            shMoney.insert();
+            ShMoney shMoney1 = new ShMoney();
+            shMoney1.setAmount(new BigDecimal(0));
+            shMoney1.setId(tMenber.getId());
+            shMoneyMapper.insert(shMoney1);
+
+//            ShMoney shMoney = new ShMoney();
+//            shMoney.setAmount(new BigDecimal(0));
+//            shMoney.setId(tMenber.getId());
+//            shMoney.insert();
             List<ShMember> list1 = itMenberService.list(queryWrapper);
             tMenber = list1.get(0);
             Req req = new Req();

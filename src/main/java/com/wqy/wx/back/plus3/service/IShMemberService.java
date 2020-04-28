@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.wqy.wx.back.common.util.page.PageDTO;
 import com.wqy.wx.back.plus3.entity.ShMember;
 
+import java.util.List;
+
 /**
  * <p>
  * 会员表 服务类
@@ -48,4 +50,7 @@ public interface IShMemberService extends IService<ShMember> {
      * @return
      */
     Boolean addMembers(String code, String parentId);
+
+
+    List<ShMember> selectDownThree(String id);
 }

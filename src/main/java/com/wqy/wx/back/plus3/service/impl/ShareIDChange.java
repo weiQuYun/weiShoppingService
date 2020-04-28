@@ -25,7 +25,7 @@ public class ShareIDChange {
         ShDict shDict = new ShDict();
         shDict.setDictTypeName(memberId);
         shDict.setDictTypeCode(UUIDUtils.getParent());
-        shDictMapper.insert(shDict);
+//        shDictMapper.insert(shDict);
         return true;
     }
 

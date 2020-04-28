@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author licm
@@ -69,8 +70,14 @@ public class     ShMemberController {
     public Boolean addMembers(String code,String parentId){
         System.out.println(code);
         System.out.println(parentId);
-        String parentLong = shareIDChange.getParentLong(parentId);
-        return iShMemberService.addMembers(code,parentLong);
+        //String parentLong = shareIDChange.getParentLong(parentId);
+        return iShMemberService.addMembers(code,parentId);
+    }
+    //向下查三层 权老板 你倒是写了啊。。。。。。。。。。。。。。。。。4点还要加接口
+    @GetMapping("/downThree/{id}")
+    @ApiOperation("向下查三层")
+    public List<ShMember> getDownThree(@PathVariable("id") String id){
+        return iShMemberService.selectDownThree(id);
     }
 
     /**

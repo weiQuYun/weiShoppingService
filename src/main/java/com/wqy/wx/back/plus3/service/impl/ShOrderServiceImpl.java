@@ -113,6 +113,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
                 shOrder.setPayStatus(4);
             }
         } ;//非会员不存在这个钱的问题
+        shOrderMapper.insert(shOrder);
         return shOrder;
     }
 
@@ -129,11 +130,19 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
         return false;
     }
 
+    private ShOrder TUUD(ShOrder shOrder){
+        ShOrder shOrder1 = shOrderMapper.selectByOrderId(shOrder.getOrderId());
+        shOrder.setTotalPrice(shOrder1.getTotalPrice());
+        shOrderMapper.deleteById(shOrder1);
+        return shOrder;
+    }
+
     @Override
     @Transactional
     public Boolean updateShOrder(ShOrder shOrder) {
         //这里是正式下单或者修改订单 都需要保存订单
         ShMember shMember = shMemberMapper.selectById(shOrder.getMemberId());
+        shOrder = TUUD(shOrder);
         if (shOrder.getPayStatus() == 1) {
             //已经下单支付这是增加物流之类的 此处要增加返还积分及其其他的上积分情况
             if (shMember.getLvVip() == 0) {

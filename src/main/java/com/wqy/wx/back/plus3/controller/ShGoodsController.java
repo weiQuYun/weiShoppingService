@@ -36,8 +36,11 @@ public class ShGoodsController {
             return list;
         }*/
         List<ShGoodsAttr> shGoodsAttrs = iShGoodsAttrService.selectAll(shGoods);
-        list.get(0).setGoodsAttrList(shGoodsAttrs);
-        System.out.println(list);
+        try {
+            list.get(0).setGoodsAttrList(shGoodsAttrs);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return list;
     }
 
