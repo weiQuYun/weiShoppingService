@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class ShCouponServiceImpl extends ServiceImpl<ShCouponMapper, ShCoupon> i
     }
 
     @Override
+    @Transactional
     public void doShCoupon(HotelUserhotel hotelUserhotel,String id) {
         ShCoupon shCoupon = shCouponMapper.selectById(id);
         shCoupon.setHotelId(hotelUserhotel.getHotelId());

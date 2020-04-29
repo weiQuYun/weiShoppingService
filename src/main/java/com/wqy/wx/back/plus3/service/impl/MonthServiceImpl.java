@@ -28,6 +28,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -57,6 +58,7 @@ public class MonthServiceImpl extends ServiceImpl<MothMoneyMapper, MothMoney> im
      * 查询消费记录
      */
     @Override
+    @Transactional
     public List<MonthDto> getList(MothMoney mothMoney){
         QueryWrapper<MothMoney> query = new QueryWrapper<>();
         query = ParamUtils.reflect(mothMoney,query);
@@ -76,6 +78,7 @@ public class MonthServiceImpl extends ServiceImpl<MothMoneyMapper, MothMoney> im
         return list;
     }
     @Override
+    @Transactional
     public void downloadFile(String date, HttpServletResponse response){
         String fileName = null;
         File file = null;
@@ -107,6 +110,7 @@ public class MonthServiceImpl extends ServiceImpl<MothMoneyMapper, MothMoney> im
         }
     }
     @Override
+    @Transactional
     public  void  createFile(){
         List<ExclDto> list = new ArrayList<>();
         MothMoney mothMoney = new MothMoney();

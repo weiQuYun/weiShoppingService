@@ -312,6 +312,7 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
     }
 
     @Override
+    @Transactional
     public void updateShOrderSend(ShOrder shOrder) {
         shOrderMapper.updateById(shOrder);
     }

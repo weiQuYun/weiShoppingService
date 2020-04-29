@@ -27,6 +27,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +67,7 @@ public class LoginServiceImpl implements ILoginService {
 
 
     @Override
+    @Transactional
     public Req vxLogin(String phoneNumber, HttpServletRequest request, HttpServletResponse response) {
         CheckUtils.isStrBlank(phoneNumber, "云编码");
         String phoneNumber1 = getPhoneNumber(phoneNumber);//这里获取的code有问题 给他切了一下
@@ -126,6 +128,7 @@ public class LoginServiceImpl implements ILoginService {
      * @param tMenber
      * @param req
      */
+    @Transactional
     private void retrunData(String phoneNumber, HttpServletRequest request, HttpServletResponse response, ShMember tMenber, Req req) {
         req.setToken(tokenService.getToken(phoneNumber));
         req.setUserId(tMenber.getId());
@@ -141,6 +144,7 @@ public class LoginServiceImpl implements ILoginService {
     }
 
     @Override
+    @Transactional
     public Req backLogin(LoginDto dto, HttpServletRequest request, HttpServletResponse response) {
         CheckUtils.isObjectBlank(dto, "登陆信息");
         CheckUtils.isStrBlank(dto.getUserName(), "用户名");
@@ -177,6 +181,7 @@ public class LoginServiceImpl implements ILoginService {
      * @param tUser
      * @param req
      */
+    @Transactional
     private void returnData(HttpServletRequest request, HttpServletResponse response, ShUser tUser, Req req) {
         req.setToken(tokenService.getToken(tUser.getUsername(), tUser.getPassword()));
         req.setUserId(tUser.getId());
@@ -196,6 +201,7 @@ public class LoginServiceImpl implements ILoginService {
      * @param id
      * @return
      */
+    @Transactional
     private Req loginReg(HttpServletRequest request, String id) {
         Req vxLoginDto1 = (Req) redisUtil.get(id);
         if (vxLoginDto1 != null) {
@@ -210,6 +216,7 @@ public class LoginServiceImpl implements ILoginService {
     }
 
     @Override
+    @Transactional
     public Boolean logOut(String userId, HttpServletRequest request, HttpServletResponse response) {
         CheckUtils.isStrBlank(userId, "用户");
         redisUtil.del(userId);

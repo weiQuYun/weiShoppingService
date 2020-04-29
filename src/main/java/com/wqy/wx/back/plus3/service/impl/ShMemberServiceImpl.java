@@ -636,6 +636,8 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             String orderUUID = UUIDUtils.getCharAndNumr();
             shOrder1.setOrderId(orderUUID);
             shOrder1.setMemberId(shMember.getId());
+            shOrder1.setPayStatus(1);
+            shOrder1.setSendStatus(0);
             Integer lvVip = shMember.getLvVip();
             if (lvVip==1){
                 shOrder1.setTotalPrice(new BigDecimal(99));

@@ -45,6 +45,7 @@ public class WXPayServiceImpl implements WXPayService {
         ShOrder shOrder = shOrderMapper.selectByOrderId(out_trade_no); //根据订单号查询订单
         String orderId = shOrder.getOrderId(); //查询订单的id
         BigDecimal totalPrice = shOrder.getTotalPrice(); //查询订单的总价格  商品价格
+        totalPrice = totalPrice.multiply(new BigDecimal(100));
         ShOrderGoods shOrderGoods = shOrderGoodsMapper.selectByOrderId(orderId); //根据订单id查询订单详情
 //        String goodsId = shOrderGoods.getGoodsId(); //获取商品id
 //        ShGoods goods = shGoodsMapper.selectById(goodsId); //获取到指定的商品
@@ -106,7 +107,7 @@ public class WXPayServiceImpl implements WXPayService {
                 payMap.put("timeStamp", timeStamp + "");//这边要将返回的时间戳转化成字符串，不然小程序端调用wx.requestPayment方法会报签名错误
                 //拼接签名需要的参数
                 //大致在这一块给前端拼接了他需要的那个串 4个参数 加一个sign
-                String stringSignTemp = "appId=" + WXPayConfig.appid + "&nonceStr=" + nonce_str + "&package=prepay_id=" + prepay_id + "&signType=MD5&timestamp=" + timeStamp;
+                String stringSignTemp = "appId=" + WXPayConfig.appid + "&nonceStr=" + nonce_str + "&package=prepay_id=" + prepay_id + "&signType=MD5&timeStamp=" + timeStamp;
                 //再次签名，这个签名用于小程序端调用wx.requesetPayment方法
                 String paySign = PayUtils.sign(stringSignTemp, WXPayConfig.key, "utf-8");
                 //下面这个地方名字存疑 可以看看前端到底是要什么串 名字是什么----------------------------------------------------------------检查这里
