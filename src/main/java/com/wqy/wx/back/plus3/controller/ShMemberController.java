@@ -7,6 +7,7 @@ import com.wqy.wx.back.common.Constant;
 import com.wqy.wx.back.common.util.UUIDUtils;
 import com.wqy.wx.back.common.util.page.PageDTO;
 import com.wqy.wx.back.dto.AddressDto;
+import com.wqy.wx.back.dto.WxPatDto;
 import com.wqy.wx.back.plus3.entity.ShMember;
 import com.wqy.wx.back.plus3.entity.ShOrder;
 import com.wqy.wx.back.plus3.mapper.ShOrderMapper;
@@ -51,9 +52,9 @@ public class     ShMemberController {
     /**
      * 根据id查询单个用户
      */
-    @GetMapping("/{id}")
+    @PostMapping("/one")
     @ApiOperation("查询单个用户")
-    public ShMember selectById(@PathVariable String id){
+    public ShMember selectById(@RequestBody String id){
         return iShMemberService.selectById(id);
     }
     /**
@@ -119,7 +120,13 @@ public class     ShMemberController {
         return true;
     }
 
+    @PostMapping("/vipOrder")
+    @ApiOperation("开会员先调用这个接口生成订单,传用户id和要开的vip等级给我")
+    public WxPatDto vipOrder(@RequestBody ShMember shMember){
+        WxPatDto wxPatDto = iShMemberService.vipOrder(shMember);
+        return wxPatDto;
 
+    }
     @GetMapping("/parentId/{id}")
     @ApiOperation("获取自己的推荐码")
     public String getShareId(@PathVariable("id") String id){

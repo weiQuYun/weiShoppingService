@@ -72,4 +72,7 @@ public interface ShMemberMapper extends BaseMapper<ShMember> {
 
     @Select("select * from sh_member where parent_id = #{id}")
     List<ShMember> selectDownThree(String id);
+
+    @Select("select * from sh_member where share_number=#{shareNumber}")
+    ShMember selectByShare(String shareNumber);
 }

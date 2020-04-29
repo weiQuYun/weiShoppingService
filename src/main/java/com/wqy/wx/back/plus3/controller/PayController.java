@@ -3,6 +3,7 @@ package com.wqy.wx.back.plus3.controller;
 
 import com.wqy.wx.back.common.util.PayUtils;
 import com.wqy.wx.back.configer.WXPayConfig;
+import com.wqy.wx.back.dto.WxPatDto;
 import com.wqy.wx.back.plus3.mapper.ShMemberMapper;
 import com.wqy.wx.back.plus3.service.IShMemberService;
 import com.wqy.wx.back.plus3.service.WXPayService;
@@ -11,9 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,8 +55,10 @@ public class PayController {
     //如果成功 我们发回报文 即可完成支付 失败也要发报文!
     @ApiOperation("首次请求")
     @PostMapping(value = "/wxPay")
-    public Object wxPay(String orderId, HttpServletRequest request,String id){
+    public Object wxPay(@RequestBody WxPatDto wxPatDto, HttpServletRequest request){
         System.out.println("555555555555555");
+        String id = wxPatDto.getId();
+        String orderId = wxPatDto.getOrderId();
         Object result = new Object();
         //1.获取用户IP
         try {

@@ -88,6 +88,7 @@ public class LoginServiceImpl implements ILoginService {
         } else if (CollectionUtils.isEmpty(list)) {
             tMenber.setUsername("新用户" + System.currentTimeMillis());
             tMenber.setId(UUIDUtils.getCharAndNumr());
+            tMenber.setShareNumber(Integer.valueOf(UUIDUtils.getNumber(8)));
             tMenber.insert();
            //shareIDChange.insertParentLongSortId(tMenber.getId());
             //这里给用户新添加了钱包
@@ -131,6 +132,8 @@ public class LoginServiceImpl implements ILoginService {
         req.setUserName(tMenber.getUsername());
         req.setUserType(tMenber.getLvVip().toString());
         req.setIp(request.getRemoteAddr());
+        req.setParentId(tMenber.getParentId());
+        req.setSharNumber(tMenber.getShareNumber().toString());
         redisUtil.set(tMenber.getId(), req, Constant.LOGIN_TIME_OUT, TimeUnit.SECONDS);
         Cookie cookie = new Cookie("token", req.getToken());
         cookie.setPath("/");

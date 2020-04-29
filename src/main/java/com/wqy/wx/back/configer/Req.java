@@ -29,6 +29,10 @@ public class Req implements Serializable {
     private String userName;
     @ApiModelProperty(value = "请求用户类型", hidden = false)
     private String userType;
+    @ApiModelProperty(value = "请求用户父id", hidden = false)
+    private String parentId;
+    @ApiModelProperty(value = "请求用户分享码", hidden = false)
+    private String sharNumber;
 //    @ApiModelProperty(value = "请求用户归属店铺", hidden = false)
 //    private String shopId;
 }

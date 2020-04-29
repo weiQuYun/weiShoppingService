@@ -9,11 +9,9 @@ import com.wqy.wx.back.common.util.ParamUtils;
 import com.wqy.wx.back.common.util.UUIDUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wqy.wx.back.common.util.page.PageDTO;
+import com.wqy.wx.back.dto.WxPatDto;
 import com.wqy.wx.back.plus3.entity.*;
-import com.wqy.wx.back.plus3.mapper.ShCouponMapper;
-import com.wqy.wx.back.plus3.mapper.ShMemberMapper;
-import com.wqy.wx.back.plus3.mapper.ShMoneyMapper;
-import com.wqy.wx.back.plus3.mapper.ShVipMapper;
+import com.wqy.wx.back.plus3.mapper.*;
 import com.wqy.wx.back.plus3.service.IShMemberService;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +52,8 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
     private ShCouponMapper shCouponMapper;
     @Autowired
     private ShareIDChange shareIDChange;
+    @Autowired
+    private ShOrderMapper shOrderMapper;
     ShMoney shMoney=new ShMoney();
     @Override
     @Transactional
@@ -142,15 +142,27 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             //添加优惠卷
             ShCoupon shCoupon = new ShCoupon();
             //添加会员id
-            shCoupon.setMemberId(id);
+           shCoupon.setMemberId(id);
             //添加UUID
-            shCoupon.setId(UUIDUtils.getCharAndNumr());
+           shCoupon.setId(UUIDUtils.getCharAndNumr());
+           //添加优惠一袋水
+            shCoupon.setCouponName("水");
+
             shCouponMapper.insert(shCoupon);
             //判断有没有上级
             if (StringUtils.isEmpty(parentId)){
                 return;
             }else {
                 ShMember shMember2 = shMemberMapper.selectByid(parentId);
+                //添加优惠卷
+                ShCoupon shCoupon2 = new ShCoupon();
+                //添加会员id
+                shCoupon2.setMemberId(parentId);
+                //添加UUID
+                shCoupon2.setId(UUIDUtils.getCharAndNumr());
+                //添加线下优惠卷
+                shCoupon2.setCouponName("线下体验卷");
+                shCouponMapper.insert(shCoupon);
                 Long integral = null;
                 if (shMember2.getIntegral()==null){
                     integral=0l;
@@ -161,18 +173,112 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                 this.rebatesIntegral(fist,parentId);
             }
             //二级会员进这个判断
-        }else if (vipLevel==2){
+        }
+        else if (vipLevel==2){
             //添加优惠卷
             ShCoupon shCoupon = new ShCoupon();
             //添加会员id
             shCoupon.setMemberId(id);
-            for (int i = 0; i <12; i++) {
+            for (int i = 0; i <3; i++) {
                 //添加优惠卷
                 ShCoupon shCoupon1 = new ShCoupon();
                 //添加会员id
                 shCoupon1.setMemberId(id);
                 //添加UUID
                 shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                shCoupon1.setCouponName("水");
+                shCouponMapper.insert(shCoupon1);
+            }
+            if (StringUtils.isEmpty(parentId)){ //如果上级为空
+                return;
+            }
+            //查询上级
+            ShMember shMember = shMemberMapper.selectByid(parentId);
+            System.out.println("---------------");
+            System.out.println(shMember.getParentId()==" ");
+            System.out.println(StringUtils.isEmpty(parentId));
+            //查询他的上上级的id
+            String parentId2 = shMember.getParentId();
+            System.out.println(parentId2.equals(""));
+            ShMember shMember3 = shMemberMapper.selectByid(parentId2);
+          //  String parentId3 = shMember3.getParentId();
+           // parentId2.equals("")
+            System.out.println("==============================");
+            System.out.println(shMember3);
+            //System.out.println(shMember3==null);
+            if (StringUtils.isEmpty(parentId)){
+                return;
+            }else if (!StringUtils.isEmpty(parentId) && StringUtils.isEmpty(parentId2) && shMember3==null){
+                System.out.println("11111111111111111");//只有一层
+                //添加4优惠卷
+                for (int i = 0; i <4; i++) {
+                    //添加优惠卷
+                    ShCoupon shCoupon1 = new ShCoupon();
+                    //添加会员id
+                    shCoupon1.setMemberId(parentId);
+                    //添加UUID
+                    shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                    shCoupon1.setCouponName("线下优惠卷");
+                    shCouponMapper.insert(shCoupon1);
+                }
+                ShMember shMember2 = shMemberMapper.selectByid(parentId);
+                Long integral = shMember2.getIntegral();
+                Long fist = this.fist(integral, num, vipPrice);
+                this.rebatesIntegral(fist,parentId);
+            }else if (!StringUtils.isEmpty(parentId) && !StringUtils.isEmpty(parentId2) && shMember3==null){ //有两层
+                //添加4优惠卷
+                for (int i = 0; i <4; i++) {
+                    //添加优惠卷
+                    ShCoupon shCoupon1 = new ShCoupon();
+                    //添加会员id
+                    shCoupon1.setMemberId(parentId);
+                    //添加UUID
+                    shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                    shCoupon1.setCouponName("线下优惠卷");
+                    shCouponMapper.insert(shCoupon1);
+                }
+                ShMember shMember2 = shMemberMapper.selectByid(parentId2);
+                Long integral = shMember2.getIntegral();
+                Long fist = this.fist(integral, num, vipPrice);
+                Long second=this.fist(integral,num2,vipPrice);
+                this.rebatesIntegral(fist,parentId);
+                this.rebatesIntegral(second,parentId2);
+            }else if (!StringUtils.isEmpty(parentId) && !StringUtils.isEmpty(parentId2) && shMember3!=null){ //有三层
+                //添加4优惠卷
+                for (int i = 0; i <4; i++) {
+                    //添加优惠卷
+                    ShCoupon shCoupon1 = new ShCoupon();
+                    //添加会员id
+                    shCoupon1.setMemberId(parentId);
+                    //添加UUID
+                    shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                    shCoupon1.setCouponName("线下优惠卷");
+                    shCouponMapper.insert(shCoupon1);
+                }
+                String parentId4 = shMemberMapper.selectByid(parentId2).getParentId();
+                ShMember shMember2 = shMemberMapper.selectByid(parentId2);
+                Long integral = shMember2.getIntegral();
+                Long fist = this.fist(integral, num, vipPrice);
+                Long second=this.fist(integral,num2,vipPrice);
+                this.rebatesIntegral(fist,parentId);
+                this.rebatesIntegral(second,parentId2);
+                this.rebatesIntegral(second,parentId4);
+
+            }
+        }
+        else if (lvVip==3){
+            //添加优惠卷
+            ShCoupon shCoupon = new ShCoupon();
+            //添加会员id
+            shCoupon.setMemberId(id);
+            for (int i = 0; i <6; i++) {
+                //添加优惠卷
+                ShCoupon shCoupon1 = new ShCoupon();
+                //添加会员id
+                shCoupon1.setMemberId(id);
+                //添加UUID
+                shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                shCoupon1.setCouponName("水");
                 shCouponMapper.insert(shCoupon1);
             }
             if (StringUtils.isEmpty(parentId)){ //如果上级为空
@@ -183,18 +289,41 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             //查询他的上上级的id
             String parentId2 = shMember.getParentId();
             ShMember shMember3 = shMemberMapper.selectByid(parentId2);
-          //  String parentId3 = shMember3.getParentId();
-            //System.out.println("==============================");
+            //  String parentId3 = shMember3.getParentId();
+            System.out.println("==============================");
             System.out.println(shMember3==null);
+            System.out.println(shMember3);
             //System.out.println(shMember3==null);
             if (StringUtils.isEmpty(parentId)){
                 return;
             }else if (!StringUtils.isEmpty(parentId) && StringUtils.isEmpty(parentId2) && shMember3==null){ //只有一层
-                ShMember shMember2 = shMemberMapper.selectByid(parentId);
-                Long integral = shMember2.getIntegral();
-                Long fist = this.fist(integral, num, vipPrice);
-                this.rebatesIntegral(fist,parentId);
+                //添加12优惠卷
+                for (int i = 0; i <12; i++) {
+                    //添加优惠卷
+                    ShCoupon shCoupon1 = new ShCoupon();
+                    //添加会员id
+                    shCoupon1.setMemberId(parentId);
+                    //添加UUID
+                    shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                    shCoupon1.setCouponName("线下优惠卷");
+                    shCouponMapper.insert(shCoupon1);
+                }
+                ShMember shMember2 = shMemberMapper.selectByid(parentId); //查询他的上一层对象
+                Long integral = shMember2.getIntegral(); //获取他上一层的积分
+                Long fist = this.fist(integral, num, vipPrice); //计算折算后的积分
+                this.rebatesIntegral(fist,parentId);//积分返点
             }else if (!StringUtils.isEmpty(parentId) && !StringUtils.isEmpty(parentId2) && shMember3==null){ //有两层
+                //添加12优惠卷
+                for (int i = 0; i <12; i++) {
+                    //添加优惠卷
+                    ShCoupon shCoupon1 = new ShCoupon();
+                    //添加会员id
+                    shCoupon1.setMemberId(parentId);
+                    //添加UUID
+                    shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                    shCoupon1.setCouponName("线下优惠卷");
+                    shCouponMapper.insert(shCoupon1);
+                }
                 ShMember shMember2 = shMemberMapper.selectByid(parentId2);
                 Long integral = shMember2.getIntegral();
                 Long fist = this.fist(integral, num, vipPrice);
@@ -202,6 +331,124 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                 this.rebatesIntegral(fist,parentId);
                 this.rebatesIntegral(second,parentId2);
             }else if (!StringUtils.isEmpty(parentId) && !StringUtils.isEmpty(parentId2) && shMember3!=null){ //有三层
+                //添加12优惠卷
+                for (int i = 0; i <12; i++) {
+                    //添加优惠卷
+                    ShCoupon shCoupon1 = new ShCoupon();
+                    //添加会员id
+                    shCoupon1.setMemberId(parentId);
+                    //添加UUID
+                    shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                    shCoupon1.setCouponName("线下优惠卷");
+                    shCouponMapper.insert(shCoupon1);
+                }
+                String parentId4 = shMemberMapper.selectByid(parentId2).getParentId();
+                ShMember shMember2 = shMemberMapper.selectByid(parentId2);
+                Long integral = shMember2.getIntegral();
+                Long fist = this.fist(integral, num, vipPrice);
+                Long second=this.fist(integral,num2,vipPrice);
+                this.rebatesIntegral(fist,parentId);
+                this.rebatesIntegral(second,parentId2);
+                this.rebatesIntegral(second,parentId4);
+
+            }
+        }
+        else if (lvVip==4){
+            //添加优惠卷
+            ShCoupon shCoupon = new ShCoupon();
+            //添加会员id
+            shCoupon.setMemberId(id);
+            for (int i = 0; i <6; i++) {
+                //添加优惠卷
+                ShCoupon shCoupon1 = new ShCoupon();
+                //添加会员id
+                shCoupon1.setMemberId(id);
+                //添加UUID
+                shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                shCoupon1.setCouponName("水");
+                shCouponMapper.insert(shCoupon1);
+            }
+            if (StringUtils.isEmpty(parentId)){ //如果上级为空
+                return;
+            }
+            //查询上级
+            ShMember shMember = shMemberMapper.selectByid(parentId);
+            //查询他的上上级的id
+            String parentId2 = shMember.getParentId();
+            ShMember shMember3 = shMemberMapper.selectByid(parentId2);
+            //  String parentId3 = shMember3.getParentId();
+            //System.out.println("==============================");
+            System.out.println(shMember3==null);
+            //System.out.println(shMember3==null);
+            if (StringUtils.isEmpty(parentId)){
+                return;
+            }else if (!StringUtils.isEmpty(parentId) && StringUtils.isEmpty(parentId2) && shMember3==null){ //只有一层
+                //添加12优惠卷
+                for (int i = 0; i <12; i++) {
+                    //添加优惠卷
+                    ShCoupon shCoupon1 = new ShCoupon();
+                    //添加会员id
+                    shCoupon1.setMemberId(parentId);
+                    //添加UUID
+                    shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                    shCoupon1.setCouponName("线下优惠卷");
+                    shCouponMapper.insert(shCoupon1);
+                }
+                //添加一个桶
+                ShCoupon shCoupon2 = new ShCoupon();
+                shCoupon2.setMemberId(parentId);
+                //添加UUID
+                shCoupon2.setId(UUIDUtils.getCharAndNumr());
+                shCoupon2.setCouponName("桶");
+                shCouponMapper.insert(shCoupon2);
+                ShMember shMember2 = shMemberMapper.selectByid(parentId);
+                Long integral = shMember2.getIntegral();
+                Long fist = this.fist(integral, num, vipPrice);
+                this.rebatesIntegral(fist,parentId);
+            }else if (!StringUtils.isEmpty(parentId) && !StringUtils.isEmpty(parentId2) && shMember3==null){ //有两层
+                //添加12优惠卷
+                for (int i = 0; i <12; i++) {
+                    //添加优惠卷
+                    ShCoupon shCoupon1 = new ShCoupon();
+                    //添加会员id
+                    shCoupon1.setMemberId(parentId);
+                    //添加UUID
+                    shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                    shCoupon1.setCouponName("线下优惠卷");
+                    shCouponMapper.insert(shCoupon1);
+                }
+                //添加一个桶
+                ShCoupon shCoupon2 = new ShCoupon();
+                shCoupon2.setMemberId(parentId);
+                //添加UUID
+                shCoupon2.setId(UUIDUtils.getCharAndNumr());
+                shCoupon2.setCouponName("桶");
+                shCouponMapper.insert(shCoupon2);
+                ShMember shMember2 = shMemberMapper.selectByid(parentId2);
+                Long integral = shMember2.getIntegral();
+                Long fist = this.fist(integral, num, vipPrice);
+                Long second=this.fist(integral,num2,vipPrice);
+                this.rebatesIntegral(fist,parentId);
+                this.rebatesIntegral(second,parentId2);
+            }else if (!StringUtils.isEmpty(parentId) && !StringUtils.isEmpty(parentId2) && shMember3!=null){ //有三层
+                //添加12优惠卷
+                for (int i = 0; i <12; i++) {
+                    //添加优惠卷
+                    ShCoupon shCoupon1 = new ShCoupon();
+                    //添加会员id
+                    shCoupon1.setMemberId(parentId);
+                    //添加UUID
+                    shCoupon1.setId(UUIDUtils.getCharAndNumr());
+                    shCoupon1.setCouponName("线下优惠卷");
+                    shCouponMapper.insert(shCoupon1);
+                }
+                //添加一个桶
+                ShCoupon shCoupon2 = new ShCoupon();
+                shCoupon2.setMemberId(parentId);
+                //添加UUID
+                shCoupon2.setId(UUIDUtils.getCharAndNumr());
+                shCoupon2.setCouponName("桶");
+                shCouponMapper.insert(shCoupon2);
                 String parentId4 = shMemberMapper.selectByid(parentId2).getParentId();
                 ShMember shMember2 = shMemberMapper.selectByid(parentId2);
                 Long integral = shMember2.getIntegral();
@@ -261,18 +508,21 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
 
     @Override
     @Transactional
+    //TODO
     public Boolean addMembers(String code, String parentId) {
         try {
             Map<String, String> map = OpenIdGetUtils.getOpenId(code);
             String openId = map.get("openId");
             if (shMemberMapper.selectByOpenId(openId)==null){
                 if (!StringUtils.isEmpty(parentId)){ //先判断他有没有上级，如果有进判断，如果没有直接添加设置为团长
-                    ShMember shMember1 = shMemberMapper.selectByParentId(parentId);//获取他的上级
+                    ShMember shMember1 = shMemberMapper.selectByShare(parentId);//获取他的上级 通过ShareNumber虚拟父id查询
                     if (shMember1.getLvVip()==0) { //判断是否是vip
                         return false;
                     } else { //如果是vip就添加
+                        int parent =Integer.valueOf(UUIDUtils.getNumber(8)) ;
                         ShMember shMember = new ShMember();
                         String uuid = UUIDUtils.getCharAndNumr();
+                        shMember.setShareNumber(parent);
                         shMember.setId(uuid);
                         shMember.setParentId(parentId);
                         shMember.setOpenid(openId);
@@ -298,7 +548,9 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
                     }
                 } else {//直接设置为团长
                     ShMember shMember = new ShMember();
+                    int parent =Integer.valueOf(UUIDUtils.getNumber(8)) ;
                     String uuid = UUIDUtils.getCharAndNumr();
+                    shMember.setShareNumber(parent); //设置虚拟父id
                     shMember.setId(uuid);
                     shMember.setOpenid(openId);
                     shMember.setUsername("新用户" + System.currentTimeMillis());
@@ -367,6 +619,43 @@ public class ShMemberServiceImpl extends ServiceImpl<ShMemberMapper, ShMember> i
             list3.add(shMember);
         }
         return list3;
+
+    }
+
+    /**
+     * 生成vip订单
+     * @param shMember
+     * @return
+     */
+    @Override
+    @Transactional
+    public WxPatDto vipOrder(ShMember shMember) {
+            //生成vip订单
+            ShOrder shOrder1 = new ShOrder();
+            //生成订单号
+            String orderUUID = UUIDUtils.getCharAndNumr();
+            shOrder1.setOrderId(orderUUID);
+            shOrder1.setMemberId(shMember.getId());
+            Integer lvVip = shMember.getLvVip();
+            if (lvVip==1){
+                shOrder1.setTotalPrice(new BigDecimal(99));
+            }
+            if (lvVip==2){
+                shOrder1.setTotalPrice(new BigDecimal(399));
+            }
+            if (lvVip==3){
+                shOrder1.setTotalPrice(new BigDecimal(599));
+            }
+            if (lvVip==4){
+                shOrder1.setTotalPrice(new BigDecimal(699));
+            }
+            //插入数据库
+            shOrderMapper.insert(shOrder1);
+        WxPatDto wxPatDto = new WxPatDto();
+        wxPatDto.setId(shMember.getId());
+        wxPatDto.setOrderId(orderUUID);
+        return wxPatDto;
+
 
     }
 

@@ -32,7 +32,11 @@ public class ShUserController {
     public List<ShUser> getAll(ShUser shUser){
         QueryWrapper<ShUser> queryMrapper = new QueryWrapper<ShUser>();
         QueryWrapper<ShUser> reflect = ParamUtils.reflect(shUser, queryMrapper);
-        return shUserMapper.selectList(reflect);
+        List<ShUser> shUsers = shUserMapper.selectList(reflect);
+        for (ShUser user : shUsers) {
+            user.setPassword("");
+        }
+        return shUsers;
     }
 
     @PutMapping()

@@ -3,7 +3,9 @@ package com.wqy.wx.back.plus3.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wqy.wx.back.common.util.page.PageDTO;
+import com.wqy.wx.back.dto.WxPatDto;
 import com.wqy.wx.back.plus3.entity.ShMember;
+import com.wqy.wx.back.plus3.entity.ShOrder;
 
 import java.util.List;
 
@@ -53,4 +55,11 @@ public interface IShMemberService extends IService<ShMember> {
 
 
     List<ShMember> selectDownThree(String id);
+
+    /**
+     * 执行vip接口前先生成vip的订单
+     * @param shMember
+     * @return
+     */
+    WxPatDto vipOrder(ShMember shMember);
 }

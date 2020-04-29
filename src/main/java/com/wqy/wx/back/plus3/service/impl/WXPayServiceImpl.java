@@ -46,9 +46,9 @@ public class WXPayServiceImpl implements WXPayService {
         String orderId = shOrder.getOrderId(); //查询订单的id
         BigDecimal totalPrice = shOrder.getTotalPrice(); //查询订单的总价格  商品价格
         ShOrderGoods shOrderGoods = shOrderGoodsMapper.selectByOrderId(orderId); //根据订单id查询订单详情
-        String goodsId = shOrderGoods.getGoodsId(); //获取商品id
-        ShGoods goods = shGoodsMapper.selectById(goodsId); //获取到指定的商品
-        String goodsName = goods.getGoodsName(); //获取到指定的商品名字
+//        String goodsId = shOrderGoods.getGoodsId(); //获取商品id
+//        ShGoods goods = shGoodsMapper.selectById(goodsId); //获取到指定的商品
+        String goodsName = "商品"; //获取到指定的商品名字
         Map<String, Object> payMap = new HashMap<>();//这里是返回小程序端需要的参数
         try {
             String nonce_str = UUIDUtils.getwxPay();
@@ -106,11 +106,13 @@ public class WXPayServiceImpl implements WXPayService {
                 payMap.put("timeStamp", timeStamp + "");//这边要将返回的时间戳转化成字符串，不然小程序端调用wx.requestPayment方法会报签名错误
                 //拼接签名需要的参数
                 //大致在这一块给前端拼接了他需要的那个串 4个参数 加一个sign
-                String stringSignTemp = "appId=" + WXPayConfig.appid + "&nonceStr=" + nonce_str + "&package=prepay_id=" + prepay_id + "&signType=MD5&timeStamp=" + timeStamp;
+                String stringSignTemp = "appId=" + WXPayConfig.appid + "&nonceStr=" + nonce_str + "&package=prepay_id=" + prepay_id + "&signType=MD5&timestamp=" + timeStamp;
                 //再次签名，这个签名用于小程序端调用wx.requesetPayment方法
                 String paySign = PayUtils.sign(stringSignTemp, WXPayConfig.key, "utf-8");
                 //下面这个地方名字存疑 可以看看前端到底是要什么串 名字是什么----------------------------------------------------------------检查这里
                 payMap.put("paySign", paySign);
+                System.out.println("111111111111111111111111111111");
+                System.out.println(paySign);
             } else {
                 return payMap;
             }
@@ -119,6 +121,7 @@ public class WXPayServiceImpl implements WXPayService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(payMap);
         return payMap;
     }
 }

@@ -84,10 +84,21 @@ public class ShOrderServiceImpl extends ServiceImpl<ShOrderMapper, ShOrder> impl
         //1.如果不是会员 7折加上30%签到积分返还
         //2.是会员 7折加上 10 5 5 返还
         //3.是会员 10次购买 5折 打穿 连锁
+
+
         ShGoodsAttr shGoodsAttr = shGoodsAttrMapper.selectById(goodsAttrIds);
-        BigDecimal multiply = shGoodsAttr.getAttrPrice().multiply(new BigDecimal(shCart.getGoodsNumber()));
-        multiply = judgeMember(shMemberMapper.selectByid(shCart.getUserId()), multiply);//此处算出到底是多少钱
-        shOrder.setTotalPrice(multiply);//这里就把总价算出来了
+
+
+        try {
+            BigDecimal multiply = shGoodsAttr.getAttrPrice().multiply(new BigDecimal(shCart.getGoodsNumber()));
+            multiply = judgeMember(shMemberMapper.selectByid(shCart.getUserId()), multiply);//此处算出到底是多少钱
+            shOrder.setTotalPrice(multiply);//这里就把总价算出来了
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+//        BigDecimal multiply = shGoodsAttr.getAttrPrice().multiply(new BigDecimal(shCart.getGoodsNumber()));
+//        multiply = judgeMember(shMemberMapper.selectByid(shCart.getUserId()), multiply);//此处算出到底是多少钱
+//        shOrder.setTotalPrice(multiply);//这里就把总价算出来了
         //直接返回前端要求前端填写剩下的坑
         ShGoods shGoods = shGoodsMapper.selectById(shCart.getGoodsId());
         shOrder.setShGoods(shGoods);
